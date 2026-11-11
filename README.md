@@ -300,6 +300,15 @@ More detail: [docs/RUNNING_THE_DEMO.md](docs/RUNNING_THE_DEMO.md) · visitor han
 
 ---
 
+## Related repository
+
+**[rscl-codrone-swarm](https://github.com/mealycpp/rscl-codrone-swarm)**: the physical CoDrone EDU fleet.
+It holds the HU training code, dataset specification, generator and validator, evaluation sets, trained
+heads, live flight logs and the browser command center. The HU paper's results were measured there; this
+repository runs the same frozen checkpoint in Gazebo and adds the MA'AT supervision layer.
+
+---
+
 ## Citation
 
 Mohamed El-Hadedy et al., *HU: Risk-Asymmetric Natural-Language Command of a Physical Multi-Drone Fleet*,
