@@ -359,7 +359,8 @@ const chatRoles={DRONE_AGENT:'DRONE · LOGIC AGENT',ASSURANCE:"MA'AT ASSURANCE",
 const chatSources={CHAT_LOCAL_LLM:['LOCAL SMOLLM2 WORDING · GROUNDING-CHECKED','#b69cff'],TELEMETRY_FACT:['TELEMETRY FACT','#58e6b1'],
  SAFETY_SUPERVISOR:["MA'AT SAFETY",'#f0c77b'],RULES_PERSONA:['DETERMINISTIC PERSONA','#8eabb8'],UNKNOWN:['UNKNOWN · INSUFFICIENT EVIDENCE','#fc7890'],
  MISSION_DETERMINISTIC:['MISSION PARSER','#f0c77b'],HU_TRAINED:['HU TRAINED MODEL','#62ebed'],
- DETERMINISTIC_AGENT_POLICY:['DETERMINISTIC AGENT POLICY','#62ebed']};
+ DETERMINISTIC_AGENT_POLICY:['DETERMINISTIC AGENT POLICY','#62ebed'],
+ FIELD_CALLOUT:['FIELD CALLOUT · FROM TELEMETRY (TEMPLATED)','#ffd166']};
 function sourceBadge(m){const s=chatSources[m.source];if(!s)return'';const route=m.evidence&&m.evidence.route;
  return ` <span class="chat-role" style="color:${s[1]};border-color:${s[1]}55">${s[0]}</span>`}
 function routeNote(m){const r=m.evidence&&m.evidence.route;if(!r||!r.intent)return'';

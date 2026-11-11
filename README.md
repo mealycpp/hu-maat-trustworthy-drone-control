@@ -37,7 +37,7 @@ This repository runs five simulated quadcopters — **Horus, Ra, Thoth, Anubis, 
 2. [Start the demo](#2-start-the-demo)
 3. [Try it — example commands](#3-try-it--example-commands)
 4. [Change the environment](#4-change-the-environment)
-5. [Talk to the drones (SwarmChat)](#5-talk-to-the-drones-swarmchat)
+5. [Talk to the drones (SwarmChat)](#5-talk-to-the-drones-swarmchat) · [Formation show](#5b-formation-show-the-drones-pick-their-own-next-shape)
 6. [Stop, status and troubleshooting](#6-stop-status-and-troubleshooting)
 7. [Verify everything (acceptance tests)](#7-verify-everything-acceptance-tests)
 8. [How it works](#8-how-it-works)
@@ -193,6 +193,61 @@ Choose the optional chat model (restarts only the chat service):
 
 ```bash
 bash ~/hu-telepresence-gazebo/hu_maat.sh chat-model HuggingFaceTB/SmolLM2-360M-Instruct
+```
+
+### 5b. Formation show: the drones pick their own next shape
+
+A continuous show for exhibitions and videos. One time only, create the show sounds (written to the Windows
+Music folder):
+
+```bash
+python3 ~/hu-telepresence-gazebo/scripts/make_show_sounds.py
+```
+
+Take off first (`Everyone, take off`), then:
+
+```bash
+SOUND=1 SPEAK=1 LEVELS=1 LANDLOOP=1 STRATEGY=1 LOOPS=999 bash ~/hu-telepresence-gazebo/acceptance/formation_show.sh
+```
+
+Optional flickering LEDs in the 3-D view (visual only):
+
+```bash
+python3 ~/hu-telepresence-gazebo/acceptance/light_show.py
+```
+
+What happens, round after round:
+
+1. **Team strategy** (`acceptance/strategist.py`). Horus puts four shapes on the table. Every option is
+   planned from the drones' current positions with the same slot planner MA'AT uses. Each drone proposes the
+   shape with its own shortest path, Anubis vetoes any option whose straight-line paths pass closer than
+   1.0 m (or that MA'AT cannot plan safely), Thoth reads out the fleet numbers, and Horus picks the safe
+   option that forms fastest. That choice is then flown.
+2. **Flight**: the formation goes through HU (CONFIRM band) and MA'AT, exactly like an operator command.
+3. **Team callouts** (`spaceops_v8/field_callouts.py`): slot assignments, nearest teammate, climbs and
+   drops with the sideways clearance to the neighbour, staggered-takeoff waits and landings.
+4. **Celebration**: when every drone is in its slot, "Goal!" with the real time-to-form, and a shout-out to
+   the drone with the longest run. With `SOUND=1 SPEAK=1` the laptop beeps and says "Goal! Wedge!".
+5. **Multi-level**: each drone then moves to a random height between 1.1 m and 2.7 m, one at a time
+   (MA'AT allows a single-drone move only while the rest of the fleet is steady). The next shape brings
+   them back to 1.9 m while they rearrange.
+6. After `ROUND` shapes (default 12) everyone lands, a fanfare plays, and they take off again.
+
+Other options: `SHAPES20=1` flies a fixed 20-shape order instead of the strategy rounds (every transition
+keeps ≥ 1.16 m planned clearance), `UPDOWN=1` climbs the whole swarm together, and `LOOPS=n` sets the number
+of rounds. If MA'AT refuses a step for any reason other than "not settled yet", the show stops and the
+drones keep hovering.
+
+> **Honest labelling.** Strategy messages carry the badge **DETERMINISTIC AGENT POLICY**: the decision is
+> a real score on live positions, but the sentences are templates. Callouts and celebrations carry
+> **FIELD CALLOUT · FROM TELEMETRY (TEMPLATED)**. No language model writes these lines, none of them can
+> move an aircraft, and today they are produced by one coordinating process rather than by separate
+> per-drone agents exchanging messages.
+
+Stop the show and lights, then land:
+
+```bash
+pkill -f formation_show.sh; pkill -f light_show.py
 ```
 
 ---

@@ -82,6 +82,11 @@ class Recorder:
         self.token=secrets.token_urlsafe(22)
         self.chat=SwarmChat(self.root)
         self.hybrid=HybridChat(self.chat)
+        # Drones call out to each other during flight. Templated from live telemetry (source FIELD_CALLOUT);
+        # never actuates. Disable with HU_FIELD_CALLOUTS=0.
+        if os.environ.get('HU_FIELD_CALLOUTS','1')!='0':
+            from field_callouts import FieldCallouts
+            self.callouts=FieldCallouts(self.chat,min_gap=.35).start()
         self.root.mkdir(parents=True,exist_ok=True)
         self.telemetry_file=self.root/'flight_telemetry.jsonl'
         self.events_file=self.root/'flight_events.jsonl'
@@ -451,7 +456,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_data(404,{'error':'Not found'})
     def do_POST(self):
         path=urlparse(self.path).path
-        if path not in ('/api/ops/fault','/api/ops/chat'):return self.send_data(404,{'error':'Not found'})
+        if path not in ('/api/ops/fault','/api/ops/chat','/api/ops/chat/agent'):return self.send_data(404,{'error':'Not found'})
         origin=self.headers.get('Origin')
         if origin and origin not in ('http://127.0.0.1:'+str(self.server.server_port),'http://localhost:'+str(self.server.server_port)):
             return self.send_data(403,{'error':'Origin rejected'})
@@ -461,6 +466,15 @@ class Handler(BaseHTTPRequestHandler):
             ln=int(self.headers.get('Content-Length','0'))
             if ln<1 or ln>1024:raise ValueError('Invalid request size')
             data=json.loads(self.rfile.read(ln))
+            if path=='/api/ops/chat/agent':
+                # Team-strategy messages from acceptance/strategist.py (deterministic policy, local, CSRF-gated).
+                # Text only: this route can never actuate.
+                sp=str(data.get('speaker',''))
+                if sp not in NAMES and sp!='MAAT':raise ValueError('unknown speaker')
+                m=self.rec.chat.append(sp,'DRONE_AGENT',str(data.get('text',''))[:400],
+                    {**(data.get('evidence') or {}),'kind':'TEAM_STRATEGY','note':'deterministic scoring policy on live positions; language templated'},
+                    data.get('conversation_id'),to=str(data.get('to') or 'TEAM'),intent='team_strategy',source='DETERMINISTIC_AGENT_POLICY')
+                return self.send_data(200,{'ok':True,'id':m['id']})
             if path=='/api/ops/chat':
                 with self.rec.mutex:
                     snapshot=json.loads(json.dumps(self.rec.state)) if self.rec.state else None
