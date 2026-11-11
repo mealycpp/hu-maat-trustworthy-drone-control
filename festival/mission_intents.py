@@ -90,6 +90,10 @@ def parse(text):
     # Reject compound commands; the simulator does not have transactional sequences.
     if re.search(r'\b(?:then|after that|followed by|and then)\b',s):
         return {'error':'Compound commands are not implemented. Issue one command at a time.'}
+    # "take off and move forward 1 meter" / "land and turn left": two actions joined by "and".
+    # Refuse instead of silently keeping only one of them.
+    if ALT.search(s) and (TURN.search(s) or VALUE_RE.search(s) or FORMATION.search(s)):
+        return {'error':'Compound commands are not implemented. Issue one command at a time.'}
     if FORMATION.search(s):
         if problem:return {'error':problem}
         if len(names)<2:return {'error':'A formation needs at least two aircraft.'}

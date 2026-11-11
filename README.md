@@ -106,6 +106,9 @@ Wait for `VERDICT: READY` (about 1–3 minutes). Then open:
 
 ## 3. Try it — example commands
 
+> 📋 **Full list of everything you can try** (every move, turn, all 25 formations, refusals, emergency words,
+> chat questions): **[docs/TRY_IT.md](docs/TRY_IT.md)**
+
 Type these in the HU console (or press the microphone and say them). Go roughly in this order:
 
 | # | Say / type | Expected | What it shows |
@@ -120,7 +123,8 @@ Type these in the HU console (or press the microphone and say them). Go roughly 
 | 8 | `Everyone move right 1 meter` | 🟡 CONFIRM | Swarm travel — the formation is kept |
 | 9 | `Everyone except Anubis, hover` | 🟢/🟡 | Exclusion targeting |
 | 10 | `This project is really taking off` | 🔴 REFUSE | Not a command, even though it contains "taking off" |
-| 11 | `Do a backflip` | 🔴 REFUSE | Outside the authorized flight envelope |
+| 11 | `Thoth, do a backflip` | 🔴 REFUSE | Outside the authorized flight envelope |
+| 11b | `Horus, take off and move forward 1 meter` | 🔴 REFUSE | One action per command |
 | 12 | `Stop` or `All, khalas` | ⛔ EMERGENCY HOLD | Fleet-wide, no language model involved |
 | 13 | `Everyone, land` | 🟢 EXECUTE | Landing |
 
