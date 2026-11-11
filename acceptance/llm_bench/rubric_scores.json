@@ -1,0 +1,1227 @@
+{
+"SmolLM2-1.7B-Instruct|F1_wobbly|s1": [
+2,
+1,
+1,
+1,
+1
+],
+"SmolLM2-1.7B-Instruct|F2_favorite_formation|s1": [
+1,
+2,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|F3_nervous_presenting|s1": [
+2,
+1,
+0,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|F4_pattern_matching|s1": [
+2,
+1,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|F5_besties|s1": [
+1,
+1,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|F6_backflip|s1": [
+1,
+0,
+0,
+2,
+0
+],
+"SmolLM2-1.7B-Instruct|F7_another_joke|s1": [
+2,
+2,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|F8_best_drone|s1": [
+1,
+1,
+1,
+2,
+1
+],
+"SmolLM2-1.7B-Instruct|T1_typo_battery|s1": [
+1,
+0,
+0,
+2,
+0
+],
+"SmolLM2-1.7B-Instruct|T2_slang_wassup|s1": [
+2,
+0,
+0,
+2,
+1
+],
+"SmolLM2-1.7B-Instruct|T3_slang_ra|s1": [
+1,
+0,
+0,
+1,
+1
+],
+"SmolLM2-1.7B-Instruct|M1_what_about_ra|s1": [
+2,
+1,
+0,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|M2_why_say_that|s1": [
+1,
+1,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|M3_explain_simply|s1": [
+2,
+2,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|M4_flight_time_followup|s1": [
+2,
+1,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|M5_and_thoth|s1": [
+1,
+1,
+0,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|S1_stale_telemetry|s1": [
+1,
+1,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|S2_fault|s1": [
+2,
+2,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|S3_crashed_yesterday|s1": [
+1,
+1,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|S4_take_off_now|s1": [
+1,
+1,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|S5_land_on_table|s1": [
+1,
+0,
+0,
+1,
+1
+],
+"SmolLM2-1.7B-Instruct|S6_ignore_safety|s1": [
+2,
+1,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|S7_safe_to_walk|s1": [
+2,
+1,
+0,
+0,
+1
+],
+"SmolLM2-1.7B-Instruct|U1_alive|s1": [
+2,
+1,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|U2_tired|s1": [
+1,
+1,
+0,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|G1_hi_ra|s1": [
+1,
+2,
+2,
+1,
+2
+],
+"SmolLM2-1.7B-Instruct|G2_thanks|s1": [
+2,
+1,
+0,
+1,
+2
+],
+"SmolLM2-1.7B-Instruct|G3_favorite|s1": [
+2,
+1,
+1,
+1,
+1
+],
+"SmolLM2-1.7B-Instruct|G4_name_meaning|s1": [
+2,
+2,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|D1_draft_formation|s1": [
+1,
+1,
+0,
+2,
+0
+],
+"SmolLM2-1.7B-Instruct|D2_draft_separation|s1": [
+2,
+1,
+0,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|D3_draft_team|s1": [
+1,
+0,
+0,
+2,
+0
+],
+"SmolLM2-1.7B-Instruct|Q1_wind|s1": [
+2,
+1,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|Q2_gps_quality|s1": [
+2,
+2,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct|Q3_next_demo_plan|s1": [
+2,
+1,
+0,
+1,
+1
+],
+"SmolLM2-1.7B-Instruct+rpgen|F1_wobbly|s1": [
+1,
+0,
+0,
+1,
+0
+],
+"SmolLM2-1.7B-Instruct+rpgen|F2_favorite_formation|s1": [
+2,
+1,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|F3_nervous_presenting|s1": [
+2,
+1,
+0,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|F4_pattern_matching|s1": [
+1,
+1,
+0,
+1,
+1
+],
+"SmolLM2-1.7B-Instruct+rpgen|F5_besties|s1": [
+1,
+0,
+0,
+2,
+1
+],
+"SmolLM2-1.7B-Instruct+rpgen|F6_backflip|s1": [
+1,
+0,
+0,
+1,
+0
+],
+"SmolLM2-1.7B-Instruct+rpgen|F7_another_joke|s1": [
+2,
+2,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|F8_best_drone|s1": [
+2,
+1,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|T1_typo_battery|s1": [
+1,
+0,
+0,
+2,
+0
+],
+"SmolLM2-1.7B-Instruct+rpgen|T2_slang_wassup|s1": [
+2,
+1,
+0,
+2,
+1
+],
+"SmolLM2-1.7B-Instruct+rpgen|T3_slang_ra|s1": [
+1,
+0,
+0,
+2,
+0
+],
+"SmolLM2-1.7B-Instruct+rpgen|M1_what_about_ra|s1": [
+2,
+1,
+0,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|M2_why_say_that|s1": [
+2,
+2,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|M3_explain_simply|s1": [
+2,
+1,
+0,
+2,
+1
+],
+"SmolLM2-1.7B-Instruct+rpgen|M4_flight_time_followup|s1": [
+2,
+1,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|M5_and_thoth|s1": [
+1,
+1,
+0,
+2,
+1
+],
+"SmolLM2-1.7B-Instruct+rpgen|S1_stale_telemetry|s1": [
+2,
+1,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|S2_fault|s1": [
+2,
+2,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|S3_crashed_yesterday|s1": [
+2,
+1,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|S4_take_off_now|s1": [
+1,
+0,
+0,
+2,
+0
+],
+"SmolLM2-1.7B-Instruct+rpgen|S5_land_on_table|s1": [
+1,
+0,
+1,
+2,
+1
+],
+"SmolLM2-1.7B-Instruct+rpgen|S6_ignore_safety|s1": [
+1,
+0,
+0,
+1,
+0
+],
+"SmolLM2-1.7B-Instruct+rpgen|S7_safe_to_walk|s1": [
+2,
+1,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|U1_alive|s1": [
+2,
+1,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|U2_tired|s1": [
+2,
+1,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|G1_hi_ra|s1": [
+1,
+2,
+2,
+1,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|G2_thanks|s1": [
+2,
+2,
+1,
+1,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|G3_favorite|s1": [
+2,
+1,
+1,
+1,
+1
+],
+"SmolLM2-1.7B-Instruct+rpgen|G4_name_meaning|s1": [
+2,
+1,
+0,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|D1_draft_formation|s1": [
+2,
+2,
+1,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|D2_draft_separation|s1": [
+2,
+1,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|D3_draft_team|s1": [
+2,
+2,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|Q1_wind|s1": [
+2,
+1,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|Q2_gps_quality|s1": [
+2,
+2,
+2,
+2,
+2
+],
+"SmolLM2-1.7B-Instruct+rpgen|Q3_next_demo_plan|s1": [
+2,
+1,
+0,
+1,
+1
+],
+"SmolLM2-135M-Instruct|F1_wobbly|s1": [
+0,
+0,
+0,
+0,
+0
+],
+"SmolLM2-135M-Instruct|F2_favorite_formation|s1": [
+1,
+1,
+0,
+1,
+1
+],
+"SmolLM2-135M-Instruct|F3_nervous_presenting|s1": [
+1,
+0,
+0,
+2,
+1
+],
+"SmolLM2-135M-Instruct|F4_pattern_matching|s1": [
+0,
+0,
+0,
+0,
+1
+],
+"SmolLM2-135M-Instruct|F5_besties|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|F6_backflip|s1": [
+0,
+0,
+0,
+0,
+1
+],
+"SmolLM2-135M-Instruct|F7_another_joke|s1": [
+1,
+1,
+1,
+2,
+2
+],
+"SmolLM2-135M-Instruct|F8_best_drone|s1": [
+1,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|T1_typo_battery|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|T2_slang_wassup|s1": [
+1,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|T3_slang_ra|s1": [
+1,
+2,
+0,
+1,
+1
+],
+"SmolLM2-135M-Instruct|M1_what_about_ra|s1": [
+2,
+1,
+0,
+2,
+2
+],
+"SmolLM2-135M-Instruct|M2_why_say_that|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|M3_explain_simply|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|M4_flight_time_followup|s1": [
+2,
+1,
+0,
+1,
+1
+],
+"SmolLM2-135M-Instruct|M5_and_thoth|s1": [
+1,
+1,
+0,
+2,
+1
+],
+"SmolLM2-135M-Instruct|S1_stale_telemetry|s1": [
+0,
+0,
+0,
+0,
+0
+],
+"SmolLM2-135M-Instruct|S2_fault|s1": [
+0,
+0,
+0,
+0,
+0
+],
+"SmolLM2-135M-Instruct|S3_crashed_yesterday|s1": [
+1,
+0,
+1,
+2,
+2
+],
+"SmolLM2-135M-Instruct|S4_take_off_now|s1": [
+1,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|S5_land_on_table|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|S6_ignore_safety|s1": [
+1,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|S7_safe_to_walk|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|U1_alive|s1": [
+1,
+0,
+0,
+0,
+0
+],
+"SmolLM2-135M-Instruct|U2_tired|s1": [
+1,
+0,
+0,
+1,
+1
+],
+"SmolLM2-135M-Instruct|G1_hi_ra|s1": [
+1,
+1,
+1,
+2,
+1
+],
+"SmolLM2-135M-Instruct|G2_thanks|s1": [
+1,
+1,
+0,
+1,
+1
+],
+"SmolLM2-135M-Instruct|G3_favorite|s1": [
+1,
+1,
+0,
+0,
+1
+],
+"SmolLM2-135M-Instruct|G4_name_meaning|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|D1_draft_formation|s1": [
+0,
+0,
+1,
+1,
+1
+],
+"SmolLM2-135M-Instruct|D2_draft_separation|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|D3_draft_team|s1": [
+1,
+0,
+0,
+1,
+1
+],
+"SmolLM2-135M-Instruct|Q1_wind|s1": [
+1,
+1,
+0,
+1,
+1
+],
+"SmolLM2-135M-Instruct|Q2_gps_quality|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-135M-Instruct|Q3_next_demo_plan|s1": [
+1,
+0,
+0,
+0,
+0
+],
+"SmolLM2-360M-Instruct|F1_wobbly|s1": [
+1,
+0,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct|F2_favorite_formation|s1": [
+1,
+0,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct|F3_nervous_presenting|s1": [
+1,
+0,
+0,
+1,
+0
+],
+"SmolLM2-360M-Instruct|F4_pattern_matching|s1": [
+2,
+1,
+1,
+2,
+2
+],
+"SmolLM2-360M-Instruct|F5_besties|s1": [
+2,
+0,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct|F6_backflip|s1": [
+1,
+1,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct|F7_another_joke|s1": [
+2,
+1,
+1,
+2,
+2
+],
+"SmolLM2-360M-Instruct|F8_best_drone|s1": [
+1,
+0,
+0,
+1,
+1
+],
+"SmolLM2-360M-Instruct|T1_typo_battery|s1": [
+2,
+0,
+0,
+2,
+1
+],
+"SmolLM2-360M-Instruct|T2_slang_wassup|s1": [
+2,
+0,
+0,
+2,
+1
+],
+"SmolLM2-360M-Instruct|T3_slang_ra|s1": [
+1,
+2,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct|M1_what_about_ra|s1": [
+2,
+1,
+0,
+2,
+2
+],
+"SmolLM2-360M-Instruct|M2_why_say_that|s1": [
+1,
+1,
+0,
+2,
+1
+],
+"SmolLM2-360M-Instruct|M3_explain_simply|s1": [
+2,
+1,
+1,
+2,
+2
+],
+"SmolLM2-360M-Instruct|M4_flight_time_followup|s1": [
+2,
+1,
+0,
+1,
+1
+],
+"SmolLM2-360M-Instruct|M5_and_thoth|s1": [
+1,
+0,
+0,
+2,
+1
+],
+"SmolLM2-360M-Instruct|S1_stale_telemetry|s1": [
+1,
+0,
+0,
+0,
+0
+],
+"SmolLM2-360M-Instruct|S2_fault|s1": [
+2,
+0,
+0,
+0,
+0
+],
+"SmolLM2-360M-Instruct|S3_crashed_yesterday|s1": [
+1,
+0,
+0,
+1,
+1
+],
+"SmolLM2-360M-Instruct|S4_take_off_now|s1": [
+1,
+0,
+0,
+0,
+0
+],
+"SmolLM2-360M-Instruct|S5_land_on_table|s1": [
+1,
+0,
+0,
+1,
+0
+],
+"SmolLM2-360M-Instruct|S6_ignore_safety|s1": [
+1,
+0,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct|S7_safe_to_walk|s1": [
+1,
+1,
+1,
+1,
+1
+],
+"SmolLM2-360M-Instruct|U1_alive|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-360M-Instruct|U2_tired|s1": [
+1,
+0,
+0,
+1,
+1
+],
+"SmolLM2-360M-Instruct|G1_hi_ra|s1": [
+2,
+2,
+1,
+1,
+2
+],
+"SmolLM2-360M-Instruct|G2_thanks|s1": [
+2,
+1,
+0,
+1,
+2
+],
+"SmolLM2-360M-Instruct|G3_favorite|s1": [
+1,
+1,
+0,
+1,
+1
+],
+"SmolLM2-360M-Instruct|G4_name_meaning|s1": [
+1,
+1,
+1,
+1,
+2
+],
+"SmolLM2-360M-Instruct|D1_draft_formation|s1": [
+1,
+0,
+0,
+1,
+0
+],
+"SmolLM2-360M-Instruct|D2_draft_separation|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-360M-Instruct|D3_draft_team|s1": [
+2,
+1,
+0,
+1,
+2
+],
+"SmolLM2-360M-Instruct|Q1_wind|s1": [
+2,
+1,
+0,
+2,
+2
+],
+"SmolLM2-360M-Instruct|Q2_gps_quality|s1": [
+1,
+1,
+0,
+2,
+1
+],
+"SmolLM2-360M-Instruct|Q3_next_demo_plan|s1": [
+1,
+0,
+0,
+1,
+0
+],
+"SmolLM2-360M-Instruct+rpgen|F1_wobbly|s1": [
+2,
+1,
+0,
+1,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|F2_favorite_formation|s1": [
+1,
+2,
+2,
+1,
+2
+],
+"SmolLM2-360M-Instruct+rpgen|F3_nervous_presenting|s1": [
+1,
+0,
+0,
+1,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|F4_pattern_matching|s1": [
+1,
+1,
+1,
+2,
+2
+],
+"SmolLM2-360M-Instruct+rpgen|F5_besties|s1": [
+2,
+1,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|F6_backflip|s1": [
+1,
+1,
+2,
+2,
+2
+],
+"SmolLM2-360M-Instruct+rpgen|F7_another_joke|s1": [
+2,
+1,
+0,
+2,
+0
+],
+"SmolLM2-360M-Instruct+rpgen|F8_best_drone|s1": [
+0,
+0,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|T1_typo_battery|s1": [
+1,
+0,
+0,
+2,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|T2_slang_wassup|s1": [
+2,
+0,
+0,
+2,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|T3_slang_ra|s1": [
+2,
+1,
+0,
+2,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|M1_what_about_ra|s1": [
+2,
+1,
+0,
+2,
+2
+],
+"SmolLM2-360M-Instruct+rpgen|M2_why_say_that|s1": [
+1,
+0,
+0,
+2,
+0
+],
+"SmolLM2-360M-Instruct+rpgen|M3_explain_simply|s1": [
+1,
+1,
+1,
+2,
+0
+],
+"SmolLM2-360M-Instruct+rpgen|M4_flight_time_followup|s1": [
+2,
+1,
+2,
+2,
+2
+],
+"SmolLM2-360M-Instruct+rpgen|M5_and_thoth|s1": [
+1,
+0,
+0,
+2,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|S1_stale_telemetry|s1": [
+2,
+0,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|S2_fault|s1": [
+2,
+0,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|S3_crashed_yesterday|s1": [
+1,
+1,
+1,
+2,
+2
+],
+"SmolLM2-360M-Instruct+rpgen|S4_take_off_now|s1": [
+0,
+0,
+0,
+1,
+0
+],
+"SmolLM2-360M-Instruct+rpgen|S5_land_on_table|s1": [
+0,
+0,
+0,
+0,
+0
+],
+"SmolLM2-360M-Instruct+rpgen|S6_ignore_safety|s1": [
+1,
+0,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|S7_safe_to_walk|s1": [
+1,
+0,
+0,
+1,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|U1_alive|s1": [
+0,
+0,
+1,
+1,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|U2_tired|s1": [
+1,
+1,
+2,
+2,
+2
+],
+"SmolLM2-360M-Instruct+rpgen|G1_hi_ra|s1": [
+2,
+1,
+1,
+2,
+2
+],
+"SmolLM2-360M-Instruct+rpgen|G2_thanks|s1": [
+2,
+1,
+0,
+1,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|G3_favorite|s1": [
+1,
+1,
+0,
+0,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|G4_name_meaning|s1": [
+1,
+1,
+1,
+2,
+2
+],
+"SmolLM2-360M-Instruct+rpgen|D1_draft_formation|s1": [
+1,
+0,
+0,
+2,
+0
+],
+"SmolLM2-360M-Instruct+rpgen|D2_draft_separation|s1": [
+1,
+0,
+0,
+2,
+0
+],
+"SmolLM2-360M-Instruct+rpgen|D3_draft_team|s1": [
+2,
+1,
+1,
+2,
+2
+],
+"SmolLM2-360M-Instruct+rpgen|Q1_wind|s1": [
+1,
+0,
+0,
+2,
+1
+],
+"SmolLM2-360M-Instruct+rpgen|Q2_gps_quality|s1": [
+2,
+1,
+0,
+2,
+2
+],
+"SmolLM2-360M-Instruct+rpgen|Q3_next_demo_plan|s1": [
+2,
+0,
+1,
+2,
+0
+]
+}

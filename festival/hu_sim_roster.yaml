@@ -1,0 +1,7 @@
+# Five independent simulated aircraft for HU. Original physical roster untouched.
+assignments:
+  SIM-CD01: Horus
+  SIM-CD02: Ra
+  SIM-CD03: Thoth
+  SIM-CD04: Anubis
+  SIM-CD05: Osiris

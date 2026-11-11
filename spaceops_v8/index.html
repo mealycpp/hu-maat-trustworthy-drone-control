@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSCL // HU SPACE OPERATIONS</title>
+<style>
+:root{color-scheme:dark;--black:#040911;--space:#07121f;--surface:#0b1b29;--card:#102333;--line:#214052;--cyan:#62ebed;--gold:#f0c77b;--green:#58e6b1;--red:#fc7890;--muted:#8eabb8;--text:#e8f3f7;--white:#fff}
+*{box-sizing:border-box}body{margin:0;color:var(--text);background:#040911;font:14px/1.45 'Segoe UI',Inter,system-ui,sans-serif;overflow-x:hidden}a{color:inherit;text-decoration:none}button,select{font:inherit;color:inherit}button{cursor:pointer}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 95% 50% at 60% -20%,#123d49aa,transparent 65%),radial-gradient(ellipse at 0 85%,#14223b6b,transparent 60%);z-index:-1}
+.shell{display:grid;grid-template-columns:244px minmax(0,1fr);min-height:100vh;max-width:2100px;margin:auto;border-left:1px solid #173247;border-right:1px solid #173247}
+.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:linear-gradient(180deg,#081525,#060e19);border-right:1px solid var(--line);padding:24px 17px;display:flex;flex-direction:column;gap:22px}
+.brand{text-align:center}.seal{width:154px;height:154px;object-fit:contain;border-radius:50%;filter:drop-shadow(0 0 21px #b18a394a)}.brand h3{margin:3px 0 0;font-size:15px;letter-spacing:3px;color:#f3d49a}.brand p{margin:5px 0 0;color:var(--muted);font-size:10px;letter-spacing:1.8px}
+.micro{color:var(--muted);font-size:10px;letter-spacing:2.0px;font-weight:760;text-transform:uppercase}.nav{display:grid;gap:6px}.nav a,.nav button{width:100%;text-align:left;display:flex;align-items:center;gap:11px;padding:12px 13px;background:transparent;border:1px solid transparent;border-radius:9px;color:#9cb4c5;font-size:12px;font-weight:650;letter-spacing:1px}.nav a:hover,.nav button:hover,.nav a.current{background:#10293a;color:#e9f9fa;border-color:#285466}.nav .glyph{width:22px;font-size:16px;color:var(--gold)}
+.side-status{margin-top:auto;border:1px solid #25455c;border-radius:11px;padding:12px;background:#091d2b}.side-status b{font-size:13px}.side-status small{display:block;color:var(--muted);font-size:11px;margin-top:4px}.little-bubble{display:inline-block;width:8px;height:8px;border-radius:50%;background:#6a7d88;margin-right:8px;box-shadow:0 0 13px #6a7d88}.little-bubble.online{background:var(--green);box-shadow:0 0 13px var(--green)}
+.main{min-width:0;padding:25px 32px 40px}.topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:23px}.kicker{font-size:11px;letter-spacing:2.9px;color:var(--gold);font-weight:760}.topbar h1{font-size:clamp(25px,2.45vw,40px);font-weight:830;letter-spacing:1px;margin:5px 0 3px;line-height:1.05}.subtitle{margin:0;color:var(--muted);font-size:12px}.header-right{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}.timestamp{min-width:155px;text-align:right}.timestamp strong{display:block;font-size:18px;letter-spacing:2px}.timestamp span{display:block;font-size:10px;letter-spacing:1.5px;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 13px;border-radius:7px;border:1px solid #385a6c;background:#132e3b;color:#e3f6fa;font-size:11px;letter-spacing:1px;font-weight:800;white-space:nowrap}.btn:hover{background:#1b4555}.btn.gold{background:var(--gold);border-color:var(--gold);color:#0b1e29}.btn.red{background:#4a202f;border-color:#965068;color:#ffb9c5}.btn.green{background:#144033;border-color:#318269;color:#bafbe3}.btn:disabled{opacity:.38;cursor:not-allowed}.btn.minor{background:transparent}
+.metricbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:20px}.metric{padding:15px 16px;border:1px solid var(--line);background:linear-gradient(145deg,#0e2737,#0b1a28);border-radius:12px;min-height:100px;position:relative;overflow:hidden}.metric:before{content:'';position:absolute;right:-18px;top:-35px;width:80px;height:80px;border:1px solid #2d586858;border-radius:50%}.metric .m-label{color:#99b3c1;font-size:10px;font-weight:740;letter-spacing:1.2px}.metric .m-value{font-size:27px;font-weight:780;margin:7px 0 0;letter-spacing:.5px}.metric .m-foot{font-size:10px;color:var(--muted);margin-top:2px}.metric .m-value.alert{color:var(--red)}.metric .m-value.green{color:var(--green)}
+.workspace{display:grid;grid-template-columns:minmax(0,1.23fr) minmax(360px,.77fr);gap:16px}.section{background:linear-gradient(140deg,#0d2132,#091824);border:1px solid var(--line);border-radius:13px;min-width:0;overflow:hidden}.section-head{padding:15px 17px;border-bottom:1px solid #244052;display:flex;justify-content:space-between;align-items:center;gap:8px}.section-head h2{margin:0;font-size:12px;letter-spacing:1.6px;font-weight:840}.section-head .detail{font-size:10px;color:var(--muted);letter-spacing:1px}.tag{font-size:10px;letter-spacing:1.2px;font-weight:790;border:1px solid #3b654d;color:#8df5bc;background:#183628;padding:5px 9px;border-radius:4px}.tag.warn{border-color:#8b6639;color:#ffcf83;background:#36291b}.tag.off{border-color:#4d6071;color:#aec3ce;background:#1b2c38}
+.mapbox{height:505px;position:relative;background:radial-gradient(circle at center,#0b2c37 0%,#091d2e 55%,#071521 100%);overflow:hidden}.mapbox:before{position:absolute;inset:0;content:"";background:linear-gradient(0deg,#4ca2b005 1px,transparent 1px),linear-gradient(90deg,#4ca2b005 1px,transparent 1px);background-size:31px 31px;pointer-events:none}.radar{height:100%;width:100%;display:block}.map-overlay{position:absolute;top:13px;left:15px;pointer-events:none;color:#a7c3ce;font-size:10px;letter-spacing:1.6px}.map-overlay b{color:var(--green)}.map-corner{position:absolute;bottom:14px;right:16px;color:#83c9cf;font-size:10px;font-weight:700;letter-spacing:1.4px;pointer-events:none}.mapbottom{padding:13px 18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid #244052}.mapbottom p{font-size:11px;color:var(--muted);margin:0}.mapbottom b{color:#d0ebea}
+.fleetlist{padding:11px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;max-height:none;overflow:visible}.drone-card:last-child:nth-child(odd){grid-column:1/-1}.drone-card{border:1px solid #24465a;border-left:3px solid var(--dc);border-radius:9px;padding:10px 13px;background:#0a1c29;transition:background .18s}.drone-card.selected{background:#102c3c;box-shadow:inset 0 0 0 1px #3b7182}.drone-card:hover{background:#102b3c;cursor:pointer}.drone-top{display:flex;align-items:center;gap:8px}.name{font-size:14px;font-weight:800;letter-spacing:.7px}.mode{color:#bad6e4;background:#17364a;padding:3px 7px;font-size:9px;letter-spacing:1px;font-weight:830;border-radius:3px;margin-left:auto}.mode.fault{color:#ffbbc6;background:#572132}.led{width:12px;height:12px;border-radius:50%;background:var(--dc);box-shadow:0 0 12px var(--dc);animation:blink 2.8s infinite;flex-shrink:0}.led.HOVER,.led.MOVE,.led.FORMATION{animation:none}.led.TAKEOFF{animation:blink .36s infinite}.led.FAULT{background:var(--red);box-shadow:0 0 15px var(--red);animation:blink .45s infinite}.led.LANDING{animation:blink 1.5s infinite}@keyframes blink{50%{opacity:.18;box-shadow:none}}
+.fleetstats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}.fleetstats span{display:block;font-size:9px;color:var(--muted);letter-spacing:.65px}.fleetstats b{font-size:13px;color:#e1f4f7;font-variant-numeric:tabular-nums}.battery-head{display:flex;justify-content:space-between;margin-top:8px;color:var(--muted);font-size:9px;letter-spacing:1px}.battery-head strong{color:#d7f5e7}.btrack{height:4px;background:#1b4250;border-radius:4px;overflow:hidden;margin-top:5px}.bfill{height:100%;background:linear-gradient(90deg,var(--green),#b6f6aa);width:100%;transition:width .5s}.batt-note{padding:8px 13px 11px;color:#9fb5bd;font-size:10px;border-top:1px solid #244052}
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.chart-space{padding:18px 17px 14px;height:230px}.sepplot{width:100%;height:160px;display:block;background:linear-gradient(180deg,#102b35,#0b1d2b);border:1px solid #203d4d;border-radius:7px}.chart-legend{display:flex;gap:14px;color:var(--muted);font-size:10px;margin-top:11px;flex-wrap:wrap}.chart-legend b{color:#d9eeec}.events{padding:7px 16px 14px;min-height:218px;max-height:260px;overflow-y:auto}.event{border-bottom:1px solid #1e3b4c;display:flex;gap:11px;padding:9px 1px;align-items:flex-start}.evt-time{min-width:62px;font-size:10px;color:var(--muted);padding-top:3px}.evt-kind{font-size:10px;color:var(--cyan);letter-spacing:.7px;font-weight:800}.evt-kind.bad{color:var(--red)}.evt-msg{font-size:11px;color:#cbdee8;margin-top:3px;line-height:1.3}.empty{color:#8baab7;font-size:12px;padding:25px;text-align:center}
+.faultlab{grid-column:1/-1}.fault-layout{padding:15px 17px 18px;display:grid;grid-template-columns:1.2fr 1fr;gap:20px}.fault-intro{margin:0 0 12px;font-size:12px;line-height:1.7;color:#aec4d1}.fault-steps{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.fault-steps span{padding:8px 11px;border:1px solid #304c5d;border-radius:7px;background:#0b2232;color:#d4e7ee;font-size:10px;font-weight:680}.fault-steps em{font-style:normal;color:var(--gold);margin-right:5px}.controls{border:1px solid #2a4757;background:#0a1c2b;border-radius:9px;padding:15px}.controls select{display:block;width:100%;padding:11px;border:1px solid #33596b;background:#0c2737;border-radius:7px;color:var(--white);margin:9px 0 12px}.controls small{display:block;color:var(--muted);line-height:1.6;margin:10px 0}.buttons{display:flex;gap:7px;flex-wrap:wrap}.statusline{min-height:28px;color:#d6e5e7;font-size:11px;margin-top:10px}.statusline.error{color:var(--red)}.statusline.ok{color:var(--green)}
+.footer{margin-top:20px;border-top:1px solid #284251;padding-top:13px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:10px;color:#809cae;letter-spacing:.6px}
+@media(max-width:1250px){.shell{grid-template-columns:190px minmax(0,1fr)}.sidebar{padding:18px 11px}.seal{width:125px;height:125px}.main{padding:22px}.metricbar{grid-template-columns:repeat(3,minmax(0,1fr))}.workspace{grid-template-columns:1fr}.fleetlist{grid-template-columns:repeat(2,minmax(0,1fr))}.mapbox{height:480px}}
+@media(max-width:850px){.shell{display:block}.sidebar{height:auto;position:relative;flex-direction:row;align-items:center;justify-content:space-between;padding:10px 15px;overflow:visible}.brand{display:flex;align-items:center;gap:8px}.brand h3{font-size:11px}.brand p{display:none}.seal{width:53px;height:53px}.sidebar .micro,.sidebar .side-status{display:none}.nav{display:flex;gap:5px;flex-wrap:wrap}.nav a,.nav button{font-size:10px;padding:8px}.nav .glyph{display:none}.main{padding:15px}.header-right{justify-content:start}.topbar{flex-direction:column}.metricbar{grid-template-columns:repeat(2,minmax(0,1fr))}.bottom,.fault-layout{grid-template-columns:1fr}.fleetlist{grid-template-columns:1fr}.mapbox{height:360px}}
+body.spectator .sidebar,body.spectator .faultlab,body.spectator .private{display:none!important}body.spectator .shell{display:block}body.spectator .main{padding:22px 30px}body.spectator .metricbar .metric{min-height:89px}body.spectator .workspace{grid-template-columns:1.2fr .8fr}body.spectator .fleetlist{grid-template-columns:1fr}
+
+/* V8 SWARMCHAT - bounded, evidence-grounded, diagnostic-only actors */
+.chatroom{grid-column:1/-1}
+.chatintro{padding:13px 17px 0;font-size:12px;line-height:1.65;color:#a9c5d0}
+.chatintro strong{color:var(--gold)}
+.chat-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(220px,.7fr);gap:15px;padding:14px 17px 18px}
+.chat-feed{height:370px;overflow-y:auto;border:1px solid #2b5064;background:#081722;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.chat-msg{border:1px solid #234456;background:#102432;border-left:3px solid var(--speaker,#b7dbe8);border-radius:9px;padding:10px 12px;max-width:97%}
+.chat-msg.HUMAN{align-self:flex-end;background:#143347;border-left:0;border-right:3px solid #f0c77b;max-width:90%}
+.chat-msg.ASSURANCE{border-left-color:#f0c77b;background:#202b31}
+.chat-msg.SYSTEM{border-left-color:#71899a;background:#162635}
+.chat-meta{display:flex;align-items:center;gap:8px;color:var(--speaker,#d7eaf3);font-size:10px;font-weight:850;letter-spacing:1.1px;margin-bottom:4px}
+.chat-msg .chat-text{font-size:12px;line-height:1.55;white-space:pre-wrap;color:#dcecf3}
+.chat-role{font-size:9px;font-weight:700;letter-spacing:1px;color:#9fb9c6;border:1px solid #2f5163;border-radius:4px;padding:1px 5px}
+.chat-evidence{font-size:10px;margin-top:7px;padding-top:6px;border-top:1px solid #345064;color:#93b1c1}
+.chat-controls{background:#0a1c2b;border:1px solid #2d5262;border-radius:10px;padding:13px;display:flex;flex-direction:column;gap:10px}
+.chat-controls label{font-size:10px;color:#aec6d4;letter-spacing:1.4px;font-weight:760}
+.chat-controls select,.chat-controls textarea{display:block;width:100%;padding:9px 10px;background:#071826;border:1px solid #3c5e6e;border-radius:7px;color:#eef9ff;resize:vertical;font:12px/1.5 inherit}
+.chat-controls textarea{min-height:87px;font-family:inherit}
+.chat-controls button{white-space:normal}
+.chat-prompt{display:block;width:100%;margin:3px 0;background:#102c3b;border:1px solid #315c69;padding:8px;border-radius:6px;text-align:left;font-size:11px;color:#d4e8ed;cursor:pointer}
+.chat-prompt:hover{background:#184155}
+.chat-status{font-size:11px;min-height:24px;color:#c5d7df}
+.chat-note{font-size:10px;color:#aabfc8;line-height:1.5}
+body.spectator .chat-controls{display:none}
+body.spectator .chat-layout{grid-template-columns:minmax(0,1fr)}
+@media(max-width:1100px){.chat-layout{grid-template-columns:1fr}.chat-feed{height:340px}}
+
+/* Aerospace-exploration visual system. Artwork is locally generated, static and offline-safe. */
+:root{--gold:#eecb83;--cyan:#6ae4ee;--green:#72f0b6;--line:#29475d;--space:#06111e}
+html{background:#040b15}body{background:#040b15 url('/orbital_backdrop.svg') top center / cover fixed no-repeat}
+body:before{z-index:0;background:linear-gradient(180deg,#0309181f 0%,#030b16a8 63%,#030b16ec 100%);}
+.shell{position:relative;z-index:1;background:linear-gradient(90deg,#06101bac,#06111cab 31%,#05111ca8);backdrop-filter:blur(1px)}
+.sidebar{background:linear-gradient(178deg,#061326f3,#04101cf7 49%,#061421f2);box-shadow:16px 0 40px #00000038}
+.section,.metric{background:linear-gradient(143deg,#0a2237ec,#091824ef);box-shadow:0 16px 40px #00000016,inset 0 1px 0 #7ab8c50c}
+.topbar{background:linear-gradient(90deg,#071626eb,#071626aa);border:1px solid #2d526745;padding:16px 18px;border-radius:13px;backdrop-filter:blur(7px)}
+.orbital-hero{min-height:178px;margin:0 0 19px;border:1px solid #34748a8a;border-radius:14px;position:relative;overflow:hidden;isolation:isolate;display:flex;justify-content:space-between;align-items:center;padding:22px 31px 22px 27px;box-shadow:0 0 38px #0d749122,inset 0 0 0 1px #d0b17a20;background:linear-gradient(91deg,#061522f2 0%,#051525cc 48%,#07364a55 100%),url('/orbital_backdrop.svg') center 46% / cover no-repeat}
+.orbital-hero:after{content:'';position:absolute;inset:0;pointer-events:none;z-index:-1;background:repeating-linear-gradient(0deg,transparent 0px,transparent 6px,#c5f6ff04 7px);opacity:.6}
+.orbital-hero:before{content:'';position:absolute;inset:0;pointer-events:none;z-index:-1;border-top:2px solid #6ae4ee45;border-left:3px solid #eecb8365}
+.hero-left{position:relative;z-index:2;max-width:660px}.hero-kicker{font-size:10px;color:#b5d9e2;letter-spacing:2.1px;font-weight:780;display:flex;align-items:center;gap:10px}.live-pin{width:7px;height:7px;border-radius:50%;background:#69e9be;box-shadow:0 0 14px #69e9be}
+.hero-title{font-size:clamp(20px,2vw,34px);font-weight:860;letter-spacing:1.3px;max-width:630px;margin:10px 0 6px;line-height:1.1;color:#e5f8fc;text-shadow:0 1px 8px #0008}.hero-title em{color:var(--gold);font-style:normal}
+.hero-detail{font-size:10px;color:#91c5d3;font-weight:760;letter-spacing:1.6px}.hero-detail span{color:var(--gold);margin:0 6px}.hero-tags{display:flex;gap:7px;margin-top:16px;flex-wrap:wrap}.hero-tags span{font-size:9px;color:#d9e5e7;border:1px solid #497384a3;border-radius:3px;padding:5px 9px;background:#071e30aa;letter-spacing:1px;font-weight:750}
+.hero-orbit{width:192px;height:134px;position:relative;flex:0 0 192px;opacity:.87}.orbit-track{position:absolute;left:30px;top:-20px;width:120px;height:165px;border:1px solid #71d9e67a;border-radius:50%;transform:rotate(38deg);box-shadow:0 0 24px #56daeb14,inset 0 0 14px #56daeb11}.orbit-b{transform:rotate(-38deg);border-color:#f4cf7f99}.orbit-core{position:absolute;left:57px;top:43px;width:75px;height:75px;border:1px solid #e7d0a67c;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#f0d6a2;font-weight:870;font-size:16px;letter-spacing:2px;background:radial-gradient(circle at 30% 30%,#1c4556,#091523 75%);box-shadow:0 0 37px #65e6fa2e}.orbit-core span{color:#7be8ec}.orbit-code{position:absolute;bottom:-3px;left:42px;white-space:nowrap;color:#a0d9db;font-size:9px;letter-spacing:2px}
+.mapbox{background:radial-gradient(circle at 50% 32%,#093a4a 0%,#081f32 60%,#061321 100%)}.mapbox:after{content:'';pointer-events:none;position:absolute;inset:0;box-shadow:inset 0 0 100px #061425,inset 0 0 0 1px #6ae4ee0c}
+@media(max-width:940px){.hero-orbit{display:none}.orbital-hero{padding:19px;min-height:150px}.hero-title{font-size:23px}}
+@media(max-width:600px){body{background-attachment:scroll}.orbital-hero{padding:17px;min-height:160px}.hero-title{font-size:21px}.hero-kicker{font-size:8px;letter-spacing:1.1px}.hero-detail{letter-spacing:.6px;font-size:9px}.hero-tags span{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.led{animation:none!important}.little-bubble{box-shadow:none}}
+.health-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:13px 15px 6px}
+.hcard{border:1px solid #24465a;border-top:3px solid var(--dc);border-radius:9px;background:#0a1c29;padding:9px 10px 8px;min-width:0}
+.hcard-top{display:flex;align-items:center;gap:7px;margin-bottom:6px}.hcard-top .name{font-size:13px}
+.hcard-top .mode{margin-left:auto}.hlink{font-size:9px;font-weight:800;letter-spacing:.8px}
+.hstrip{display:block;width:100%;height:7px;border-radius:3px;margin:2px 0 6px;background:#13293a}
+.hrow{margin-top:5px}.hrow-head{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.7px;color:var(--muted)}
+.hrow-head b{color:#e1f4f7;font-variant-numeric:tabular-nums;font-size:11px}.hrow-head b.warn{color:var(--gold)}.hrow-head b.bad{color:var(--red)}
+.hspark{display:block;width:100%;height:38px;background:linear-gradient(180deg,#0f2833,#0b1c29);border:1px solid #1d3a4a;border-radius:5px;margin-top:2px}
+.health-legend{display:flex;flex-wrap:wrap;gap:14px;padding:4px 16px 13px;color:var(--muted);font-size:10px}
+@media(max-width:1250px){.health-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:850px){.health-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.health-grid{grid-template-columns:1fr}}
+/* V10 analysis panels: formation performance, command latency, fault & recovery (read-only) */
+.v10-note{padding:10px 17px 0;font-size:11px;line-height:1.6;color:#a9c5d0}.v10-note b{color:var(--gold)}
+.form-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.75fr);gap:15px;padding:12px 17px 16px}
+.tablewrap{max-height:400px;overflow:auto;border:1px solid #24465a;border-radius:9px;background:#081722}
+.optable{width:100%;border-collapse:collapse;font-size:11px;font-variant-numeric:tabular-nums}
+.optable th{position:sticky;top:0;background:#0d2536;color:#99b3c1;font-size:9px;letter-spacing:1px;font-weight:800;text-align:left;padding:8px 9px;border-bottom:1px solid #2b5064;white-space:nowrap}
+.optable td{padding:6px 9px;border-bottom:1px solid #1b3647;color:#d6e8ee;white-space:nowrap}.optable tr:hover td{background:#0f2a3a}
+.optable td.sub{color:#8eabb8;font-size:10px}.optable .na{color:#6f8d9b;font-style:italic}
+.st{font-size:9px;font-weight:850;letter-spacing:1px;padding:3px 7px;border-radius:3px;border:1px solid}
+.st.VALIDATED{color:#8df5bc;border-color:#3b654d;background:#183628}.st.EXPERIMENTAL{color:#ffcf83;border-color:#8b6639;background:#36291b}
+.st.REFUSED{color:#ffb9c5;border-color:#965068;background:#4a202f}.st.OTHER{color:#aec3ce;border-color:#4d6071;background:#1b2c38}
+.livebox{border:1px solid #2a4757;background:#0a1c2b;border-radius:9px;padding:11px}
+.liveplot{width:100%;height:auto;display:block;background:radial-gradient(circle at center,#0b2c37,#081a29 70%);border:1px solid #203d4d;border-radius:7px}
+.livestat{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:9px}.livestat span{display:block;font-size:9px;color:var(--muted);letter-spacing:.7px}.livestat b{font-size:14px;font-variant-numeric:tabular-nums}
+.lat-list{padding:10px 17px 16px;display:flex;flex-direction:column;gap:9px;max-height:620px;overflow-y:auto}
+.lat-row{border:1px solid #24465a;border-radius:9px;background:#0a1c29;padding:9px 12px}
+.lat-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:11px}.lat-top .utt{color:#e8f3f7;font-weight:700}.lat-top .when{color:var(--muted);font-size:10px;min-width:62px}
+.src{font-size:9px;font-weight:850;letter-spacing:1px;padding:2px 6px;border-radius:3px;border:1px solid}
+.lat-bar{display:flex;height:14px;margin:8px 0 6px;background:#0f2533;border:1px solid #1d3a4a;border-radius:4px;overflow:hidden}
+.lat-bar div{height:100%;min-width:2px;border-right:1px solid #06111e}.lat-bar .hatch{background:repeating-linear-gradient(45deg,#3b5262 0 3px,#1a2e3b 3px 6px)!important}
+.chips{display:flex;flex-wrap:wrap;gap:5px}.chip{font-size:9px;letter-spacing:.5px;padding:3px 6px;border-radius:4px;border:1px solid #2c4c5e;color:#cfe3ea;background:#0d2433;font-variant-numeric:tabular-nums}
+.chip i{font-style:normal;display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;vertical-align:-1px}.chip.na{color:#7d98a6;border-style:dashed}
+.lat-legend,.ft-legend{display:flex;flex-wrap:wrap;gap:12px;padding:0 17px 12px;color:var(--muted);font-size:10px}
+.ft-controls{display:flex;gap:6px;align-items:center}.ft-controls .btn{padding:5px 9px;font-size:10px}.ft-controls .btn.on{background:#1b4555;border-color:#62ebed}
+.ft-wrap{padding:12px 17px 6px}.ftplot{width:100%;height:auto;display:block;background:linear-gradient(180deg,#0f2833,#0b1c29);border:1px solid #1d3a4a;border-radius:7px}
+.ft-table{padding:6px 17px 16px}
+@media(max-width:1100px){.form-layout{grid-template-columns:1fr}}
+</style></head><body>
+<div class="shell">
+<aside class="sidebar">
+  <div class="brand"><img class="seal" src="/rscl_logo.png" alt="Reconfigurable Space Computing Lab official supplied crest"><div><h3>R S C L</h3><p>SPACE COMPUTING LAB</p></div></div>
+  <div><div class="micro" style="margin:8px 0 9px">Mission navigation</div><nav class="nav">
+    <a class="current" href="#overview"><span class="glyph">◈</span> OPERATIONS</a>
+    <a href="#swarmchat"><span class="glyph">✦</span> SWARMCHAT</a>
+    <a href="#flightlogs"><span class="glyph">▤</span> FLIGHT LOGS</a>
+    <a href="#flightanalytics"><span class="glyph">⌁</span> FLIGHT ANALYTICS</a>
+    <a href="#telemetry"><span class="glyph">◉</span> LIVE TELEMETRY</a>
+    <a href="#formations"><span class="glyph">⬡</span> FORMATIONS</a>
+    <a href="#latency"><span class="glyph">⏱</span> COMMAND LATENCY</a>
+    <a href="#faultlab" class="private"><span class="glyph">⚑</span> FAULT LAB</a>
+    <a href="#faulttimeline"><span class="glyph">≋</span> FAULT TIMELINE</a>
+    <a target="_blank" rel="noopener" href="http://localhost:8100/"><span class="glyph">♩</span> HU VOICE SYSTEM ↗</a>
+  </nav></div>
+  <div class="side-status"><span class="little-bubble" id="linkdot"></span><b id="side-link">LINK INITIALIZING</b><small>Gazebo Harmony / WSL2 · local only</small><small id="sid">SESSION: —</small></div>
+</aside>
+<main class="main" id="overview">
+  <header class="topbar">
+    <div><div class="kicker">RSCL // AUTONOMOUS SYSTEMS & MISSION ASSURANCE</div><h1>HU <span style="color:var(--gold)">//</span> SPACE OPERATIONS</h1><p class="subtitle">Reconfigurable Space Computing Lab · Cal Poly Pomona · Five-vehicle mission operations testbed</p></div>
+    <div class="header-right"><div class="timestamp"><strong id="clock">--:--:--</strong><span>UTC // LIVE MISSION TIME</span></div>
+    <a class="btn gold private" href="http://localhost:8100/" target="_blank" rel="noopener">◉ HU VOICE CONTROL ↗</a>
+    <button class="btn private" id="export">⬇ FLIGHT LOGS</button><button class="btn private" id="export-bin" title="ArduPilot DataFlash-format .BIN files of this session's SIMULATED Gazebo telemetry. Not ArduPilot firmware logs.">⬇ EXPORT ARDUPILOT .BIN (SIMULATED TELEMETRY)</button><button class="btn minor private" id="spectator-toggle">◫ SPECTATOR</button></div>
+  </header>
+  <section class="orbital-hero" aria-label="RSCL aerospace mission operations visual identity">
+    <div class="hero-left">
+      <div class="hero-kicker"><span class="live-pin"></span> RSCL / SPACE SYSTEMS RESEARCH · EXPERIMENTAL SIMULATION</div>
+      <div class="hero-title">THE NEXT FRONTIER IS <em>TRUSTED AUTONOMY.</em></div>
+      <div class="hero-detail">ONE HUMAN <span>›</span> FIVE EMBODIED AGENTS <span>›</span> EVIDENCE-VERIFIED ACTION</div>
+      <div class="hero-tags"><span>HU–MA'AT / SWARMCHAT</span><span>GAZEBO FLEET</span><span>RUNTIME ASSURANCE</span></div>
+    </div>
+    <div class="hero-orbit" aria-hidden="true"><div class="orbit-track orbit-a"></div><div class="orbit-track orbit-b"></div><div class="orbit-core">R<span>S</span>CL</div><div class="orbit-code">MISSION // 05</div></div>
+  </section>
+  <section class="metricbar" aria-label="Mission status indicators">
+    <div class="metric"><div class="m-label">FLIGHT OPERATIONS</div><div class="m-value" id="connected">OFFLINE</div><div class="m-foot" id="connection-meta">Awaiting supervisor telemetry</div></div>
+    <div class="metric"><div class="m-label">AIRCRAFT TRACKED</div><div class="m-value" id="aircraft">— / 5</div><div class="m-foot">Independent named tracks</div></div>
+    <div class="metric"><div class="m-label">MINIMUM SEPARATION</div><div class="m-value" id="separation">—</div><div class="m-foot">3D position distance · sampled</div></div>
+    <div class="metric"><div class="m-label">SAFETY MONITOR</div><div class="m-value" id="safety">WAITING</div><div class="m-foot" id="safety-foot">Separation is observational, not a collision guarantee</div></div>
+    <div class="metric"><div class="m-label">MISSION RECORDING</div><div class="m-value green">● REC</div><div class="m-foot" id="recstatus">JSONL + per-drone CSV · 4 Hz target</div></div>
+  </section>
+  <section class="workspace">
+    <article class="section"><div class="section-head"><h2>01 / TACTICAL FLEET RADAR</h2><span class="detail">LIVE POSE · X/Y METRES</span></div>
+      <div class="mapbox" id="mapbox"><div class="map-overlay"><b id="radar-mode">WAITING FOR TELEMETRY</b><br>SIMULATION MAP / NOT SATELLITE GPS</div>
+      <svg class="radar" id="radar" viewBox="0 0 680 500" role="img" aria-label="Live top-down visualization of all five Gazebo drone positions"></svg><div class="map-corner">RSCL / HU—FLEET // GAZEBO</div></div>
+      <div class="mapbottom"><p><b id="radar-pair">Closest pair: —</b></p><p>Safety advisory <b>1.15 m</b> · Alert <b>0.85 m</b> (demonstration thresholds)</p></div>
+    </article>
+    <article class="section" id="telemetry"><div class="section-head"><h2>02 / FIVE-DRONE TELEMETRY</h2><span class="detail">LIVE / 5 VEHICLES</span></div><div class="fleetlist" id="fleetlist"><div class="empty">Waiting for Gazebo aircraft positions...</div></div><div class="batt-note">BATTERY is a <b>simulated estimate</b>, not measured voltage, current, or remaining charge. LED patterns here represent simulated state; Gazebo physical LEDs are a separate feature.</div></article>
+  </section>
+  <section class="bottom" id="flightlogs">
+    <article class="section"><div class="section-head"><h2>03 / FLIGHT RECORDER · SEPARATION HISTORY</h2><span class="tag" id="recordtag">WAITING</span></div><div class="chart-space"><svg id="sepplot" class="sepplot" viewBox="0 0 600 160" role="img" aria-label="Minimum separation time series"></svg><div class="chart-legend"><span>━ <b style="color:var(--cyan)">3D MINIMUM DISTANCE</b></span><span>┄ SAFETY ADVISORY / 1.15 m</span><span id="lastflight">Latest data: —</span></div></div></article>
+    <article class="section"><div class="section-head"><h2>04 / MISSION & HU DECISION TIMELINE</h2><span class="detail">EVENT-SOURCED</span></div><div id="events" class="events"><div class="empty">No events yet.</div></div></article>
+    <article class="section" id="flightanalytics" style="grid-column:1/-1"><div class="section-head"><h2>03B / FLIGHT ANALYTICS · FIVE AIRCRAFT ALTITUDE</h2><span class="detail">LIVE GAZEBO · SESSION ONLY</span></div>
+      <div class="chart-space" style="height:245px"><svg id="altplot" class="sepplot" viewBox="0 0 600 160" role="img" aria-label="Session altitude curves for all five Gazebo drones"></svg><div class="chart-legend"><span>ALTITUDE / METRES</span><span>SELECT AIRCRAFT ON RADAR</span><span>STALE TELEMETRY EXCLUDED</span></div></div></article>
+    <article class="section" id="dronehealth" style="grid-column:1/-1"><div class="section-head"><h2>03C / PER-AIRCRAFT HEALTH · RUNTIME CURVES</h2><span class="detail" id="health-window">LIVE GAZEBO · LAST 2 MIN · SESSION ONLY</span></div>
+      <div class="health-grid" id="health-grid"><div class="empty">Waiting for recorder samples…</div></div>
+      <div class="health-legend"><span>STRIP: <b style="color:#58e6b1">■</b> flying <b style="color:#4f6b7a">■</b> parked <b style="color:#f0c77b">■</b> landing/takeoff <b style="color:#fc7890">■</b> fault / stale link</span><span>SPEED = ESTIMATED from sampled positions</span><span>TRACKING ERROR = distance to commanded setpoint</span><span>NEAREST: ┄ 0.82 m proximity hold · ┄ 1.15 m advisory</span><span>BATTERY = SIMULATED ESTIMATE</span><span>GAPS = stale telemetry (never back-filled)</span></div></article>
+    <article class="section" id="formations" style="grid-column:1/-1"><div class="section-head"><h2>03D / FORMATION PERFORMANCE · LIVE-MEASURED</h2><span class="tag" id="form-tag">LOADING</span></div>
+      <p class="v10-note">Results of the formation acceptance run, <b>measured in Gazebo simulation</b> (not flight tests). Each value is copied from the cited evidence file, not recomputed. Aliases fly the geometry of the shape they point to. <span id="form-criteria"></span></p>
+      <div class="form-layout"><div class="tablewrap"><table class="optable"><thead><tr><th>SHAPE</th><th>STATUS</th><th>SETTLE s</th><th>RMS SLOT m</th><th>SHAPE ERR m</th><th>MIN SEP OBS / PLAN m</th><th>HOLDS</th><th>EVIDENCE</th></tr></thead><tbody id="form-body"><tr><td colspan="8" class="na">Loading formation catalog…</td></tr></tbody></table></div>
+      <div class="livebox"><div class="micro" style="margin-bottom:7px">CURRENT FORMATION · TARGET vs ACTUAL (X/Y)</div><svg id="liveform" class="liveplot" viewBox="0 0 320 250" role="img" aria-label="Live formation targets versus observed positions"></svg>
+        <div class="livestat"><div><span>RMS ERROR · 3D</span><b id="lf-rms">—</b></div><div><span>RMS · X/Y</span><b id="lf-rmsxy">—</b></div><div><span>MAX ERROR</span><b id="lf-max">—</b></div></div>
+        <div class="chart-legend" style="margin-top:8px"><span>○ supervisor setpoint</span><span>● observed odometry</span><span id="lf-note">FORMATION-mode aircraft only</span></div></div></div></article>
+    <article class="section" id="latency" style="grid-column:1/-1"><div class="section-head"><h2>03E / COMMAND LATENCY TIMELINE · VOICE → MOTION</h2><span class="tag" id="lat-tag">LOADING</span></div>
+      <p class="v10-note">Each bar shows only the milestones that were <b>separately measured</b> by the HU bridge (browser <code>performance.now()</code>, telemetry-poll bound). A missing milestone is shown as <b>NOT MEASURED</b>, never estimated. "First observed motion" is the first odometry displacement &gt;10 cm, not command completion.</p>
+      <div class="lat-list" id="lat-list"><div class="empty">Loading command latency logs…</div></div>
+      <div class="lat-legend"><span><b style="color:#b69cff">■</b> SPEECH/ASR</span><span><b style="color:#7d93a3">■</b> CLARIFICATION WAIT</span><span><b style="color:#62ebed">■</b> DECISION ROUND-TRIP</span><span><b style="color:#f0c77b">■</b> OPERATOR CONFIRMATION</span><span><b style="color:#58e6b1">■</b> DISPATCH ACK → FIRST MOTION</span><span><b style="color:#b6f6aa">■</b> FIRST → ALL OBSERVED</span><span>▨ NOT SEPARATELY MEASURED (total − measured segments)</span></div></article>
+    <article class="section chatroom" id="swarmchat"><div class="section-head"><h2>05 / SWARMCHAT · AIRCRAFT DIAGNOSTIC ROOM</h2><span class="tag warn">EVIDENCE-GROUNDED · NO DIRECT FLIGHT</span></div>
+      <p class="chatintro"><strong>Human ↔ five aircraft ↔ MA'AT.</strong> Chat with a drone or the whole group: say hello, ask how they are, who is closest to whom, who is highest, recent trends, or why something failed. These are <b>deterministic logical actors</b>: fixed rules and templates reading Gazebo telemetry, the health history and HU logs, not trained language models and not autonomous decision-makers. Each drone has a fixed persona (Horus watchful lead, Ra bright, Thoth analytical, Anubis careful guardian, Osiris calm) that changes only the wording; every number comes from telemetry and is <b>UNKNOWN</b> when the link is stale. Messages never dispatch motion commands.</p>
+      <div class="chat-layout"><div id="chat-feed" class="chat-feed" aria-live="polite"><div class="empty">Opening evidence-grounded mission room…</div></div>
+      <div class="chat-controls private"><label for="chat-recipient">ADDRESS</label>
+        <select id="chat-recipient"><option value="FLEET">WHOLE FLEET / GROUP ROOM</option><option>Horus</option><option>Ra</option><option>Thoth</option><option>Anubis</option><option>Osiris</option></select>
+        <label for="chat-input">ASK A DRONE OR THE GROUP</label>
+        <textarea id="chat-input" maxlength="350" placeholder="Anubis, why didn't you take off?"></textarea>
+        <button class="btn gold" id="chat-send">SEND QUESTION · READ ONLY</button>
+        <div class="chat-status" id="chat-status">Chat is diagnostic. For flight instructions, use HU Voice at port 8100.</div>
+        <span class="micro">TRY A GROUNDED QUESTION</span>
+        <button class="chat-prompt" data-question="Fleet, discuss your current readiness and any faults.">Fleet, discuss your readiness and faults</button>
+        <button class="chat-prompt" data-question="Anubis, why didn't you take off?">Anubis, why didn't you take off?</button>
+        <button class="chat-prompt" data-question="Is the fleet safe to form a tighter circle?">Can we safely make the circle tighter?</button>
+        <button class="chat-prompt" data-question="Hello team, how is everyone feeling today?">Hello team, how is everyone?</button>
+        <button class="chat-prompt" data-question="Who is closest to Thoth?">Who is closest to Thoth?</button>
+        <button class="chat-prompt" data-question="Thoth, how has your altitude changed in the last 30 s?">Thoth, your trend over the last 30 s</button>
+        <button class="chat-prompt" data-question="Ra, tell me a joke">Ra, tell me a joke</button>
+        <div class="chat-note">Each message is labelled with its sender (drone, MA'AT or SYSTEM). Responses cite sampled simulation state, HU decisions or limitations; battery values are SIMULATED estimates. No mission is approved or executed by this chat.</div>
+      </div></div>
+    </article>
+    <article class="section faultlab" id="faultlab"><div class="section-head"><h2>06 / FAULT REJECTION & RECOVERY EXPERIMENT</h2><span class="tag warn">SIMULATOR-ONLY · OPERATOR CONTROL</span></div>
+    <div class="fault-layout"><div><p class="fault-intro">This experiment tests a <b>simulated command-link fault</b>, not real motor failure or real depleted battery. We inject it only in stable HOVER with sufficient separation, verify that Gazebo refuses further commands to the faulted drone, then explicitly clear the fault and observe recovery to hover. <b>Automatic fleet re-formation is not yet validated.</b></p>
+      <div class="fault-steps"><span><em>01</em> STABLE HOVER</span><span><em>02</em> INJECT SIM LINK FAULT</span><span><em>03</em> VERIFY REFUSAL</span><span><em>04</em> MANUAL CLEAR</span><span><em>05</em> VERIFY TELEMETRY</span></div>
+      <p class="fault-intro" style="margin-bottom:0">All interactions are logged with UTC timestamps. This panel never lowers HU confidence thresholds or issues an autonomous formation transition.</p></div>
+      <div class="controls"><label class="micro" for="fault-aircraft">EXPERIMENT TARGET</label><select id="fault-aircraft"><option>Horus</option><option>Ra</option><option>Thoth</option><option>Anubis</option><option>Osiris</option></select>
+        <div class="buttons"><button id="inject" class="btn red">⚑ INJECT FAULT</button><button id="reject" class="btn">✓ VERIFY REFUSAL</button><button id="recover" class="btn green">↺ CLEAR FAULT</button></div>
+        <div id="fault-msg" role="status" class="statusline">Select a drone in stable HOVER. The operator must approve fault injection.</div>
+        <small>Use only in Gazebo. Control requests are bound to localhost, operator-authorized, and blocked if the aircraft is not in the required state.</small>
+      </div></div></article>
+    <article class="section" id="faulttimeline" style="grid-column:1/-1"><div class="section-head"><h2>06B / FAULT &amp; RECOVERY TIMELINE · PER-AIRCRAFT SWIMLANES</h2><div class="ft-controls"><span class="detail" id="ft-tag">LOADING</span><button class="btn minor" data-ftwin="300">5 MIN</button><button class="btn minor on" data-ftwin="900">15 MIN</button><button class="btn minor" data-ftwin="0">SESSION</button></div></div>
+      <p class="v10-note">Episodes paired from this session's <b>recorded events only</b>: <b>O</b> onset (first recorded indicator) → <b>D</b> detection → <b>C</b> containment → <b>R</b> recovery. Durations are differences of recorded timestamps; a stage that was not recorded is shown as <b>not recorded</b>. An open bar (dashed) has no recorded recovery yet. Supervisor (GZ_*) events are stamped when SpaceOps observed them (4 Hz poll).</p>
+      <div class="ft-wrap"><svg id="ftplot" class="ftplot" viewBox="0 0 1000 250" role="img" aria-label="Fault and recovery swimlanes for the fleet and five aircraft"></svg></div>
+      <div class="ft-legend"><span><b style="color:#fc7890">■</b> SIMULATED LINK FAULT</span><span><b style="color:#f0c77b">■</b> SEPARATION / PROXIMITY</span><span><b style="color:#b69cff">■</b> AIRCRAFT TELEMETRY</span><span><b style="color:#7fa3b5">■</b> SUPERVISOR LINK</span><span>◆ LANDED / STAGGERED TAKEOFF / SAFETY SKIPPED / EMERGENCY (point events)</span></div>
+      <div class="ft-table"><div class="tablewrap" style="max-height:300px"><table class="optable"><thead><tr><th>LANE</th><th>EPISODE</th><th>FIRST RECORDED (UTC)</th><th>O → D</th><th>D → C</th><th>C → R</th><th>O → R</th><th>EVENTS</th><th>STATUS</th></tr></thead><tbody id="ft-body"><tr><td colspan="9" class="na">Loading session events…</td></tr></tbody></table></div></div></article>
+  </section>
+  <footer class="footer"><span>© RSCL · CAL POLY POMONA · RECONFIGURABLE SPACE COMPUTING LAB</span><span>HU-MISSION / SPACEOPS V9 · SWARMCHAT · SIMULATION EVIDENCE · .BIN EXPORT = ARDUPILOT DATAFLASH FORMAT OF SIMULATED GAZEBO TELEMETRY, NOT ARDUPILOT FIRMWARE LOGS</span></footer>
+</main></div>
+<script>
+'use strict';
+const $=x=>document.getElementById(x);const names=['Horus','Ra','Thoth','Anubis','Osiris'];
+const colors={Horus:'#efc36f',Ra:'#52e2ea',Thoth:'#b69cff',Anubis:'#61ebaf',Osiris:'#ff91ae'};
+let latest=null,csrf='',selected='Horus',faultPending=false;
+function fmt(v,d=2){return v==null||!Number.isFinite(Number(v))?'—':Number(v).toFixed(d)}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function clock(){const n=new Date();$('clock').textContent=n.toISOString().substring(11,19)}clock();setInterval(clock,1000);
+if(new URLSearchParams(location.search).get('spectator')==='1')document.body.classList.add('spectator');
+$('spectator-toggle').onclick=()=>location.href=location.pathname+'?spectator=1';
+$('export').onclick=()=>{location.href='/api/ops/export'};
+async function getJSON(p){const r=await fetch(p,{cache:'no-store'});const j=await r.json();if(!r.ok)throw Error(j.error||r.status);return j}
+async function init(){try{csrf=(await getJSON('/api/ops/session')).token}catch(e){};tick();setInterval(tick,700)}
+function elsvg(t,attrs={},txt=''){const el=document.createElementNS('http://www.w3.org/2000/svg',t);for(const[k,v]of Object.entries(attrs))el.setAttribute(k,String(v));if(txt)el.textContent=txt;return el}
+function drawRadar(drones,online){const svg=$('radar');svg.replaceChildren();const cx=340,cy=260,scale=54;
+  for(let r=75;r<=240;r+=55)svg.append(elsvg('circle',{cx,cy,r,fill:'none',stroke:'#285a65','stroke-width':1,opacity:.55}));
+  for(let p=-4;p<=4;p++){const c=cx+p*scale, y=cy+p*scale;svg.append(elsvg('line',{x1:c,y1:15,x2:c,y2:480,stroke:'#2b5860','stroke-width':.7,opacity:.22}));svg.append(elsvg('line',{x1:12,y1:y,x2:668,y2:y,stroke:'#2b5860','stroke-width':.7,opacity:.22}));}
+  svg.append(elsvg('line',{x1:cx,y1:10,x2:cx,y2:490,stroke:'#49808c',opacity:.48,'stroke-dasharray':'5,8'}));
+  svg.append(elsvg('line',{x1:12,y1:cy,x2:668,y2:cy,stroke:'#49808c',opacity:.48,'stroke-dasharray':'5,8'}));
+  [['N',340,22],['S',340,490],['W',23,256],['E',651,256]].forEach(([v,x,y])=>svg.append(elsvg('text',{x,y,fill:'#628a9a','font-size':11,'font-weight':700,'text-anchor':'middle'},v)));
+  // Last 60 seconds of OBSERVED Gazebo positions, never invented trajectories.
+  const points=latest?.history||[];
+  for(const n of names){
+    const trails=points.map(p=>p.poses?.[n]).filter(p=>Array.isArray(p)&&p.length===3);
+    if(trails.length>1){const pts=trails.map(p=>(cx+Number(p[0])*scale).toFixed(1)+','+(cy-Number(p[1])*scale).toFixed(1)).join(' ');
+      svg.append(elsvg('polyline',{points:pts,fill:'none',stroke:colors[n],opacity:.57,'stroke-width':2,'stroke-linejoin':'round'}));}
+  }
+  const loc=drones.filter(d=>d.telemetry&&Number.isFinite(Number(d.x))&&Number.isFinite(Number(d.y)));
+  loc.forEach(d=>{const x=cx+Number(d.x)*scale,y=cy-Number(d.y)*scale,t=d.target||[];
+    if(t.length>=2&&Number.isFinite(Number(t[0]))&&Number.isFinite(Number(t[1]))){const tx=cx+Number(t[0])*scale,ty=cy-Number(t[1])*scale;svg.append(elsvg('line',{x1:x,y1:y,x2:tx,y2:ty,stroke:colors[d.name],opacity:.45,'stroke-width':1,'stroke-dasharray':'4,6'}));svg.append(elsvg('circle',{cx:tx,cy:ty,r:5,fill:'none',stroke:colors[d.name],opacity:.5}));}
+  });
+  if(latest?.state?.closest_pair?.length===2){let a=loc.find(v=>v.name===latest.state.closest_pair[0]),b=loc.find(v=>v.name===latest.state.closest_pair[1]);if(a&&b)svg.append(elsvg('line',{x1:cx+a.x*scale,y1:cy-a.y*scale,x2:cx+b.x*scale,y2:cy-b.y*scale,stroke:latest.state.safety_status==='SEPARATION ALERT'?'#fc7890':'#a6d6db','stroke-width':2,'stroke-dasharray':'3,6',opacity:.8}));}
+  for(const d of loc){const x=cx+Number(d.x)*scale,y=cy-Number(d.y)*scale,c=colors[d.name],g=elsvg('g',{role:'button',tabindex:0,'aria-label':'Select '+d.name});g.style.cursor='pointer';
+    if(d.name===selected)g.append(elsvg('circle',{cx:x,cy:y,r:27,stroke:c,fill:'none',opacity:.55,'stroke-dasharray':'4,3'}));
+    g.append(elsvg('circle',{cx:x,cy:y,r:18,fill:c,opacity:.14}));g.append(elsvg('circle',{cx:x,cy:y,r:9,fill:c,stroke:'#e9f8ff','stroke-width':1.5}));
+    g.append(elsvg('circle',{cx:x,cy:y,r:3,fill:'#07121f'}));g.append(elsvg('text',{x:x,y:y-25,fill:c,'text-anchor':'middle','font-size':11,'font-weight':750},d.name.toUpperCase()));
+    g.append(elsvg('text',{x:x,y:y+31,fill:'#a2cbd0','text-anchor':'middle','font-size':10},fmt(d.z,2)+' m'));
+    g.addEventListener('click',()=>{selected=d.name;$('fault-aircraft').value=d.name;$('chat-recipient').value=d.name;renderFleet(loc);drawRadar(loc,online)});
+    svg.append(g);
+  }
+  if(!online)svg.append(elsvg('text',{x:cx,y:cy+18,fill:'#789ba7','font-size':16,'text-anchor':'middle'},'GAZEBO OFFLINE · AWAITING TELEMETRY'));
+}
+function renderFleet(drones){const holder=$('fleetlist');if(!drones.length){holder.innerHTML='<div class="empty">Waiting for live flight data…</div>';return}
+  holder.innerHTML=drones.map(d=>{let n=esc(d.name),mode=esc(d.mode||'UNKNOWN'),c=colors[d.name]||'#9ba',b=Number(d.battery_sim_pct)||0;
+   return `<div class="drone-card ${selected===d.name?'selected':''}" style="--dc:${c}" data-name="${n}"><div class="drone-top"><span class="led ${esc(d.fault?'FAULT':d.mode||'')}"></span><span class="name">${n}</span><span class="mode ${d.fault?'fault':''}">${mode}</span></div>
+   <div class="fleetstats"><div><span>ALTITUDE</span><b>${fmt(d.z)} m</b></div><div><span>GROUND SPEED · EST</span><b>${fmt(d.ground_speed_est)} m/s</b></div><div><span>HEADING</span><b>${fmt(d.yaw,0)}°</b></div></div>
+   <div class="battery-head"><span>SIMULATED BATTERY</span><strong>${fmt(b,1)}%</strong></div><div class="btrack"><div class="bfill" style="width:${Math.max(0,Math.min(100,b))}%"></div></div>
+   <div class="fleetstats"><div><span>XYZ</span><b>${fmt(d.x,1)}, ${fmt(d.y,1)}</b></div><div><span>LINK</span><b style="color:${d.telemetry?'#58e6b1':'#fc7890'}">${d.telemetry?'LIVE':'STALE'}</b></div><div><span>FAULT</span><b style="color:${d.fault?'#fc7890':'#58e6b1'}">${d.fault?'ACTIVE':'NONE'}</b></div></div></div>`;}).join('');
+  holder.querySelectorAll('[data-name]').forEach(el=>el.onclick=()=>{selected=el.dataset.name;$('fault-aircraft').value=selected;$('chat-recipient').value=selected;renderFleet(drones);drawRadar(drones,latest?.online)});
+}
+function drawChart(history){const svg=$('sepplot');svg.replaceChildren();const pts=(history||[]).filter(p=>p.min_sep!=null);const width=600,height=160,pad=22,max=Math.max(2.6,...pts.map(p=>p.min_sep||0)),min=0,step=pts.length>1?550/(pts.length-1):1;
+  for(const val of [0,.85,1.15,2,3]){if(val>max+.1)continue;const y=137-val/max*115;svg.append(elsvg('line',{x1:41,y1:y,x2:590,y2:y,stroke:val===.85?'#ad5a67':val===1.15?'#8c7b49':'#284654',opacity:val===.85||val===1.15?.65:.35,'stroke-dasharray':val===.85||val===1.15?'4,5':'none'}));svg.append(elsvg('text',{x:33,y:y+3,fill:'#89a8b9','font-size':10,'text-anchor':'end'},val+'m'));}
+  if(pts.length>1){const poly=pts.map((p,i)=>(41+i*549/(pts.length-1)).toFixed(1)+','+(137-(Math.min(max,p.min_sep)/max)*115).toFixed(1)).join(' ');svg.append(elsvg('polyline',{points:poly,fill:'none',stroke:'#62ebed','stroke-width':2.3,'stroke-linejoin':'round','stroke-linecap':'round'}));}
+  svg.append(elsvg('text',{x:44,y:153,fill:'#6b91a1','font-size':10},'PREVIOUS'));svg.append(elsvg('text',{x:587,y:153,fill:'#6b91a1','font-size':10,'text-anchor':'end'},'LIVE'));
+}
+function drawAltitude(history){const svg=$('altplot');if(!svg)return;svg.replaceChildren();
+ const points=(history||[]);const ys=points.flatMap(p=>Object.values(p.poses||{}).map(v=>Number(v?.[2]))).filter(Number.isFinite);
+ const high=Math.max(2.5,...ys.map(v=>v+.15));
+ for(const val of [0,.5,1,1.5,2,2.5,3]){if(val>high+.1)continue;const y=137-val/high*113;
+   svg.append(elsvg('line',{x1:42,y1:y,x2:589,y2:y,stroke:'#284654',opacity:.5,'stroke-dasharray':'3,6'}));
+   svg.append(elsvg('text',{x:35,y:y+3,fill:'#a0b8c5','font-size':10,'text-anchor':'end'},val.toFixed(1)));}
+ const denom=Math.max(1,points.length-1);
+ for(const n of names){let run=[];const flush=()=>{if(run.length>1)svg.append(elsvg('polyline',{points:run.join(' '),fill:'none',stroke:colors[n],opacity:selected===n?1:.66,'stroke-width':selected===n?3:1.7}));run=[];};
+   points.forEach((p,i)=>{const v=p.poses?.[n];if(!v){flush();return;}const z=Number(v[2]);if(!Number.isFinite(z)){flush();return;}
+     run.push((42+i/denom*546).toFixed(1)+','+(137-z/high*113).toFixed(1));});flush();}
+ svg.append(elsvg('text',{x:43,y:153,fill:'#7297a5','font-size':10},'RECENT WINDOW'));
+ svg.append(elsvg('text',{x:588,y:153,fill:'#7297a5','font-size':10,'text-anchor':'end'},'LIVE'));
+}
+// ---- Per-aircraft health curves (observed / estimated, never invented) ----
+const HEALTH_ROWS=[
+ {key:'z',label:'ALTITUDE',unit:'m',min:0,max:2.8,d:2},
+ {key:'speed',label:'GROUND SPEED · EST',unit:'m/s',min:0,max:.8,d:2},
+ {key:'track_err',label:'TRACKING ERROR',unit:'m',min:0,max:1.0,d:2,warn:.25,bad:.6},
+ {key:'nearest',label:'NEAREST AIRCRAFT',unit:'m',min:0,max:3.0,d:2,lines:[.82,1.15],lowWarn:1.15,lowBad:.85},
+ {key:'battery_sim',label:'BATTERY · SIMULATED',unit:'%',min:0,max:100,d:1}];
+function modeColor(s){if(!s.fresh||s.fault||s.mode==='FAULT')return'#fc7890';if(['READY','GROUNDED','WAITING'].includes(s.mode))return'#4f6b7a';if(['TAKEOFF','LANDING'].includes(s.mode))return'#f0c77b';return'#58e6b1'}
+function spark(svg,series,row,color,tMin,tMax){svg.replaceChildren();const W=200,H=38,pad=2,span=Math.max(1,tMax-tMin);
+  const hi=Math.max(row.max,...series.map(s=>Number(s[row.key])).filter(Number.isFinite));const y=v=>H-pad-(Math.min(hi,Math.max(row.min,v))-row.min)/(hi-row.min)*(H-2*pad);
+  for(const l of row.lines||[])svg.append(elsvg('line',{x1:0,x2:W,y1:y(l),y2:y(l),stroke:l<1?'#ad5a67':'#8c7b49','stroke-dasharray':'3,4','stroke-width':.8,opacity:.8}));
+  let run=[];const flush=()=>{if(run.length>1)svg.append(elsvg('polyline',{points:run.join(' '),fill:'none',stroke:color,'stroke-width':1.6,'stroke-linejoin':'round'}));
+    else if(run.length===1){const[a,b]=run[0].split(',');svg.append(elsvg('circle',{cx:a,cy:b,r:1.4,fill:color}))}run=[]};
+  for(const s of series){const v=Number(s[row.key]);if(s[row.key]==null||!Number.isFinite(v)){flush();continue}run.push(((s.t-tMin)/span*W).toFixed(1)+','+y(v).toFixed(1))}flush()}
+function strip(svg,series,tMin,tMax){svg.replaceChildren();const W=200,span=Math.max(1,tMax-tMin);
+  for(let i=0;i<series.length;i++){const s=series[i],x=(s.t-tMin)/span*W,nx=i+1<series.length?(series[i+1].t-tMin)/span*W:W;
+    svg.append(elsvg('rect',{x:x.toFixed(1),y:0,width:Math.max(.6,nx-x).toFixed(1),height:7,fill:modeColor(s)}))}}
+function cls(row,v){if(v==null)return'';if(row.bad!=null&&v>=row.bad)return'bad';if(row.warn!=null&&v>=row.warn)return'warn';
+  if(row.lowBad!=null&&v<row.lowBad)return'bad';if(row.lowWarn!=null&&v<row.lowWarn)return'warn';return''}
+let healthBuilt=false;
+function buildHealth(){const g=$('health-grid');g.replaceChildren();
+  for(const n of names){const card=document.createElement('div');card.className='hcard';card.style.setProperty('--dc',colors[n]);card.dataset.name=n;
+    card.innerHTML=`<div class="hcard-top"><span class="name" style="color:${colors[n]}">${esc(n.toUpperCase())}</span><span class="hlink" data-f="link">—</span><span class="mode" data-f="mode">—</span></div>
+     <svg class="hstrip" data-f="strip" viewBox="0 0 200 7" preserveAspectRatio="none" aria-label="${esc(n)} flight mode and link timeline"></svg>`+
+     HEALTH_ROWS.map(r=>`<div class="hrow"><div class="hrow-head"><span>${r.label}</span><b data-v="${r.key}">—</b></div><svg class="hspark" data-s="${r.key}" viewBox="0 0 200 38" preserveAspectRatio="none" aria-label="${esc(n)} ${r.label} curve"></svg></div>`).join('');
+    card.onclick=()=>{selected=n;$('fault-aircraft').value=n;$('chat-recipient').value=n;if(latest)update(latest)};g.append(card)}
+  healthBuilt=true}
+function drawHealth(data){if(!healthBuilt)buildHealth();const all=Object.values(data.series||{}).flat();if(!all.length)return;
+  const tMax=Math.max(...all.map(s=>s.t)),tMin=Math.max(Math.min(...all.map(s=>s.t)),tMax-(data.window_s||120));
+  $('health-window').textContent=`LIVE GAZEBO · LAST ${Math.round(tMax-tMin)} s · ${fmt(data.sample_hz_nominal,0)} Hz · SESSION ONLY`;
+  for(const n of names){const card=document.querySelector(`.hcard[data-name="${n}"]`);const series=(data.series?.[n]||[]).filter(s=>s.t>=tMin);if(!card)continue;
+    card.style.boxShadow=selected===n?'inset 0 0 0 1px '+colors[n]:'none';const last=series[series.length-1]||{};
+    const link=card.querySelector('[data-f=link]');link.textContent=last.fresh?'● LIVE':'● STALE';link.style.color=last.fresh?'#58e6b1':'#fc7890';
+    const mode=card.querySelector('[data-f=mode]');mode.textContent=last.fault?'FAULT':(last.mode||'—');mode.className='mode'+(last.fault?' fault':'');
+    strip(card.querySelector('[data-f=strip]'),series,tMin,tMax);
+    for(const r of HEALTH_ROWS){spark(card.querySelector(`[data-s="${r.key}"]`),series,r,colors[n],tMin,tMax);
+      const v=last[r.key],b=card.querySelector(`[data-v="${r.key}"]`);
+      b.textContent=v==null?'— (stale)':fmt(v,r.d)+' '+r.unit+(r.key==='nearest'&&last.nearest_peer&&last.nearest_peer!=='—'?' · '+last.nearest_peer:'');b.className=cls(r,v)}}}
+async function healthTick(){try{drawHealth(await getJSON('/api/ops/health'))}catch(e){$('health-window').textContent='HEALTH SERIES UNAVAILABLE: '+e.message}}
+setInterval(healthTick,1400);healthTick();
+function renderEvents(events){const holder=$('events');if(!events?.length){holder.innerHTML='<div class="empty">No mission events yet.</div>';return}
+  holder.innerHTML=events.slice(0,13).map(e=>{const kind=String(e.kind||'EVENT'),bad=/FAULT|REFUSE|LOST|ALERT|ERROR|FAILED/.test(kind),dt=(e.utc||'').slice(11,19);
+  return `<div class="event"><span class="evt-time">${esc(dt||'--:--')}</span><div><div class="evt-kind ${bad?'bad':''}">${esc(kind)}</div><div class="evt-msg">${esc(e.message||'')} ${e.targets?.length?' · '+esc(e.targets.join(', ')):''}</div></div></div>`}).join('');}
+function update(data){latest=data;const st=data.state||{},drones=st.drones||[];
+  $('linkdot').classList.toggle('online',!!data.online);$('side-link').textContent=data.online?'SUPERVISOR LINK LIVE':'LINK NOT AVAILABLE';$('sid').textContent='SESSION: '+(data.session_id||'—');
+  $('connected').textContent=data.online?'LIVE':'OFFLINE';$('connected').className='m-value '+(data.online?'green':'alert');$('connection-meta').textContent=data.online?'Gazebo telemetry / '+fmt(st.sample_hz_nominal,0)+' Hz recorder':(data.error||'Awaiting link').slice(0,95);
+  $('aircraft').textContent=(data.online?drones.filter(d=>d.telemetry).length:'—')+' / 5';
+  $('separation').textContent=data.online&&st.min_sep_m!=null?fmt(st.min_sep_m,2)+' m':'—';
+  $('safety').textContent=data.online?(st.safety_status||'UNKNOWN'):'UNAVAILABLE';$('safety').className='m-value '+(st.safety_status!=='CLEAR'&&data.online?'alert':'green');
+  $('safety-foot').textContent=st.closest_pair?.length?'Closest: '+st.closest_pair.join(' / '):'3D distance from sampled positions';
+  $('radar-mode').textContent=data.online?'LIVE AIRCRAFT POSITIONS':'TELEMETRY LINK OFFLINE';
+  $('radar-pair').textContent=st.closest_pair?.length?'Closest pair: '+st.closest_pair.join(' ↔ '):'Closest pair: —';
+  $('lastflight').textContent=data.online?'Sample '+(st.timestamp_utc||'').slice(11,23)+' UTC':'No recent samples';
+  $('recordtag').textContent=data.online?'ACTIVE RECORDING':'RECORDING / LINK DOWN';$('recordtag').className='tag '+(data.online?'':'warn');
+  renderFleet(drones);drawRadar(drones,data.online);drawChart(data.history||[]);drawAltitude(data.history||[]);renderEvents(data.events||[]);
+  $('inject').disabled=!(data.online&&st.min_sep_m>=1.2&&drones.some(d=>d.name===$('fault-aircraft').value&&d.telemetry&&!d.fault&&d.mode==='HOVER'&&d.z>=.8));
+  const chosen=drones.find(d=>d.name===$('fault-aircraft').value);
+  $('reject').disabled=!(chosen&&chosen.fault);$('recover').disabled=!(chosen&&chosen.fault);
+}
+async function tick(){try{update(await getJSON('/api/ops/state'))}catch(e){$('connected').textContent='OFFLINE';$('connected').className='m-value alert';$('side-link').textContent='OPS SERVICE ERROR';}}
+$('fault-aircraft').onchange=()=>{selected=$('fault-aircraft').value;if(latest)update(latest)};
+async function faultOp(action){const vehicle=$('fault-aircraft').value;
+ const questions={inject_fault:`SIMULATOR-ONLY: inject a command-link fault on ${vehicle}? The drone must be in stable HOVER. This is NOT a physical battery or motor fault.`,test_rejection:`Test whether ${vehicle} rejects a new HOVER command while faulted? No motion should be authorized.`,recover:`Clear ${vehicle}'s simulated link fault and request HOVER? Verify actual telemetry after recovery.`};
+ if(!confirm(questions[action]))return;
+ const outlet=$('fault-msg');outlet.className='statusline';outlet.textContent='Sending '+action+' to Gazebo…';
+ try{const r=await fetch('/api/ops/fault',{method:'POST',headers:{'Content-Type':'application/json','X-RSCL-CSRF':csrf},body:JSON.stringify({action,vehicle})});const body=await r.json();if(!r.ok||!body.ok)throw Error(body.error||body.detail||'Operation not verified');outlet.className='statusline ok';outlet.textContent=action==='test_rejection'?'✓ COMMANDED HOVER WAS REFUSED AS EXPECTED (SIMULATION)':'✓ Controller acknowledged '+action+'. Verify latest telemetry.';tick();}
+ catch(e){outlet.className='statusline error';outlet.textContent='NOT COMPLETED: '+e.message;}
+}
+$('inject').onclick=()=>faultOp('inject_fault');$('reject').onclick=()=>faultOp('test_rejection');$('recover').onclick=()=>faultOp('recover');
+
+let chatFingerprint='';let chatSending=false;
+function chatColor(name){return colors[name]|| (name==='MAAT'?'#f0c77b':name==='OPERATOR'?'#ffffff':'#89a5b5')}
+const chatRoles={DRONE_AGENT:'DRONE · LOGIC AGENT',ASSURANCE:"MA'AT ASSURANCE",HUMAN:'OPERATOR',SYSTEM:'SYSTEM'};
+// Provenance badge: where the words of each message actually came from.
+const chatSources={CHAT_LOCAL_LLM:['LOCAL SMOLLM2 WORDING · GROUNDING-CHECKED','#b69cff'],TELEMETRY_FACT:['TELEMETRY FACT','#58e6b1'],
+ SAFETY_SUPERVISOR:["MA'AT SAFETY",'#f0c77b'],RULES_PERSONA:['DETERMINISTIC PERSONA','#8eabb8'],UNKNOWN:['UNKNOWN · INSUFFICIENT EVIDENCE','#fc7890'],
+ MISSION_DETERMINISTIC:['MISSION PARSER','#f0c77b'],HU_TRAINED:['HU TRAINED MODEL','#62ebed'],
+ DETERMINISTIC_AGENT_POLICY:['DETERMINISTIC AGENT POLICY','#62ebed']};
+function sourceBadge(m){const s=chatSources[m.source];if(!s)return'';const route=m.evidence&&m.evidence.route;
+ return ` <span class="chat-role" style="color:${s[1]};border-color:${s[1]}55">${s[0]}</span>`}
+function routeNote(m){const r=m.evidence&&m.evidence.route;if(!r||!r.intent)return'';
+ return `<div class="chat-evidence">UNDERSTOOD AS: ${esc(String(r.intent).replace('_',' ').toUpperCase())} · ${esc(r.source==='ROUTER_UNAVAILABLE'?'router offline':'HU frozen SmolLM2 encoder + intent head')}${r.confidence?' · conf '+Number(r.confidence).toFixed(2):''}</div>`}
+function drawChat(msgs){const el=$('chat-feed');const signature=msgs.map(m=>m.id||'').join('|');if(signature===chatFingerprint)return;
+ const atBottom=el.scrollTop+el.clientHeight>=el.scrollHeight-60;
+ chatFingerprint=signature;
+ el.innerHTML=msgs.map(m=>{let t=esc(m.text),n=esc(m.sender||m.speaker||'SYSTEM'),e=m.evidence||{},role=esc(m.role||'SYSTEM');
+ const evidence=(e.kind&&e.kind!=='HUMAN_TEXT')?`<div class="chat-evidence">EVIDENCE: ${esc(e.kind)}${e.vehicle?' · '+esc(e.vehicle):''}${e.observed_at?' · '+esc(e.observed_at):''}</div>`:'';
+ const to=m.to&&m.to!=='OPERATOR'?` → ${esc(m.to==='FLEET'?'WHOLE FLEET':m.to)}`:'';
+ return `<div class="chat-msg ${role}" style="--speaker:${chatColor(m.speaker)}"><div class="chat-meta">● ${n} <span class="chat-role">${esc(chatRoles[m.role]||m.role||'')}${to}</span>${sourceBadge(m)} <span style="font-weight:500;color:#829fab">${esc((m.utc||'').slice(11,19))} UTC</span></div><div class="chat-text">${t}</div>${evidence}${routeNote(m)}</div>`}).join('')||'<div class="empty">No messages yet</div>';
+ if(atBottom||msgs.length<10)el.scrollTop=el.scrollHeight;
+}
+async function syncChat(){try{const data=await getJSON('/api/ops/chat/history');drawChat(data.messages||[])}catch(e){$('chat-status').textContent='Chat service not reachable: '+e.message}}
+async function sendChat(){if(chatSending)return;const text=$('chat-input').value.trim();if(!text)return;
+ chatSending=true;$('chat-send').disabled=true;$('chat-status').textContent='Consulting aircraft telemetry and logged evidence…';
+ try{const r=await fetch('/api/ops/chat',{method:'POST',headers:{'Content-Type':'application/json','X-RSCL-CSRF':csrf},
+  body:JSON.stringify({text,recipient:$('chat-recipient').value})});const j=await r.json();if(!r.ok)throw Error(j.error||'Chat request rejected');
+  $('chat-input').value='';$('chat-status').textContent='Evidence-grounded replies recorded. No flight command dispatched.';await syncChat();}
+ catch(e){$('chat-status').textContent='NOT SENT: '+e.message;}
+ finally{chatSending=false;$('chat-send').disabled=false;}
+}
+$('chat-send').onclick=sendChat;
+$('chat-input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}});
+document.querySelectorAll('[data-question]').forEach(button=>button.addEventListener('click',()=>{let txt=button.dataset.question;$('chat-input').value=txt;const lead=['Horus','Ra','Thoth','Anubis','Osiris'].find(n=>new RegExp('^'+n+'\\b').test(txt));$('chat-recipient').value=lead||'FLEET';sendChat()}));
+setInterval(syncChat,1500);syncChat();
+
+init();
+</script>
+<script>
+'use strict';
+// ---- V10 read-only analysis panels (03D formations, 03E command latency, 06B fault timeline). ----
+// Every number is copied from a recorded file or the live supervisor state; a missing value is
+// shown as NOT MEASURED / not recorded and is never estimated or interpolated.
+const V10={ftWindow:900,faults:null,catalogSig:''};
+function v10ms(v){return v==null||!Number.isFinite(Number(v))?null:Number(v)}
+function fmtMs(v){v=v10ms(v);if(v==null)return'NOT MEASURED';return v>=1000?(v/1000).toFixed(2)+' s':v.toFixed(v<10?1:0)+' ms'}
+function utcHMS(t){return t==null?'—':new Date(t).toISOString().slice(11,19)}
+function na(v,d=2,u=''){return v==null||!Number.isFinite(Number(v))?'<span class="na">not recorded</span>':Number(v).toFixed(d)+u}
+
+// ArduPilot DataFlash-FORMAT export of SIMULATED telemetry (zip of one .BIN per aircraft).
+$('export-bin').onclick=async()=>{const b=$('export-bin'),label=b.textContent;b.disabled=true;b.textContent='⏳ CONVERTING SIMULATED TELEMETRY…';
+ try{const r=await fetch('/api/ops/export/ardupilot',{cache:'no-store'});
+  if(!r.ok){let m='HTTP '+r.status;try{m=(await r.json()).error||m}catch(e){}throw Error(m)}
+  const blob=await r.blob();const cd=r.headers.get('Content-Disposition')||'';
+  const name=(cd.match(/filename="([^"]+)"/)||[])[1]||'spaceops_ardupilot_SIMULATED.zip';
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);b.textContent='✓ .BIN ZIP SAVED (SIMULATED TELEMETRY)'}
+ catch(e){b.textContent='✗ NOT EXPORTED: '+String(e.message).slice(0,60)}
+ finally{setTimeout(()=>{b.textContent=label;b.disabled=false},4500)}};
+
+// ---- 03D formation performance ----
+function stCls(s){return['VALIDATED','EXPERIMENTAL','REFUSED'].includes(s)?s:'OTHER'}
+function renderCatalog(cat){const body=$('form-body'),tag=$('form-tag');
+ if(!cat||!cat.available){body.innerHTML='<tr><td colspan="8" class="na">No data yet: no formation catalog results found (festival/formation_catalog.json, acceptance/results/formation_catalog_*.json).</td></tr>';tag.textContent='NO DATA YET';tag.className='tag off';return}
+ const c=cat.counts||{};tag.textContent=`${c.VALIDATED||0} VALIDATED · ${c.EXPERIMENTAL||0} EXPERIMENTAL · ${c.REFUSED||0} REFUSED`;tag.className='tag';
+ $('form-criteria').textContent=(cat.source==='latest_result_file'?'(No published catalog: showing newest raw result file.) ':'')+(cat.criteria?'Criteria: '+cat.criteria:'');
+ body.innerHTML=cat.rows.map(r=>{const hist=(r.history||[]).filter(h=>h.status!==r.status);
+  const earlier=hist.length?`<div class="sub">earlier run: ${hist.map(h=>esc(h.status)+' ('+esc(String(h.file).replace(/^formation_catalog_|\.json$/g,''))+')').join(', ')}</div>`:'';
+  return `<tr><td><b>${esc(String(r.shape).replace(/_/g,' ').toUpperCase())}</b>${r.alias_of?`<div class="sub">↳ ALIAS of ${esc(String(r.alias_of).replace(/_/g,' ').toUpperCase())}</div>`:''}</td>
+  <td><span class="st ${stCls(r.status)}">${esc(r.status)}</span>${r.why?`<div class="sub" title="${esc(r.why)}">${esc(String(r.why).slice(0,46))}…</div>`:''}${earlier}</td>
+  <td>${na(r.settle_s,2)}</td><td>${na(r.rms_error_m,3)}</td><td>${na(r.shape_error_m,3)}</td>
+  <td>${na(r.observed_min_sep_m,3)} / ${na(r.planned_min_sep_m,3)}${Array.isArray(r.closest_pair)?`<div class="sub">closest ${esc(r.closest_pair.join('–'))}</div>`:''}</td>
+  <td>${r.proximity_holds==null?'<span class="na">not recorded</span>':esc(r.proximity_holds)}</td>
+  <td class="sub" title="${esc(r.evidence||'')}">${r.evidence?esc(r.evidence):'<span class="na">none cited</span>'}${r.evidence&&!r.evidence_found?' <span style="color:var(--red)">(not found)</span>':''}${r.evidence_generated_utc?`<div>${esc(String(r.evidence_generated_utc).slice(0,19).replace('T',' '))} UTC · ${esc(r.world_env||'')}</div>`:''}</td></tr>`}).join('')}
+function drawLiveFormation(live){const svg=$('liveform');svg.replaceChildren();const W=320,H=250,cx=W/2,cy=H/2;
+ const ac=(live&&live.aircraft)||[];const pts=ac.flatMap(a=>[[a.tx,a.ty],[a.x,a.y]]).filter(p=>Number.isFinite(p[0])&&Number.isFinite(p[1]));
+ const span=Math.max(2.5,...pts.map(p=>Math.abs(p[0])),...pts.map(p=>Math.abs(p[1])))*1.15,sc=Math.min(W,H)/2/span;
+ for(let m=-Math.floor(span);m<=Math.floor(span);m++){svg.append(elsvg('line',{x1:cx+m*sc,y1:0,x2:cx+m*sc,y2:H,stroke:'#2b5860',opacity:m?0.25:0.6,'stroke-dasharray':m?'none':'4,6'}));svg.append(elsvg('line',{x1:0,y1:cy-m*sc,x2:W,y2:cy-m*sc,stroke:'#2b5860',opacity:m?0.25:0.6,'stroke-dasharray':m?'none':'4,6'}))}
+ svg.append(elsvg('text',{x:W-6,y:H-6,fill:'#628a9a','font-size':9,'text-anchor':'end'},'grid 1 m · X/Y'));
+ const set=(id,v)=>{$(id).textContent=v==null?'—':Number(v).toFixed(3)+' m'};
+ if(!live||!live.active){svg.append(elsvg('text',{x:cx,y:cy-4,fill:'#8baab7','font-size':13,'text-anchor':'middle','font-weight':700},'NO LIVE FORMATION'));
+  svg.append(elsvg('text',{x:cx,y:cy+14,fill:'#6f8d9b','font-size':10,'text-anchor':'middle'},live&&live.online===false?'Gazebo telemetry offline':'No aircraft currently in FORMATION mode'));
+  set('lf-rms',null);set('lf-rmsxy',null);set('lf-max',null);$('lf-note').textContent='FORMATION-mode aircraft only';return}
+ for(const a of ac){const c=colors[a.name]||'#9ba';if(!Number.isFinite(a.tx)||!Number.isFinite(a.ty))continue;const tx=cx+a.tx*sc,ty=cy-a.ty*sc;
+  if(a.fresh&&Number.isFinite(a.x)&&Number.isFinite(a.y)){const x=cx+a.x*sc,y=cy-a.y*sc;svg.append(elsvg('line',{x1:tx,y1:ty,x2:x,y2:y,stroke:c,'stroke-width':1.2,opacity:.8}));svg.append(elsvg('circle',{cx:x,cy:y,r:4.5,fill:c,stroke:'#e9f8ff','stroke-width':1}))}
+  svg.append(elsvg('circle',{cx:tx,cy:ty,r:8,fill:'none',stroke:c,'stroke-width':1.4,opacity:.85}));
+  svg.append(elsvg('text',{x:tx,y:ty-12,fill:c,'font-size':9,'font-weight':750,'text-anchor':'middle'},a.name.toUpperCase()+(a.fresh?(a.err_m!=null?' '+a.err_m.toFixed(2)+'m':''):' · STALE')))}
+ set('lf-rms',live.rms_err_m);set('lf-rmsxy',live.rms_xy_m);set('lf-max',live.max_err_m);
+ $('lf-note').textContent=`${live.count} in FORMATION${live.stale?.length?' · stale: '+live.stale.join(', '):''} · sample ${(live.timestamp_utc||'').slice(11,19)} UTC`}
+async function formTick(){try{const d=await getJSON('/api/ops/formations');const sig=JSON.stringify(d.catalog);if(sig!==V10.catalogSig){V10.catalogSig=sig;renderCatalog(d.catalog)}drawLiveFormation(d.live)}
+ catch(e){$('form-tag').textContent='UNAVAILABLE: '+e.message;$('form-tag').className='tag warn'}}
+
+// ---- 03E command latency ----
+const SEGC={asr:'#b69cff',clarify:'#7d93a3',decision:'#62ebed',confirm:'#f0c77b',motion:'#58e6b1',spread:'#b6f6aa'};
+const SRCC={'REAL HU MODEL':'#62ebed','DETERMINISTIC MISSION PLANNER':'#f0c77b','SYMBOLIC SAFETY':'#fc7890'};
+function renderLatency(d){const list=$('lat-list'),tag=$('lat-tag'),cmds=(d&&d.commands)||[];
+ if(!cmds.length){list.innerHTML='<div class="empty">No data yet: no commands in hu_voice_to_motion.jsonl / hu_real_decisions.jsonl.</div>';tag.textContent='NO DATA YET';tag.className='tag off';return}
+ const timed=cmds.filter(c=>c.kind==='LATENCY_RECORD').length;tag.textContent=`${cmds.length} RECENT · ${timed} WITH MOTION TIMING`;tag.className='tag';
+ const total=c=>c.segments.reduce((a,s)=>a+(v10ms(s.ms)||0),0)+(v10ms(c.unattributed_ms)||0);const scale=Math.max(1000,...cmds.map(total));
+ list.innerHTML=cmds.map(c=>{const src=c.decision_source||'NOT RECORDED',col=SRCC[src]||'#8eabb8',seg=k=>(c.segments.find(s=>s.key===k)||{}).ms;
+  const bars=c.segments.filter(s=>v10ms(s.ms)!=null&&s.ms>0).map(s=>`<div style="width:${(s.ms/scale*100).toFixed(2)}%;background:${SEGC[s.key]}" title="${esc(s.label)}: ${fmtMs(s.ms)} · ${esc(s.field||'')}"></div>`).join('')
+   +(v10ms(c.unattributed_ms)>0?`<div class="hatch" style="width:${(c.unattributed_ms/scale*100).toFixed(2)}%" title="Not separately measured: submit→first observed minus the measured segments = ${fmtMs(c.unattributed_ms)}"></div>`:'');
+  const chip=(label,v,key)=>{const m=v10ms(v);return `<span class="chip ${m==null?'na':''}">${key?`<i style="background:${SEGC[key]}"></i>`:''}${label}: ${fmtMs(m)}</span>`};
+  const t=c.totals||{};const chips=[chip('SPEECH / ASR',seg('asr'),'asr'),chip('HU INFERENCE',c.hu_inference_ms),chip('DECISION ROUND-TRIP',seg('decision'),'decision'),
+   chip('CONFIRMATION WAIT',seg('confirm'),'confirm'),
+   `<span class="chip ${c.dispatched==null?'na':''}">DISPATCH: ${c.dispatched===true?'YES (bridge log)':c.dispatched===false?'NO':'not recorded'}</span>`,
+   chip('DISPATCH ACK → FIRST MOTION',seg('motion'),'motion'),chip('SUBMIT → FIRST OBSERVED',t.submitted_to_first_observed_ms),chip('SUBMIT → ALL OBSERVED',t.submitted_to_all_observed_ms)];
+  if(c.input_source==='voice'||t.voice_to_first_observed_ms!=null)chips.push(chip('VOICE → FIRST OBSERVED',t.voice_to_first_observed_ms),chip('VOICE → ALL OBSERVED',t.voice_to_all_observed_ms));
+  const outcome=String(c.outcome||'—'),bad=/REFUSE/.test(outcome);
+  return `<div class="lat-row"><div class="lat-top"><span class="when">${esc((c.utc||'').slice(11,19))} UTC</span><span class="utt">“${esc(c.utterance||'(no utterance recorded)')}”</span>
+   <span style="color:#9fb9c6">${esc(c.action||'—')}${c.targets?.length?' → '+esc(c.targets.join(', ')):''}</span>
+   <span class="src" style="color:${col};border-color:${col}66">${esc(src)}</span>
+   <span class="src" style="color:${bad?'#ffb9c5':'#cfe3ea'};border-color:${bad?'#965068':'#3c5e6e'}">${esc(outcome.replace(/_/g,' '))}</span>
+   <span style="color:#6f8d9b;font-size:9px;margin-left:auto">${esc(c.input_source||'')} · link: ${esc(c.link)}${c.cmd_id?' · '+esc(c.cmd_id):''}</span></div>
+   <div class="lat-bar" title="scale: full width = ${fmtMs(scale)}">${bars||'<div style="width:100%;background:transparent;color:#6f8d9b;font-size:9px;padding-left:6px;line-height:13px">no timed segments recorded</div>'}</div>
+   <div class="chips">${chips.join('')}</div>${c.detail?`<div class="chat-evidence" style="margin-top:6px">${esc(String(c.detail).slice(0,160))}</div>`:''}</div>`}).join('')}
+async function latTick(){try{renderLatency(await getJSON('/api/ops/latency'))}catch(e){$('lat-tag').textContent='UNAVAILABLE: '+e.message;$('lat-tag').className='tag warn'}}
+
+// ---- 06B fault & recovery swimlanes ----
+const FTC={LINK_FAULT:'#fc7890',SEPARATION:'#f0c77b',TELEMETRY:'#b69cff',SUPERVISOR:'#7fa3b5'};
+const FT_LANES=['FLEET',...names];
+function drawFaults(d){const svg=$('ftplot'),body=$('ft-body'),tag=$('ft-tag');svg.replaceChildren();const L=96,R=990,top=24,lh=36;
+ if(!d||!d.available){svg.append(elsvg('text',{x:500,y:125,fill:'#8baab7','font-size':13,'text-anchor':'middle'},'No data yet: no fault, separation or telemetry events recorded in this session.'));
+  body.innerHTML='<tr><td colspan="9" class="na">No episodes recorded in this session yet.</td></tr>';tag.textContent='NO DATA YET';return}
+ const end=d.now_ms,start=V10.ftWindow?end-V10.ftWindow*1000:Math.min(d.span_ms?d.span_ms[0]:end-60000,end-60000),span=Math.max(1,end-start);
+ const X=t=>L+(Math.min(end,Math.max(start,t))-start)/span*(R-L);
+ for(let i=0;i<=6;i++){const t=start+span*i/6,x=X(t);svg.append(elsvg('line',{x1:x,y1:top-6,x2:x,y2:top+lh*FT_LANES.length,stroke:'#284654',opacity:.5,'stroke-dasharray':'3,6'}));
+  svg.append(elsvg('text',{x,y:13,fill:'#89a8b9','font-size':10,'text-anchor':i===0?'start':i===6?'end':'middle'},utcHMS(t)+(i===6?' UTC (now)':'')))}
+ FT_LANES.forEach((lane,i)=>{const y=top+i*lh;svg.append(elsvg('line',{x1:0,y1:y+lh,x2:R,y2:y+lh,stroke:'#1e3b4c'}));
+  svg.append(elsvg('text',{x:8,y:y+21,fill:colors[lane]||'#a9c5d0','font-size':11,'font-weight':800},lane.toUpperCase()));
+  for(const ep of d.lanes?.[lane]||[]){const s=ep.start_ms,e=ep.recovery_ms??(ep.status==='SUPERSEDED'?ep.last_ms:end);if(e<start||s>end)continue;
+   const c=FTC[ep.type]||'#9ba',x1=X(s),x2=X(e),g=elsvg('g');
+   g.append(elsvg('title',{},`${ep.label} · ${lane}\nfirst recorded ${utcHMS(s)} UTC\nonset ${utcHMS(ep.onset_ms)} · detection ${utcHMS(ep.detection_ms)} · containment ${utcHMS(ep.containment_ms)} · recovery ${utcHMS(ep.recovery_ms)}\n${ep.status}${ep.recovery_ms==null?' (no recovery recorded)':''}`));
+   g.append(elsvg('rect',{x:x1,y:y+7,width:Math.max(3,x2-x1),height:16,rx:3,fill:c,'fill-opacity':.28,stroke:c,'stroke-width':1.2,'stroke-dasharray':ep.recovery_ms==null?'4,3':'none'}));
+   let lastX=-99;for(const[k,ch]of[['onset_ms','O'],['detection_ms','D'],['containment_ms','C'],['recovery_ms','R']]){const t=ep[k];if(t==null||t<start||t>end)continue;const x=X(t);
+    g.append(elsvg('line',{x1:x,y1:y+5,x2:x,y2:y+25,stroke:c,'stroke-width':1.6}));if(x-lastX>9){g.append(elsvg('text',{x:x+2,y:y+19,fill:'#e8f3f7','font-size':9,'font-weight':800},ch));lastX=x}}
+   svg.append(g)}
+  for(const m of (d.markers||[]).filter(m=>m.lane===lane&&m.t_ms>=start&&m.t_ms<=end)){const x=X(m.t_ms),g=elsvg('g');g.append(elsvg('title',{},`${m.kind} · ${utcHMS(m.t_ms)} UTC\n${m.message}`));
+   g.append(elsvg('path',{d:`M${x} ${y+27} l3.5 3.5 l-3.5 3.5 l-3.5 -3.5 z`,fill:/EMERGENCY|FAILED|ERROR/.test(m.kind)?'#fc7890':'#9fb9c6',opacity:.85}));svg.append(g)}});
+ const eps=FT_LANES.flatMap(l=>(d.lanes?.[l]||[]).map(e=>({...e,lane:l}))).sort((a,b)=>b.start_ms-a.start_ms);
+ const open=eps.filter(e=>e.status==='OPEN').length;tag.textContent=`${eps.length} EPISODES · ${open} OPEN · ${d.event_count} EVENTS READ`;
+ if(!eps.length){body.innerHTML='<tr><td colspan="9" class="na">No fault, separation or telemetry episodes in this session (only point events).</td></tr>';return}
+ const stc={RECOVERED:'#58e6b1',OPEN:'#f0c77b',SUPERSEDED:'#8eabb8'};
+ body.innerHTML=eps.slice(0,18).map(e=>{const du=e.durations_s||{};return `<tr><td style="color:${colors[e.lane]||'#cfe3ea'};font-weight:800">${esc(e.lane)}</td><td><b style="color:${FTC[e.type]}">■</b> ${esc(e.label)}</td>
+  <td>${utcHMS(e.start_ms)}${e.onset_ms==null?' <span class="na">(onset not recorded)</span>':''}</td><td>${na(du.onset_to_detection,2,' s')}</td><td>${na(du.detection_to_containment,2,' s')}</td>
+  <td>${na(du.containment_to_recovery,2,' s')}</td><td>${na(du.onset_to_recovery,2,' s')}</td><td>${esc(e.count)}</td>
+  <td style="color:${stc[e.status]||'#cfe3ea'};font-weight:800">${e.status==='SUPERSEDED'?'SUPERSEDED · no recovery recorded':esc(e.status)}</td></tr>`}).join('')}
+async function faultTick(){try{V10.faults=await getJSON('/api/ops/faults');drawFaults(V10.faults)}catch(e){$('ft-tag').textContent='UNAVAILABLE: '+e.message}}
+document.querySelectorAll('[data-ftwin]').forEach(b=>b.onclick=()=>{V10.ftWindow=Number(b.dataset.ftwin);document.querySelectorAll('[data-ftwin]').forEach(x=>x.classList.toggle('on',x===b));if(V10.faults)drawFaults(V10.faults)});
+formTick();setInterval(formTick,1500);latTick();setInterval(latTick,3000);faultTick();setInterval(faultTick,2000);
+</script></body></html>

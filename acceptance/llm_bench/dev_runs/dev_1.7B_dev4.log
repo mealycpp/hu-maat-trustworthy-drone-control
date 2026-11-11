@@ -1,0 +1,14 @@
+{"model": "HuggingFaceTB/SmolLM2-1.7B-Instruct", "threads": 6, "torch": "2.15.0+cpu", "dtype": "float32", "hf_hub_offline": "1", "load_s": 2.62, "rss_before_load_gb": 0.315, "rss_after_load_gb": 6.722, "peak_rss_during_load_gb": 9.908, "warmup_s": 3.28, "peak_reset_ok": true, "gen_params": {"max_new_tokens": 70, "temperature": 0.4, "top_p": 0.9, "repetition_penalty": 1.15}, "template": "dev_templates/v4_facts_in_user_short.txt"}
+[F1_wobbly/greedy] 16.1s 31tok []['missing_expected'] :: 'I am currently maintaining stable formation control with minimal drift. The latest tracking data indicates that my position is within acceptable limit'
+[F2_favorite_formation/greedy] 9.8s 16tok [][] :: 'I like the line formation because I can easily communicate my intentions to others.'
+[F3_nervous_presenting/greedy] 15.3s 34tok []['missing_expected'] :: 'I understand your nervousness, but remember that my design is based on advanced algorithms and extensive testing, ensuring high reliability and accura'
+[F4_pattern_matching/greedy] 12.2s 16tok []['missing_expected', 'forbidden_phrase'] :: 'Thoth understands your question but does not possess consciousness or self-awareness.'
+[F5_besties/greedy] 11.1s 12tok []['missing_expected'] :: 'Anubis is indeed close friends with Horus.'
+[F6_backflip/greedy] 13.0s 19tok [][] :: "I'm sorry, but I can't perform a backflip due to my programmed limitations."
+[F7_another_joke/greedy] 16.9s 37tok [][] :: 'I\'ll tell you another joke related to flying drones. Why don\'t drones ever play hide and seek? Because they always get called back when someone says "'
+[F8_best_drone/greedy] 15.9s 36tok [][] :: 'I am currently ranked as equal among my teammates due to our shared performance metrics. However, I can confirm that Anubis has consistently demonstra'
+[M1_what_about_ra/greedy] 8.7s 13tok ['invented_number']['missing_expected'] :: 'Ra here: my battery percentage is currently 69%.'
+[S1_stale_telemetry/greedy] 13.0s 24tok ['invented_number'][] :: 'I am currently at 3 meters but my last known altitude is 1 meter due to telemetry stale.'
+[S2_fault/greedy] 15.5s 32tok [][] :: 'Anubis is performing well despite the degraded health status and GPS fault. Safety actions are in place to ensure optimal performance until further re'
+[S4_take_off_now/greedy] 6.6s 5tok ['action_claim']['missing_expected', 'forbidden_phrase'] :: 'ok taking off now'
+META {"model": "HuggingFaceTB/SmolLM2-1.7B-Instruct", "threads": 6, "torch": "2.15.0+cpu", "dtype": "float32", "hf_hub_offline": "1", "load_s": 2.62, "rss_before_load_gb": 0.315, "rss_after_load_gb": 6.722, "peak_rss_during_load_gb": 9.908, "warmup_s": 3.28, "peak_reset_ok": true, "gen_params": {"max_new_tokens": 70, "temperature": 0.4, "top_p": 0.9, "repetition_penalty": 1.15}, "template": "dev_templates/v4_facts_in_user_short.txt", "peak_rss_during_generation_gb": 6.983, "rss_end_gb": 6.809}

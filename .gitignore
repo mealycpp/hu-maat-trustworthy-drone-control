@@ -1,0 +1,27 @@
+# --- secrets: NEVER commit ---
+festival/hu_bridge_token
+*.token
+.env
+
+# --- environments, caches ---
+hu-venv/
+__pycache__/
+*.pyc
+.cache/
+
+# --- recordings, logs, results (large, session-specific) ---
+logs/
+acceptance/results/
+acceptance/llm_bench/results_*
+acceptance/llm_bench/log_*
+acceptance/llm_bench/*.log
+backups/
+festival/*_backup_*/
+
+# --- large binaries ---
+*.BIN
+*.pt
+*.safetensors
+
+# --- unused local copies of Gazebo Fuel meshes (model.sdf loads them from fuel.gazebosim.org) ---
+models/*/meshes/

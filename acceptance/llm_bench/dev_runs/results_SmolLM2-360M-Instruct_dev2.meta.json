@@ -1,0 +1,22 @@
+{
+ "model": "HuggingFaceTB/SmolLM2-360M-Instruct",
+ "threads": 6,
+ "torch": "2.15.0+cpu",
+ "dtype": "float32",
+ "hf_hub_offline": "1",
+ "load_s": 1.1,
+ "rss_before_load_gb": 0.315,
+ "rss_after_load_gb": 1.691,
+ "peak_rss_during_load_gb": 2.364,
+ "warmup_s": 0.95,
+ "peak_reset_ok": true,
+ "gen_params": {
+  "max_new_tokens": 70,
+  "temperature": 0.4,
+  "top_p": 0.9,
+  "repetition_penalty": 1.15
+ },
+ "template": "dev_templates/v2_facts_in_user.txt",
+ "peak_rss_during_generation_gb": 1.747,
+ "rss_end_gb": 1.721
+}

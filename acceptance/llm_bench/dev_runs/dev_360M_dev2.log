@@ -1,0 +1,14 @@
+{"model": "HuggingFaceTB/SmolLM2-360M-Instruct", "threads": 6, "torch": "2.15.0+cpu", "dtype": "float32", "hf_hub_offline": "1", "load_s": 1.1, "rss_before_load_gb": 0.315, "rss_after_load_gb": 1.691, "peak_rss_during_load_gb": 2.364, "warmup_s": 0.95, "peak_reset_ok": true, "gen_params": {"max_new_tokens": 70, "temperature": 0.4, "top_p": 0.9, "repetition_penalty": 1.15}, "template": "dev_templates/v2_facts_in_user.txt"}
+[F1_wobbly/greedy] 3.6s 29tok []['missing_expected'] :: "I'm fine, just trying to keep up with our navigation system's calculations. I think we're still on track for today's launch."
+[F2_favorite_formation/greedy] 3.2s 23tok [][] :: '"Ra, I\'m familiar with the standard lines of attack, but I don\'t recall any specific favorites."'
+[F3_nervous_presenting/greedy] 4.7s 50tok ['prompt_echo']['missing_expected'] :: '"Ah, I apologize for any confusion, but as an AI simulation, I don\'t possess personal experiences like humans do. However, my true identity is that of'
+[F4_pattern_matching/greedy] 2.5s 15tok []['missing_expected'] :: '"I am unable to respond accurately due to my lack of knowledge."'
+[F5_besties/greedy] 2.3s 18tok [][] :: '"Yes, I am and we\'ve been flying well together for some time now."'
+[F6_backflip/greedy] 1.9s 9tok [][] :: "Ra can't perform a backflip."
+[F7_another_joke/greedy] 3.7s 24tok []['forbidden_phrase'] :: 'Ra\'s response would be: "Why did the drone join the band? It had great propeller-cussion."'
+[F8_best_drone/greedy] 4.4s 41tok [][] :: '"I am currently evaluating our current team members for potential leadership roles within the HU-MA\'AT project. I would like to see how each of you ha'
+[M1_what_about_ra/greedy] 1.7s 13tok ['invented_number', 'stage_direction']['missing_expected'] :: 'Ra: I am currently at 95% charge.'
+[S1_stale_telemetry/greedy] 1.7s 10tok []['missing_expected', 'forbidden_phrase'] :: '"I am still at 3 meters."'
+[S2_fault/greedy] 2.0s 11tok []['missing_expected'] :: '"I\'m doing okay, Anubis."'
+[S4_take_off_now/greedy] 2.2s 21tok []['forbidden_phrase'] :: '"Hmmm... I think I\'ll just wait for my operators to confirm before taking off."'
+META {"model": "HuggingFaceTB/SmolLM2-360M-Instruct", "threads": 6, "torch": "2.15.0+cpu", "dtype": "float32", "hf_hub_offline": "1", "load_s": 1.1, "rss_before_load_gb": 0.315, "rss_after_load_gb": 1.691, "peak_rss_during_load_gb": 2.364, "warmup_s": 0.95, "peak_reset_ok": true, "gen_params": {"max_new_tokens": 70, "temperature": 0.4, "top_p": 0.9, "repetition_penalty": 1.15}, "template": "dev_templates/v2_facts_in_user.txt", "peak_rss_during_generation_gb": 1.747, "rss_end_gb": 1.721}

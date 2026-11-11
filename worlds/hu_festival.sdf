@@ -1,0 +1,2550 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.6">
+  <world name="hu_festival">
+    <physics name="4ms" type="ignored">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics">
+    </plugin>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands">
+    </plugin>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+    <include>
+      <uri>file:///home/hadedy/hu-telepresence-gazebo/models/festival_horus</uri>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Horus</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Horus</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Horus</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Horus</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>Horus</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+      </plugin>
+      <name>horus</name>
+      <pose>-2.2 -1.5 0.55 0 0 0</pose>
+    </include>
+    <include>
+      <uri>file:///home/hadedy/hu-telepresence-gazebo/models/festival_ra</uri>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Ra</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Ra</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Ra</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Ra</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>Ra</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+      </plugin>
+      <name>ra</name>
+      <pose>0 -1.5 0.55 0 0 0</pose>
+    </include>
+    <include>
+      <uri>file:///home/hadedy/hu-telepresence-gazebo/models/festival_thoth</uri>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Thoth</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Thoth</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Thoth</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Thoth</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>Thoth</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+      </plugin>
+      <name>thoth</name>
+      <pose>2.2 -1.5 0.55 0 0 0</pose>
+    </include>
+    <include>
+      <uri>file:///home/hadedy/hu-telepresence-gazebo/models/festival_anubis</uri>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Anubis</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Anubis</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Anubis</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Anubis</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>Anubis</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+      </plugin>
+      <name>anubis</name>
+      <pose>-1.1 1.1 0.55 0 0 0</pose>
+    </include>
+    <include>
+      <uri>file:///home/hadedy/hu-telepresence-gazebo/models/festival_osiris</uri>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Osiris</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Osiris</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Osiris</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>Osiris</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>Osiris</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+      </plugin>
+      <name>osiris</name>
+      <pose>1.1 1.1 0.55 0 0 0</pose>
+    </include>
+    <model name="hu_stadium_floor">
+      <static>true</static>
+      <link name="base">
+        <pose>0 0 -0.075 0 0 0</pose>
+        <collision name="floor_collision">
+          <geometry>
+            <box>
+              <size>9.5 9.4 0.15</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+    <gui fullscreen="0">
+      <plugin filename="MinimalScene" name="3D View">
+        <gz-gui>
+          <title>HU / RSCL Flight Arena</title>
+          <property type="bool" key="showTitleBar">false</property>
+          <property type="string" key="state">docked</property>
+        </gz-gui>
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.58 0.62 0.72</ambient_light>
+        <background_color>0.045 0.070 0.115</background_color>
+        <camera_pose>0 -5.9 3.7 0 0.48 1.5708</camera_pose>
+        <camera_clip>
+          <near>.08</near>
+          <far>300</far>
+        </camera_clip>
+      </plugin>
+      <plugin filename="GzSceneManager" name="Scene Manager" />
+      <plugin filename="WorldControl" name="World control" />
+      <plugin filename="WorldStats" name="World stats" />
+      <plugin filename="EntityTree" name="Entity tree" />
+    </gui>
+    <scene>
+      <ambient>0.55 0.60 0.67 1</ambient>
+      <background>0.045 0.070 0.115 1</background>
+    </scene>
+    <model name="hu_native_stage">
+      <static>true</static>
+      <link name="stage_visuals">
+        <visual name="hu_rescue_dark_arena">
+          <pose>0.00000 0.00000 -0.02500 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>9.45 9.3 0.042</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.0667 0.1098 0.1686 1</ambient>
+            <diffuse>0.0667 0.1098 0.1686 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0047 0.0077 0.0118 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_center_carpet">
+          <pose>0.00000 0.00000 0.00400 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>8.3 8.2 0.012</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1020 0.1765 0.2588 1</ambient>
+            <diffuse>0.1020 0.1765 0.2588 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0102 0.0176 0.0259 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_border_h_0">
+          <pose>0.00000 -3.95000 0.02000 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>8.28 0.045 0.019</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1412 0.7451 0.8314 1</ambient>
+            <diffuse>0.1412 0.7451 0.8314 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0875 0.4620 0.5155 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_border_h_1">
+          <pose>0.00000 3.95000 0.02000 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>8.28 0.045 0.019</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1412 0.7451 0.8314 1</ambient>
+            <diffuse>0.1412 0.7451 0.8314 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0875 0.4620 0.5155 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_border_v_0">
+          <pose>-4.05000 0.00000 0.02000 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.045 8.0 0.019</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1412 0.7451 0.8314 1</ambient>
+            <diffuse>0.1412 0.7451 0.8314 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0875 0.4620 0.5155 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_border_v_1">
+          <pose>4.05000 0.00000 0.02000 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.045 8.0 0.019</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1412 0.7451 0.8314 1</ambient>
+            <diffuse>0.1412 0.7451 0.8314 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0875 0.4620 0.5155 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_x_-3">
+          <pose>-3.00000 0.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.012 7.3 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_y_-3">
+          <pose>0.00000 -3.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>7.3 0.012 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_x_-2">
+          <pose>-2.00000 0.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.012 7.3 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_y_-2">
+          <pose>0.00000 -2.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>7.3 0.012 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_x_-1">
+          <pose>-1.00000 0.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.012 7.3 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_y_-1">
+          <pose>0.00000 -1.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>7.3 0.012 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_x_0">
+          <pose>0.00000 0.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.012 7.3 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_y_0">
+          <pose>0.00000 0.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>7.3 0.012 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_x_1">
+          <pose>1.00000 0.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.012 7.3 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_y_1">
+          <pose>0.00000 1.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>7.3 0.012 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_x_2">
+          <pose>2.00000 0.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.012 7.3 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_y_2">
+          <pose>0.00000 2.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>7.3 0.012 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_x_3">
+          <pose>3.00000 0.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.012 7.3 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_grid_y_3">
+          <pose>0.00000 3.00000 0.01300 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>7.3 0.012 0.008</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.1882 0.2745 0.3608 1</ambient>
+            <diffuse>0.1882 0.2745 0.3608 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0113 0.0165 0.0216 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad">
+          <pose>-2.20000 -1.50000 0.02300 0 0 0.0000000</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.67</radius>
+              <length>0.014</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.0667 0.0980 0.1529 1</ambient>
+            <diffuse>0.0667 0.0980 0.1529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0080 0.0118 0.0184 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_00">
+          <pose>-1.52000 -1.50000 0.03900 0 0 1.5707963</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_01">
+          <pose>-1.55328 -1.28987 0.03900 0 0 1.8849556</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_02">
+          <pose>-1.64987 -1.10031 0.03900 0 0 2.1991149</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_03">
+          <pose>-1.80031 -0.94987 0.03900 0 0 2.5132741</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_04">
+          <pose>-1.98987 -0.85328 0.03900 0 0 2.8274334</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_05">
+          <pose>-2.20000 -0.82000 0.03900 0 0 3.1415927</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_06">
+          <pose>-2.41013 -0.85328 0.03900 0 0 3.4557519</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_07">
+          <pose>-2.59969 -0.94987 0.03900 0 0 3.7699112</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_08">
+          <pose>-2.75013 -1.10031 0.03900 0 0 4.0840704</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_09">
+          <pose>-2.84672 -1.28987 0.03900 0 0 4.3982297</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_10">
+          <pose>-2.88000 -1.50000 0.03900 0 0 4.7123890</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_11">
+          <pose>-2.84672 -1.71013 0.03900 0 0 5.0265482</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_12">
+          <pose>-2.75013 -1.89969 0.03900 0 0 5.3407075</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_13">
+          <pose>-2.59969 -2.05013 0.03900 0 0 5.6548668</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_14">
+          <pose>-2.41013 -2.14672 0.03900 0 0 5.9690260</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_15">
+          <pose>-2.20000 -2.18000 0.03900 0 0 6.2831853</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_16">
+          <pose>-1.98987 -2.14672 0.03900 0 0 6.5973446</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_17">
+          <pose>-1.80031 -2.05013 0.03900 0 0 6.9115038</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_18">
+          <pose>-1.64987 -1.89969 0.03900 0 0 7.2256631</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_ring_19">
+          <pose>-1.55328 -1.71013 0.03900 0 0 7.5398224</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9216 0.7647 0.3529 1</ambient>
+            <diffuse>0.9216 0.7647 0.3529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1659 0.1376 0.0635 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_crossX">
+          <pose>-2.20000 -1.50000 0.04600 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.42 0.03 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3922 0.4863 0.5686 1</ambient>
+            <diffuse>0.3922 0.4863 0.5686 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0784 0.0973 0.1137 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Horus_pad_crossY">
+          <pose>-2.20000 -1.50000 0.04600 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.03 0.42 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3922 0.4863 0.5686 1</ambient>
+            <diffuse>0.3922 0.4863 0.5686 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0784 0.0973 0.1137 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad">
+          <pose>0.00000 -1.50000 0.02300 0 0 0.0000000</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.67</radius>
+              <length>0.014</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.0667 0.0980 0.1529 1</ambient>
+            <diffuse>0.0667 0.0980 0.1529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0080 0.0118 0.0184 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_00">
+          <pose>0.68000 -1.50000 0.03900 0 0 1.5707963</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_01">
+          <pose>0.64672 -1.28987 0.03900 0 0 1.8849556</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_02">
+          <pose>0.55013 -1.10031 0.03900 0 0 2.1991149</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_03">
+          <pose>0.39969 -0.94987 0.03900 0 0 2.5132741</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_04">
+          <pose>0.21013 -0.85328 0.03900 0 0 2.8274334</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_05">
+          <pose>0.00000 -0.82000 0.03900 0 0 3.1415927</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_06">
+          <pose>-0.21013 -0.85328 0.03900 0 0 3.4557519</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_07">
+          <pose>-0.39969 -0.94987 0.03900 0 0 3.7699112</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_08">
+          <pose>-0.55013 -1.10031 0.03900 0 0 4.0840704</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_09">
+          <pose>-0.64672 -1.28987 0.03900 0 0 4.3982297</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_10">
+          <pose>-0.68000 -1.50000 0.03900 0 0 4.7123890</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_11">
+          <pose>-0.64672 -1.71013 0.03900 0 0 5.0265482</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_12">
+          <pose>-0.55013 -1.89969 0.03900 0 0 5.3407075</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_13">
+          <pose>-0.39969 -2.05013 0.03900 0 0 5.6548668</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_14">
+          <pose>-0.21013 -2.14672 0.03900 0 0 5.9690260</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_15">
+          <pose>-0.00000 -2.18000 0.03900 0 0 6.2831853</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_16">
+          <pose>0.21013 -2.14672 0.03900 0 0 6.5973446</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_17">
+          <pose>0.39969 -2.05013 0.03900 0 0 6.9115038</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_18">
+          <pose>0.55013 -1.89969 0.03900 0 0 7.2256631</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_ring_19">
+          <pose>0.64672 -1.71013 0.03900 0 0 7.5398224</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2314 0.8863 0.9490 1</ambient>
+            <diffuse>0.2314 0.8863 0.9490 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0416 0.1595 0.1708 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_crossX">
+          <pose>0.00000 -1.50000 0.04600 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.42 0.03 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3922 0.4863 0.5686 1</ambient>
+            <diffuse>0.3922 0.4863 0.5686 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0784 0.0973 0.1137 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Ra_pad_crossY">
+          <pose>0.00000 -1.50000 0.04600 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.03 0.42 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3922 0.4863 0.5686 1</ambient>
+            <diffuse>0.3922 0.4863 0.5686 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0784 0.0973 0.1137 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad">
+          <pose>2.20000 -1.50000 0.02300 0 0 0.0000000</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.67</radius>
+              <length>0.014</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.0667 0.0980 0.1529 1</ambient>
+            <diffuse>0.0667 0.0980 0.1529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0080 0.0118 0.0184 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_00">
+          <pose>2.88000 -1.50000 0.03900 0 0 1.5707963</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_01">
+          <pose>2.84672 -1.28987 0.03900 0 0 1.8849556</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_02">
+          <pose>2.75013 -1.10031 0.03900 0 0 2.1991149</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_03">
+          <pose>2.59969 -0.94987 0.03900 0 0 2.5132741</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_04">
+          <pose>2.41013 -0.85328 0.03900 0 0 2.8274334</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_05">
+          <pose>2.20000 -0.82000 0.03900 0 0 3.1415927</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_06">
+          <pose>1.98987 -0.85328 0.03900 0 0 3.4557519</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_07">
+          <pose>1.80031 -0.94987 0.03900 0 0 3.7699112</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_08">
+          <pose>1.64987 -1.10031 0.03900 0 0 4.0840704</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_09">
+          <pose>1.55328 -1.28987 0.03900 0 0 4.3982297</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_10">
+          <pose>1.52000 -1.50000 0.03900 0 0 4.7123890</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_11">
+          <pose>1.55328 -1.71013 0.03900 0 0 5.0265482</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_12">
+          <pose>1.64987 -1.89969 0.03900 0 0 5.3407075</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_13">
+          <pose>1.80031 -2.05013 0.03900 0 0 5.6548668</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_14">
+          <pose>1.98987 -2.14672 0.03900 0 0 5.9690260</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_15">
+          <pose>2.20000 -2.18000 0.03900 0 0 6.2831853</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_16">
+          <pose>2.41013 -2.14672 0.03900 0 0 6.5973446</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_17">
+          <pose>2.59969 -2.05013 0.03900 0 0 6.9115038</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_18">
+          <pose>2.75013 -1.89969 0.03900 0 0 7.2256631</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_ring_19">
+          <pose>2.84672 -1.71013 0.03900 0 0 7.5398224</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7020 0.6039 1.0000 1</ambient>
+            <diffuse>0.7020 0.6039 1.0000 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1264 0.1087 0.1800 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_crossX">
+          <pose>2.20000 -1.50000 0.04600 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.42 0.03 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3922 0.4863 0.5686 1</ambient>
+            <diffuse>0.3922 0.4863 0.5686 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0784 0.0973 0.1137 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Thoth_pad_crossY">
+          <pose>2.20000 -1.50000 0.04600 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.03 0.42 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3922 0.4863 0.5686 1</ambient>
+            <diffuse>0.3922 0.4863 0.5686 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0784 0.0973 0.1137 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad">
+          <pose>-1.10000 1.10000 0.02300 0 0 0.0000000</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.67</radius>
+              <length>0.014</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.0667 0.0980 0.1529 1</ambient>
+            <diffuse>0.0667 0.0980 0.1529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0080 0.0118 0.0184 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_00">
+          <pose>-0.42000 1.10000 0.03900 0 0 1.5707963</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_01">
+          <pose>-0.45328 1.31013 0.03900 0 0 1.8849556</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_02">
+          <pose>-0.54987 1.49969 0.03900 0 0 2.1991149</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_03">
+          <pose>-0.70031 1.65013 0.03900 0 0 2.5132741</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_04">
+          <pose>-0.88987 1.74672 0.03900 0 0 2.8274334</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_05">
+          <pose>-1.10000 1.78000 0.03900 0 0 3.1415927</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_06">
+          <pose>-1.31013 1.74672 0.03900 0 0 3.4557519</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_07">
+          <pose>-1.49969 1.65013 0.03900 0 0 3.7699112</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_08">
+          <pose>-1.65013 1.49969 0.03900 0 0 4.0840704</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_09">
+          <pose>-1.74672 1.31013 0.03900 0 0 4.3982297</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_10">
+          <pose>-1.78000 1.10000 0.03900 0 0 4.7123890</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_11">
+          <pose>-1.74672 0.88987 0.03900 0 0 5.0265482</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_12">
+          <pose>-1.65013 0.70031 0.03900 0 0 5.3407075</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_13">
+          <pose>-1.49969 0.54987 0.03900 0 0 5.6548668</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_14">
+          <pose>-1.31013 0.45328 0.03900 0 0 5.9690260</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_15">
+          <pose>-1.10000 0.42000 0.03900 0 0 6.2831853</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_16">
+          <pose>-0.88987 0.45328 0.03900 0 0 6.5973446</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_17">
+          <pose>-0.70031 0.54987 0.03900 0 0 6.9115038</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_18">
+          <pose>-0.54987 0.70031 0.03900 0 0 7.2256631</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_ring_19">
+          <pose>-0.45328 0.88987 0.03900 0 0 7.5398224</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3529 0.9216 0.6784 1</ambient>
+            <diffuse>0.3529 0.9216 0.6784 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0635 0.1659 0.1221 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_crossX">
+          <pose>-1.10000 1.10000 0.04600 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.42 0.03 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3922 0.4863 0.5686 1</ambient>
+            <diffuse>0.3922 0.4863 0.5686 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0784 0.0973 0.1137 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Anubis_pad_crossY">
+          <pose>-1.10000 1.10000 0.04600 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.03 0.42 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3922 0.4863 0.5686 1</ambient>
+            <diffuse>0.3922 0.4863 0.5686 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0784 0.0973 0.1137 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad">
+          <pose>1.10000 1.10000 0.02300 0 0 0.0000000</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.67</radius>
+              <length>0.014</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.0667 0.0980 0.1529 1</ambient>
+            <diffuse>0.0667 0.0980 0.1529 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0080 0.0118 0.0184 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_00">
+          <pose>1.78000 1.10000 0.03900 0 0 1.5707963</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_01">
+          <pose>1.74672 1.31013 0.03900 0 0 1.8849556</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_02">
+          <pose>1.65013 1.49969 0.03900 0 0 2.1991149</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_03">
+          <pose>1.49969 1.65013 0.03900 0 0 2.5132741</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_04">
+          <pose>1.31013 1.74672 0.03900 0 0 2.8274334</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_05">
+          <pose>1.10000 1.78000 0.03900 0 0 3.1415927</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_06">
+          <pose>0.88987 1.74672 0.03900 0 0 3.4557519</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_07">
+          <pose>0.70031 1.65013 0.03900 0 0 3.7699112</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_08">
+          <pose>0.54987 1.49969 0.03900 0 0 4.0840704</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_09">
+          <pose>0.45328 1.31013 0.03900 0 0 4.3982297</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_10">
+          <pose>0.42000 1.10000 0.03900 0 0 4.7123890</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_11">
+          <pose>0.45328 0.88987 0.03900 0 0 5.0265482</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_12">
+          <pose>0.54987 0.70031 0.03900 0 0 5.3407075</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_13">
+          <pose>0.70031 0.54987 0.03900 0 0 5.6548668</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_14">
+          <pose>0.88987 0.45328 0.03900 0 0 5.9690260</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_15">
+          <pose>1.10000 0.42000 0.03900 0 0 6.2831853</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_16">
+          <pose>1.31013 0.45328 0.03900 0 0 6.5973446</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_17">
+          <pose>1.49969 0.54987 0.03900 0 0 6.9115038</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_18">
+          <pose>1.65013 0.70031 0.03900 0 0 7.2256631</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_ring_19">
+          <pose>1.74672 0.88987 0.03900 0 0 7.5398224</pose>
+          <geometry>
+            <box>
+              <size>0.21594213554153469 0.053 0.022</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.9451 0.5451 0.6471 1</ambient>
+            <diffuse>0.9451 0.5451 0.6471 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.1701 0.0981 0.1165 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_crossX">
+          <pose>1.10000 1.10000 0.04600 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.42 0.03 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3922 0.4863 0.5686 1</ambient>
+            <diffuse>0.3922 0.4863 0.5686 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0784 0.0973 0.1137 1</emissive>
+          </material>
+        </visual>
+        <visual name="hu_rescue_Osiris_pad_crossY">
+          <pose>1.10000 1.10000 0.04600 0 0 0.0000000</pose>
+          <geometry>
+            <box>
+              <size>0.03 0.42 0.01</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3922 0.4863 0.5686 1</ambient>
+            <diffuse>0.3922 0.4863 0.5686 1</diffuse>
+            <specular>0.18 0.18 0.20 1</specular>
+            <emissive>0.0784 0.0973 0.1137 1</emissive>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>

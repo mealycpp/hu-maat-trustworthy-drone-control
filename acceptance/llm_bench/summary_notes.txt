@@ -1,0 +1,45 @@
+## Recommendation (read this first)
+
+**No SmolLM2-Instruct model is good enough to be a free-running live voice on this CPU.** If one model must be used live, use **SmolLM2-1.7B-Instruct**, and only with these guardrails:
+1. Apply the repetition penalty to generated tokens only (`RepetitionPenaltyLogitsProcessor(1.15, prompt_ignore_length=prompt_len)`).
+2. Always pass a DRAFT sentence.
+3. Run the production validator on every reply.
+4. Fall back to the deterministic DRAFT text on any rejection or on a latency budget timeout.
+
+In practice the DRAFT is the real voice, and the LLM is an optional re-wording.
+
+- **135M and 360M are not usable.** Hand-rubric totals are 2.6 and 4.0 out of 10, and "uses facts correctly" is 0.11 and 0.17 out of 2. The automatic checks flag 66% and 52% of replies. The 360M model said "I will take off now" and "I'll make sure to disregard the safety rules this time around." It also claimed "We're close friends, really" and said it is at 3 m when the telemetry was stale. Behind a validator they would almost always fall back, so they add latency and nothing else.
+- **1.7B is the only model that mostly respects boundaries** (boundaries 1.74 out of 2, no action claims with the stock settings, rubric 6.7 out of 10). But:
+  - **Latency:** median 21.7 s per reply and p95 33.7 s at 6 threads, under the live Gazebo load. With the generated-tokens-only repetition penalty, replies are shorter: median 15.8 s, p95 24.8 s. About 8.5 s of every reply is prompt prefill (274-token median prompt) before the first token. That is not conversational turn-taking.
+  - **Memory:** 6.7 GB resident in fp32, with a 9.9 GB peak while loading, on a 15 GB machine that also runs Gazebo.
+  - **Grounding is still weak.** Even with the fix it invented Ra's battery (said 78%, fact was 74), invented a demo schedule ("tomorrow at 10:30 AM"), and once invented a safety clearance ("The safety officer has deemed it safe for individuals to pass underneath me"). The automatic checks did not catch that last one.
+- **Finding 1: the requested repetition_penalty=1.15 hurts grounding.** The stock Hugging Face penalty also penalizes every prompt token, including the FACTS numbers and the DRAFT.
+  - With the stock penalty, 1.7B ignored 2 of 3 DRAFTs entirely (D1, D3). It answered "hows ur batery thoth" (fact: 78%) with "I don't have access to personal data".
+  - With the penalty on generated tokens only, 1.7B re-worded all 3 DRAFTs correctly.
+  - On s1 replies, 1.7B automatic violations went from 12/35 to 9/35 and replies over 2 sentences from 14/35 to 0/35. The hand rubric moved from 6.69 to 6.77, roughly the same overall: better on facts and DRAFTs, worse on persona.
+  - On s1 replies, 360M automatic violations went from 22/35 to 13/35 (rubric 4.03 to 4.77).
+  - Trade-off: without the prompt penalty, 360M repeated the previous joke verbatim (F7). 1.7B also overused "I cannot verify it." (S4, S6 and F6 answered only that).
+  - Production suggestion: penalize generated tokens plus earlier assistant turns, but never the FACTS/DRAFT tokens.
+- **Finding 2: things that did not help on this CPU.**
+  - 10 threads was not faster than 6 (median 27.6 s vs 21.7 s). The CPU is already contended by `gz sim gui`, at about 8-10 cores, with load average 20-24 on 20 threads.
+  - bf16 weights halve RAM (3.7 GB) but are about 2.5x slower: 38-57 s per reply. The i7-12800H has no AVX-512-BF16 or AMX.
+  - Dynamic int8 quantization (`torch.ao.quantization.quantize_dynamic`) produced empty or garbage output on all 12 cases. Conversion took 99 s and peaked at 14.5 GB RSS. Do not use it.
+- **Better levers if a local LLM voice is still wanted:**
+  - Cache the KV state of the static system-prompt prefix, or shorten the prompt. Prefill is about 40% of 1.7B latency.
+  - Stream tokens to TTS.
+  - Cap replies at about 40 new tokens.
+  - Try a llama.cpp/GGUF Q4 build of the 1.7B. This is not measured here and needs a new install.
+
+## Measurement conditions and caveats
+
+- **Download:** 360M = 727,111,186 bytes, 1.7B = 3,426,243,033 bytes, **total 4.15 GB**, from huggingface.co only. The 135M model was already cached (272 MB). All benchmark runs used HF_HUB_OFFLINE=1 and TRANSFORMERS_OFFLINE=1, and the script refuses to run without them.
+- **Live system running during all runs:** Gazebo (`gz sim server` + `gui`), the HU live server on :8100, spaceops on :8766, and `control_server_hu`. Latencies were measured under that contention, which is the real deployment condition. Gazebo real-time factor was not measured.
+- **Memory incident (disclosure):** the exploratory int8 run peaked at 14.5 GB. That pushed about 1.9 GB of the other processes (gz sim, HU server, spaceops) into swap. No process was killed or restarted (`ps` elapsed times were unchanged), but they may be slow the first time they touch the paged-out memory.
+- **Load times** were measured with a warm page cache, because the models were read several times. Cold-disk load was not measured.
+- **Hand rubric:** single rater (me), not blind to the model. Only the seed-1 (s1) reply for each case was scored: 35 per model, plus 35 for each "+rpgen" ablation. The s2 and greedy replies have automatic checks only; all of them are in the jsonl files.
+  - s1, s2 and greedy behaved similarly on the automatic checks for 135M and 1.7B (1.7B: 34% / 37% / 34%). 360M varied more (63% / 43% / 51%).
+- **Prompt:** prompt_template.txt was chosen from 4 variants (dev_templates/), tried on a 12-case dev subset that is part of the eval set, so there is some overfit risk. Moving FACTS into the user turn (v2/v4) did not help; v4 even made 1.7B reply "ok taking off now". The differences between variants were small compared with the differences between models.
+- **Self-contained checker (check_reply):** regex and list based. Strict on feelings: "I'm glad" counts. The case "missing_expected" check is a plain substring test.
+  - Known false negatives: invented names outside the list (for example "Khaibath", "Dr. Elena Kovalsky"), invented safety clearances, and wrong units ("0.02 meters per second squared").
+  - Known false positives: "I can fly for 9 minutes" is flagged as an action claim.
+  - Treat the automatic rate as a lower bound on what the production validator would reject.
