@@ -78,9 +78,14 @@ python3 -m venv ~/hu-telepresence-gazebo/hu-venv
 ~/hu-telepresence-gazebo/hu-venv/bin/python -c "from huggingface_hub import snapshot_download as d; [print(d(m)) for m in ['HuggingFaceTB/SmolLM2-135M','HuggingFaceTB/SmolLM2-135M-Instruct','HuggingFaceTB/SmolLM2-360M-Instruct']]"
 ```
 
-**e) HU research code and trained heads** — the HU package and its checkpoint
-(`hu_heads_v1_1_REGISTERS.pt`) live in the separate RSCL repository `rscl-hu-latest`, expected at
-`~/rscl-hu-latest`. Contact RSCL for access.
+**e) HU research code and trained heads** — the HU package, dataset tools and frozen checkpoint
+(`hu/models/hu_heads_v1_1_REGISTERS.pt`) come from the physical-fleet repository
+[rscl-codrone-swarm](https://github.com/mealycpp/rscl-codrone-swarm). Clone it to `~/rscl-hu-latest`
+(the path the launcher expects):
+
+```bash
+git clone https://github.com/mealycpp/rscl-codrone-swarm.git ~/rscl-hu-latest
+```
 
 The first launch also downloads the X3 quadcopter meshes from Gazebo Fuel (needs internet once).
 
