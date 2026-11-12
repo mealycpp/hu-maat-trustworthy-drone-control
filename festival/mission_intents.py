@@ -20,11 +20,69 @@ SHAPES={
  'zigzag':'zigzag','staggered':'staggered','echelon left':'left_echelon',
  'echelon right':'right_echelon','pentagon':'pentagon','arrow':'arrow',
  't shape':'t','t':'t','l shape':'l','l':'l','perimeter':'perimeter'}
+# Extended catalogue (OFFLINE_CHECKED shapes). New single letters/digits are only reachable
+# as "letter <x>", "<x> shape", "number <n>" or "digit <n>" (never a bare letter), so the
+# original short aliases (v, x, t, l) keep their meaning. Longest alias wins in parse().
+SHAPES.update({
+ # letters (+ explicit spellings of the original letter shapes)
+ 'letter v':'v','letter x':'x','letter t':'t','letter l':'l','letter o':'circle','letter i':'column',
+ 'i shape':'column','o shape':'circle',
+ **{f'{pre}{c}{post}':f'letter_{c}' for c in 'cjmwnzsuyfp'
+    for pre,post in (('letter ',''),('',' shape'))},
+ # digits
+ **{f'{pre} {tok}':f'digit_{d}' for d,word in (('1','one'),('2','two'),('3','three'),('4','four'),
+                                                 ('5','five'),('7','seven'))
+    for pre in ('number','digit','numeral') for tok in (d,word)},
+ # constellations
+ 'cassiopeia':'cassiopeia','southern cross':'southern_cross','crux':'southern_cross',
+ 'cygnus':'cygnus','northern cross':'cygnus','swan constellation':'cygnus',
+ 'delphinus':'delphinus','dolphin':'delphinus','lyra':'lyra','lyre':'lyra',
+ 'corona borealis':'corona_borealis','northern crown':'corona_borealis',
+ 'big dipper':'big_dipper','plough':'big_dipper','plow':'big_dipper',
+ 'orion':'orion','sickle of leo':'leo_sickle','leo sickle':'leo_sickle','leo':'leo_sickle',
+ 'aquila':'aquila','eagle':'aquila','cepheus':'cepheus','house':'cepheus',
+ 'scorpius':'scorpius','scorpio':'scorpius','scorpion':'scorpius',
+ # Egyptian / lab theme
+ 'pyramid':'pyramid','ankh':'ankh','wedjat':'wedjat_eye','wedjat eye':'wedjat_eye','udjat':'wedjat_eye',
+ 'egyptian eye':'wedjat_eye','obelisk':'obelisk','nile':'nile','nile wave':'nile',
+ 'winged sun':'winged_sun','sun disk':'winged_sun',
+ # sports / military
+ 'two one two':'two_one_two','2-1-2':'two_one_two','hourglass':'two_one_two','bowtie':'bowtie','bow tie':'bowtie',
+ 'two three zone':'two_three_zone','2-3 zone':'two_three_zone',
+ 'three two zone':'three_two_zone','3-2 zone':'three_two_zone',
+ 'one three one':'diamond','1-3-1':'diamond',
+ 'box and one':'box_and_one','box-and-one':'box_and_one','finger four':'finger_four','fingertip':'finger_four',
+ 'echelon pairs':'echelon_pairs','trail pairs':'trail_pairs','pairs in trail':'trail_pairs',
+ 'diamond and one':'diamond_and_one','kite':'diamond_and_one','staggered column':'staggered_column',
+ 'combat spread':'combat_spread','line abreast':'line','line astern':'column','trail':'column',
+ # pictograms
+ 'check mark':'check_mark','checkmark':'check_mark','tick':'check_mark',
+ 'lightning':'lightning','lightning bolt':'lightning','spiral':'spiral','steps':'steps','stair steps':'steps',
+ # pentominoes
+ **{f'{c} pentomino':f'pentomino_{c}' for c in 'flnptuvwyz'},
+ **{f'pentomino {c}':f'pentomino_{c}' for c in 'flnptuvwyz'},
+ # rotated / mirrored / scaled variants
+ 'v pointing left':'v_left','left v':'v_left','v left':'v_left',
+ 'v pointing right':'v_right','right v':'v_right','v right':'v_right',
+ 'tight v':'tight_v','narrow v':'tight_v','deep v':'deep_v','steep v':'deep_v','wide v':'wide_v','flat v':'wide_v',
+ 'arrow pointing left':'arrow_left','arrow left':'arrow_left','left arrow':'arrow_left',
+ 'arrow pointing right':'arrow_right','arrow right':'arrow_right','right arrow':'arrow_right',
+ 'arrow pointing down':'arrow_down','arrow down':'arrow_down','down arrow':'arrow_down',
+ 'inverted t':'t_inverted','upside down t':'t_inverted','mirrored l':'l_mirrored','reverse l':'l_mirrored',
+ 'gamma':'gamma','inverted triangle':'inverted_triangle','upside down triangle':'inverted_triangle',
+ 'inverted arc':'inverted_arc','smile':'inverted_arc','wide diamond':'wide_diamond',
+ 'big square':'big_square','large square':'big_square','small square':'small_square',
+ 'big x':'big_x','large x':'big_x','big cross':'big_cross','large cross':'big_cross',
+ 'wide circle':'wide_circle','big circle':'wide_circle','large circle':'wide_circle',
+ 'small circle':'small_circle','tight circle':'small_circle','inverted pentagon':'inverted_pentagon',
+})
 COLLECTIVE=re.compile(r'\b(?:all|everyone|everybody|the fleet|the swarm|all drones|all five)\b')
-EXCLUSION=re.compile(r'\b(?:except|excluding|but not)\s+(horus|ra|thoth|anubis|osiris)\b')
+_N=r'(?:horus|ra|thoth|anubis|osiris)'
+# one or more excluded names: 'except Ra', 'except Ra and Thoth', 'except Ra, Thoth and Osiris'
+EXCLUSION=re.compile(r'\b(?:except|excluding|but not)\s+('+_N+r'(?:\s*(?:,|and|&)\s*'+_N+r')*)\b')
 FORMATION=re.compile(r'\b(?:form|formation|shape|make|perform|arrange|rearrange|assume|configure|switch to|change to|change into)\b')
 TURN=re.compile(r'\b(?:turn|rotate|spin)\b')
-UNSUPPORTED=re.compile(r'\b(?:orbit|patrol|scan|search|sweep|survey|inspect|navigate|follow|dance|flip|backflip|acrobat|recharge|dock|deliver|attack|surround|track|chase|return to home|rth|mission|formation|shape|relay|perimeter|pentagon|wedge|circle|grid|zigzag)\b')
+UNSUPPORTED=re.compile(r'\b(?:orbit|patrol|scan|search|sweep|survey|inspect|navigate|follow|dance|flip|backflip|acrobat|recharge|dock|deliver|attack|surround|track|chase|return to home|rth|mission|formation|shape|relay|perimeter|pentagon|wedge|circle|grid|zigzag|constellation|cassiopeia|pyramid|obelisk|ankh|pentomino)\b')
 MOVE=re.compile(r'\b(?:move|go|fly|shift|slide|rise|ascend|descend|climb|lower|drop|up|down|forward|forwards|back|backward|backwards|left|right|higher|lower)\b')
 ALT=re.compile(r'\b(?:take\s*off|launch|lift\s*off|land|landing|touch\s*down|hover|hold|stop|freeze)\b')
 NUMBER=r'(?:\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten|fifteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|one hundred|two hundred|half)'
@@ -45,7 +103,12 @@ def addresses(s):
             return [],'Do not combine ALL with individual names unless using EXCEPT.'
         if re.search(r'\b(?:except|excluding|but not)\b',s) and not excluded:
             return [],'Unrecognized exclusion. Say "all except Ra".'
-        return [n for n in NAMES if not excluded or n.lower()!=excluded.group(1)],None
+        out=set(re.findall(_N,excluded.group(1))) if excluded else set()
+        if any(n.lower() not in out for n in named):   # a name outside the exclusion list next to ALL
+            return [],'Do not combine ALL with individual names unless using EXCEPT.'
+        targets=[n for n in NAMES if n.lower() not in out]
+        if not targets:return [],'That exclusion leaves no aircraft.'
+        return targets,None
     if excluded:return [],'Exclusion requires ALL, e.g. "all except Ra".'
     if named:return named,None
     return [],'Specify a named aircraft or ALL.'

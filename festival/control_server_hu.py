@@ -35,6 +35,7 @@ class Drone:
     target_yaw:float=0.
     mode:str='WAITING'
     fault:bool=False
+    land_latched:bool=False      # emergency landing in progress: cannot be cancelled until touchdown
     ever_flew:bool=False
     init:bool=False
     spin_segments:int=0
@@ -188,6 +189,7 @@ class Fleet:
 
     def command(self,action,targets=None,params=None,source='DASHBOARD'):
         emergency_stop=action=='emergency_hover'
+        emergency_land=action=='emergency_land'
         params=params or {}; targets=targets or []
         if isinstance(targets,str):targets=[targets]
         targets=[str(t).title() for t in targets]
@@ -200,6 +202,21 @@ class Fleet:
         if action=='fault' and len(targets)!=1:raise ValueError('Fault simulation requires one named drone')
         if not targets or any(n not in self.dr for n in targets):raise ValueError('Specify valid drone targets')
         with self.lock:
+            # EMERGENCY LANDING LATCH: once an emergency landing starts, it finishes. Any later non-landing
+            # command (stop/hover, take-off, move, ...) is ignored for aircraft still LANDING under the latch;
+            # the latch clears automatically once the aircraft is no longer LANDING (touched down).
+            for d in self.dr.values():
+                if d.land_latched and d.mode!='LANDING':d.land_latched=False
+            if action not in ('land','fault','clear_fault'):
+                latched=[n for n in targets if self.dr[n].land_latched]
+                if latched:
+                    targets=[n for n in targets if n not in latched]
+                    self.event('MAAT',f'EMERGENCY LANDING LATCHED: {action.upper()} ignored for {", ".join(latched)} (still landing)',latched)
+                    if not targets:
+                        return {'ok':True,'action':action,'targets':[],'latched':latched,
+                                'note':'Emergency landing in progress (latched); command ignored'}
+            if emergency_land:
+                for n in targets:self.dr[n].land_latched=True
             if action not in ('clear_fault','land') and not emergency_stop:
                 blocked=[n for n in targets if self.dr[n].fault]
                 if blocked:raise ValueError('Simulated command-link fault active: '+','.join(blocked))

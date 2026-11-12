@@ -34,7 +34,7 @@ This repository runs five simulated quadcopters — **Horus, Ra, Thoth, Anubis, 
 ## Contents
 
 1. [Install (one time)](#1-install-one-time)
-2. [Start the demo](#2-start-the-demo)
+2. [Start the demo](#2-start-the-demo) · [One-click autopilot & Windows control window](#2b-one-click-autopilot-and-windows-control-window)
 3. [Try it — example commands](#3-try-it--example-commands)
 4. [Change the environment](#4-change-the-environment)
 5. [Talk to the drones (SwarmChat)](#5-talk-to-the-drones-swarmchat) · [Formation show](#5b-formation-show-the-drones-pick-their-own-next-shape)
@@ -42,7 +42,8 @@ This repository runs five simulated quadcopters — **Horus, Ra, Thoth, Anubis, 
 7. [Verify everything (acceptance tests)](#7-verify-everything-acceptance-tests)
 8. [How it works](#8-how-it-works)
 9. [Repository layout](#9-repository-layout)
-10. [Acknowledgments](#acknowledgments)
+10. [What's new (12 Nov 2026)](#whats-new-12-nov-2026) · [Algorithm specifications](docs/algorithms/INDEX.md)
+11. [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -107,11 +108,33 @@ Wait for `VERDICT: READY` (about 1–3 minutes). Then open:
 
 `READY (DEGRADED: chat LLM not loaded)` is fine — flying does not depend on the chat model.
 
+### 2b. One-click autopilot and Windows control window
+
+For a booth or a video, one command runs everything:
+
+```bash
+bash ~/hu-telepresence-gazebo/poster_mode.sh start     # all services + LED lights + automatic show + opens both pages in Edge
+```
+
+| Command | What it does |
+|---|---|
+| `poster_mode.sh start` | Starts Gazebo, HU, MA'AT, SpaceOps, LED body language and the automatic formation show; opens the HU console and SpaceOps. If Gazebo was closed, everything restarts cleanly. |
+| `poster_mode.sh visitor` | Pauses the show and lands the drones so visitors can give their own commands. |
+| `poster_mode.sh show` | Resumes the automatic show. |
+| `poster_mode.sh status` | One-screen health check. |
+| `poster_mode.sh stop` | Lands and stops the show and lights (services stay up). |
+
+**Windows control window** — `tools/windows_launcher/rscl_launcher.pyw` (Python 3 for Windows with Tk): the RSCL logo,
+one big button per command above with a note under each, red **HOLD** and **LAND NOW** emergency buttons (sent through
+HU's symbolic emergency channel), live status lights (Gazebo, MA'AT, HU, SpaceOps, chat model, drones, show, lights) and an
+output panel. Create a desktop shortcut to `pythonw.exe rscl_launcher.pyw` with `rscl.ico` as its icon.
+A printable one-page booth guide is in [docs/POSTER_RUNBOOK.html](docs/POSTER_RUNBOOK.html).
+
 ---
 
 ## 3. Try it — example commands
 
-> 📋 **Full list of everything you can try** (every move, turn, all 25 formations, refusals, emergency words,
+> 📋 **Full list of everything you can try** (every move, turn, all 103 formations, refusals, emergency words,
 > chat questions): **[docs/TRY_IT.md](docs/TRY_IT.md)**
 
 Type these in the HU console (or press the microphone and say them). Go roughly in this order:
@@ -124,7 +147,7 @@ Type these in the HU console (or press the microphone and say them). Go roughly 
 | 4 | `Horus, move forward 1 meter` | 🟡 CONFIRM | Distances go through the deterministic parser and always need a human |
 | 5 | `Ra, turn left 90 degrees` | 🟡 CONFIRM | Rotation |
 | 6 | `All form a circle` | 🟡 CONFIRM | Formation with separation-checked slot assignment |
-| 7 | `All form a V` / `line` / `diamond` / `star` | 🟡 CONFIRM | 25 validated formations |
+| 7 | `All form a V` / `line` / `diamond` / `star` | 🟡 CONFIRM | 103 flight-validated formations |
 | 8 | `Everyone move right 1 meter` | 🟡 CONFIRM | Swarm travel — the formation is kept |
 | 9 | `Everyone except Anubis, hover` | 🟢/🟡 | Exclusion targeting |
 | 10 | `This project is really taking off` | 🔴 REFUSE | Not a command, even though it contains "taking off" |
@@ -293,7 +316,7 @@ bash ~/hu-telepresence-gazebo/acceptance/run_and_summarize.sh
 ```
 
 Live suite coverage: 28-case command matrix, single-drone flights, every motion primitive (up/down,
-forward/back, left/right, rotate), swarm travel, formations and transitions, the 25-formation catalog,
+forward/back, left/right, rotate), swarm travel, formations and transitions, the formation catalog (103 shapes validated in live flight),
 and the fault → refusal → re-plan → recovery scenario.
 
 Export flight logs in ArduPilot DataFlash format (`.BIN`, readable by Mission Planner / pymavlink;
@@ -329,7 +352,7 @@ python3 ~/hu-telepresence-gazebo/scripts/export_ardupilot_logs.py
 | Named / group / exclusion targeting | "Ra and Thoth, take off", "Everyone except Anubis, hover" + exact-target safety guard |
 | Model-independent safety | Emergency words → fleet-wide hold/land without any language model |
 | Collision avoidance | Proximity watchdog holds aircraft closer than 0.82 m; formations keep ≥ 0.88 m separation |
-| Formations and swarm travel | 25 shapes, separation-checked assignment; rigid group moves |
+| Formations and swarm travel | 103 flight-validated shapes (letters, digits, constellations, Egyptian, sports, variants) + 11 3-D height profiles; separation-checked assignment; rigid group moves |
 | Fault containment | Simulated link fault → refusal → re-plan without the faulted aircraft → recovery |
 | Cooperative missions | Deterministic agent bids, slot negotiation, MA'AT plan check, operator approval, telemetry-verified execution |
 | Evidence | Per-aircraft CSV/JSONL recordings, health curves, latency timeline, ArduPilot `.BIN` export |
@@ -368,6 +391,43 @@ repository runs the same frozen checkpoint in Gazebo and adds the MA'AT supervis
 
 Mohamed El-Hadedy et al., *HU: Risk-Asymmetric Natural-Language Command of a Physical Multi-Drone Fleet*,
 IEEE Telepresence 2026, Demonstration 7.
+
+---
+
+## What's new (12 Nov 2026)
+
+**Formations**
+- **103 distinct formations validated in live Gazebo flight** (was 25): letters (*"All form the letter W"*), digits, star
+  constellations (*Cassiopeia, the Southern Cross, the Big Dipper, Orion…*), Egyptian shapes (*pyramid, ankh, obelisk,
+  wedjat eye, the Nile*), sports/military patterns, pentominoes and rotated/mirrored variants. One shape
+  (pentomino W) stays EXPERIMENTAL after a real proximity hold. Status per shape: `festival/formation_catalog.json`.
+- **3-D height profiles** after matching shapes: pyramid, helix, staircase, tower, wave, saddle, dome, ramp…
+  (`acceptance/height_profile.py`).
+- Offline **transition-clearance analysis** of all 10,712 shape pairs (`acceptance/results/formation_transitions.json`).
+
+**Safety**
+- **Emergency landing is latched:** once *"land now"* starts, stop/hover/take-off/move commands are ignored for drones
+  still landing, until touchdown.
+- **Exclusions:** *"All except Ra and Thoth"* excludes both (any list); HU's named-address guard now parses the same
+  lists and **refuses whatever it cannot resolve** — an excluded aircraft can never be approved.
+- **Compound commands** joined by *"and"* (*"take off and move forward"*) are refused instead of being half-executed.
+- One shared emergency vocabulary for the voice interrupt and the chat (*"everyone down", "unable", "stop"*…).
+
+**Team strategy and show**
+- Strategy rounds now include real debate (defend/concede, votes move), a safety veto at **1.1 m** planned clearance
+  (or no tighter than the starting spacing), variant improvement, one-move look-ahead and flight-history memory.
+- **A/B flight test** (team-chosen vs random next shape, 12 transitions each, Gazebo): mean formation time
+  **4.04 s vs 4.47 s**, planned longest leg 1.32 vs 1.52 m, mean closest approach 1.16 vs 1.10 m, 0 holds both — an early,
+  small-sample result (`acceptance/ab_coordination.py`).
+- Drone voices with radio squelch and emergency interrupt, **speech bubbles above each drone** on the SpaceOps map,
+  LED body language (green set · amber moving · cyan take-off/landing · red tight/fault · blue talking · rainbow goal),
+  larger GUI text.
+
+**Documentation** — algorithm specifications with flowcharts, state machines, comparison with published work and
+honest limitations: [docs/algorithms/INDEX.md](docs/algorithms/INDEX.md).
+
+**Tests** — `acceptance/run_offline.sh` (102 tests) and `acceptance/run_chat_unit.sh` (chat, grounding, panels,
+strategy, LED rules) all pass.
 
 ---
 

@@ -1,0 +1,178 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RSCL Algorithm 2</title><style>
+@page { size: Letter; margin: 17mm 17mm 16mm 17mm; }
+:root { --ink:#111; --mute:#555; --rule:#222; --soft:#f4f4f2; --accent:#1d3d6b; }
+html { background:#fff; }
+body { font-family: Cambria, Georgia, 'Times New Roman', serif; font-size: 10.3pt; line-height: 1.38; color: var(--ink); background:#fff; margin:0; }
+h1 { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 16.5pt; margin: 0 0 3pt 0; color: var(--accent); }
+h2 { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 11.6pt; margin: 12pt 0 4pt 0; color: var(--accent); border-bottom: 0.6pt solid #b9c3d3; padding-bottom: 1pt; break-after: avoid; }
+h3 { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 10.4pt; margin: 8pt 0 2pt 0; break-after: avoid; }
+p { margin: 3pt 0 5pt 0; text-align: justify; }
+ul, ol { margin: 2pt 0 5pt 0; padding-left: 17pt; }
+li { margin: 1pt 0; }
+code, .mono { font-family: Consolas, 'Cascadia Mono', 'Courier New', monospace; font-size: 8.9pt; }
+.hdr { border-top: 2.2pt solid var(--rule); border-bottom: 0.8pt solid var(--rule); padding: 6pt 0 5pt 0; margin-bottom: 8pt; }
+.hdr .lab { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 9pt; color: #333; }
+.hdr .meta { font-size: 8.6pt; color: var(--mute); margin-top: 3pt; }
+.hdr table.src { border-collapse: collapse; margin-top: 4pt; font-size: 7.9pt; width: 100%; }
+.hdr table.src td { padding: 0.5pt 6pt 0.5pt 0; border: none; vertical-align: top; }
+table.t { border-collapse: collapse; width: 100%; margin: 4pt 0 7pt 0; font-size: 9.1pt; break-inside: auto; }
+table.t th, table.t td { border: 0.5pt solid #9a9a9a; padding: 2pt 4pt; vertical-align: top; text-align: left; }
+table.t th { background: #e8ecf2; font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-weight: 600; }
+table.t tr { break-inside: avoid; }
+.algo { border-top: 1.4pt solid var(--rule); border-bottom: 1.4pt solid var(--rule); margin: 7pt 0 9pt 0; padding: 0 0 3pt 0; break-inside: auto; }
+.algo .cap { border-bottom: 0.7pt solid var(--rule); padding: 2pt 0 2pt 0; font-size: 9.6pt; margin-bottom: 2pt; }
+.algo .cap b { font-family: 'Segoe UI', Calibri, Arial, sans-serif; }
+.algo .src { color: var(--mute); font-size: 8.3pt; }
+.algo .ln { font-family: Consolas, 'Cascadia Mono', 'Courier New', monospace; font-size: 8.55pt; white-space: pre-wrap; line-height: 1.30; padding-left: 26pt; text-indent: -26pt; break-inside: avoid; }
+.algo .ln .no { display: inline-block; width: 20pt; text-align: right; margin-right: 6pt; color: #777; text-indent: 0; }
+.algo .ln .kw { font-weight: 700; }
+.algo .ln .cm { color: #5a6b7d; font-style: italic; }
+.note { background: var(--soft); border-left: 2.2pt solid #8a99b0; padding: 3pt 6pt; margin: 5pt 0; font-size: 9.4pt; }
+.two { columns: 2; column-gap: 14pt; }
+.foot { margin-top: 12pt; border-top: 0.6pt solid #999; padding-top: 3pt; font-size: 7.8pt; color: var(--mute); }
+pre.code { font-family: Consolas, 'Courier New', monospace; font-size: 8.3pt; background: var(--soft); padding: 4pt 6pt; white-space: pre-wrap; margin: 4pt 0; }
+
+.fig { margin: 6pt 0 9pt 0; break-inside: avoid; page-break-inside: avoid; }
+.fig svg { width: 100%; height: auto; display: block; }
+.fig .fc { font-size: 8.7pt; color: #333; margin-top: 3pt; text-align: justify; }
+ol.refs { font-size: 8.5pt; padding-left: 18pt; margin: 3pt 0; }
+ol.refs li { margin: 2pt 0; word-break: break-word; }
+table.t.ex td { font-size: 8.5pt; }
+</style></head><body><div class="hdr"><h1>RSCL — Algorithm 2: Symbolic Emergency Channel and emergency_key() Normalisation</h1><div class="lab">Reconfigurable Space Computing Lab (RSCL), California State Polytechnic University, Pomona (Cal Poly Pomona) &middot; Director: Prof. Mohamed El-Hadedy</div><div class="meta">Date: 2026-11-12 &middot; Document type: formal algorithm specification of the implemented code (HU-MA'AT drone-fleet simulation demo)<br>Source files described (content hash and state at document build time):</div><table class="src"><tr><td class="mono">hu-telepresence-gazebo/festival/hu_live_server.py</td><td class="mono">sha256 2416370e93dc</td><td>2026-11-11 06:38 UTC</td><td>clean @ 10ee643</td></tr><tr><td class="mono">hu-telepresence-gazebo/festival/control_server_hu.py</td><td class="mono">sha256 3f32578a144c</td><td>2026-11-11 06:32 UTC</td><td>clean @ 10ee643</td></tr><tr><td class="mono">hu-telepresence-gazebo/festival/hu_live_dashboard.html</td><td class="mono">sha256 d1e2cf6aabae</td><td>2026-11-12 01:23 UTC</td><td>clean @ 05172be</td></tr></table></div>
+<h2>1. Purpose and context</h2>
+<p>An operator must be able to stop or land the whole fleet without depending on a neural model, a confidence score, an aircraft name or a confirmation dialog. The symbolic emergency channel recognises a small closed set of emergency phrases (English and Arabic-derived <i>khalas</i>, <i>yalla</i>) after deterministic normalisation, and dispatches a fleet-wide hold or landing with a <code>symbolic_emergency</code> flag that the supervisor accepts without the model thresholds of Algorithm 1. It is checked <b>first</b> for every utterance, before mission routing and before the model.</p>
+
+<h2>2. Inputs, outputs, data</h2>
+<table class="t">
+<tr><th>Item</th><th>Definition</th></tr>
+<tr><td>Input</td><td>Utterance after voice normalisation (Algorithm 19 alias table, e.g. <i>yella/yellow/yala &rarr; yalla</i>).</td></tr>
+<tr><td>EMERGENCY_LAND</td><td>{land now, land land land, everybody down, everyone down, emergency land, yalla land}</td></tr>
+<tr><td>EMERGENCY_HOVER</td><td>{stop, stop stop stop, all stop, everyone stop, everybody stop, khalas, abort}</td></tr>
+<tr><td>Output</td><td>Decision record with band EMERGENCY, action HOVER or LAND, targets = all five names, confidence 1.0, <code>decision_source = SYMBOLIC SAFETY (NOT TRAINED HU)</code>; dispatch <code>emergency_hover</code> / <code>emergency_land</code>.</td></tr>
+</table>
+
+<h2>3. Algorithm</h2>
+<div class="algo"><div class="cap"><b>Algorithm 2.1 emergency_key (phrase canonicalisation)</b><br><span class="src">Source: festival/hu_live_server.py: emergency_key</span></div>
+<div class="ln"><span class="no">1</span><span class="kw">function</span> EMERGENCY-KEY(text)</div>
+<div class="ln"><span class="no">2</span>  s ← lower(text); replace every non-word, non-space character by ' '; collapse whitespace</div>
+<div class="ln"><span class="no">3</span>  PRE(x)  ← strip leading  "(hey|ok|okay )? (all|everyone|everybody|all drones|drones|team|guys|fleet) "</div>
+<div class="ln"><span class="no">4</span>  SUF(x)  ← strip trailing " (please|right now|immediately)"</div>
+<div class="ln"><span class="no">5</span>  NOW(x)  ← strip trailing " now"</div>
+<div class="ln"><span class="no">6</span>  <span class="kw">for</span> cand in [ s, PRE(s), SUF(s), PRE(SUF(s)), SUF(PRE(s)), NOW(PRE(SUF(s))), NOW(SUF(s)) ] <span class="kw">do</span></div>
+<div class="ln"><span class="no">7</span>    <span class="kw">if</span> cand ∈ EMERGENCY_LAND ∪ EMERGENCY_HOVER <span class="kw">then</span> <span class="kw">return</span> cand</div>
+<div class="ln"><span class="no">8</span>  <span class="kw">return</span> None</div>
+</div>
+<div class="algo"><div class="cap"><b>Algorithm 2.2 Emergency dispatch</b><br><span class="src">Source: festival/hu_live_server.py: Service.command, Service.voice_auto; festival/control_server_hu.py: /api/hu/dispatch, Fleet.command</span></div>
+<div class="ln"><span class="no">9</span><span class="kw">procedure</span> EMERGENCY(u_norm, source)</div>
+<div class="ln"><span class="no">10</span>  k ← EMERGENCY-KEY(u_norm) <span class="kw">or</span> lower(u_norm).strip(" .!?")</div>
+<div class="ln"><span class="no">11</span>  <span class="kw">if</span> k ∉ EMERGENCY <span class="kw">then</span> <span class="kw">return</span> NOT-EMERGENCY            <span class="cm">// continue with Alg. 3</span></div>
+<div class="ln"><span class="no">12</span>  act ← emergency_hover <span class="kw">if</span> k ∈ EMERGENCY_HOVER <span class="kw">else</span> emergency_land</div>
+<div class="ln"><span class="no">13</span>  POST /api/hu/dispatch {act, targets=ALL, confidence=1.0, symbolic_emergency=true} <span class="kw">with</span> token</div>
+<div class="ln"><span class="no">14</span>  record band EMERGENCY, dispatched ← (response.ok = true)</div>
+<div class="ln"><span class="no">15</span><span class="cm">// supervisor side</span></div>
+<div class="ln"><span class="no">16</span><span class="kw">procedure</span> SUPERVISOR-EMERGENCY(act)</div>
+<div class="ln"><span class="no">17</span>  token check; confidence thresholds skipped because symbolic_emergency ∧ act ∈ {emergency_*}</div>
+<div class="ln"><span class="no">18</span>  targets ← ALL;  action ← land (emergency_land) <span class="kw">or</span> hover (emergency_hover)</div>
+<div class="ln"><span class="no">19</span>  stale ← aircraft without fresh odometry (age ≥ 2.0 s)</div>
+<div class="ln"><span class="no">20</span>  targets ← targets \ stale; log SAFETY_SKIPPED <span class="kw">for</span> stale         <span class="cm">// safe-direction: do not block the fleet</span></div>
+<div class="ln"><span class="no">21</span>  <span class="kw">if</span> targets = ∅ <span class="kw">then</span> <span class="kw">refuse</span></div>
+<div class="ln"><span class="no">22</span>  emergency_hover bypasses the fault block; land is never fault-blocked</div>
+<div class="ln"><span class="no">23</span>  <span class="kw">for</span> d in targets <span class="kw">do</span></div>
+<div class="ln"><span class="no">24</span>    <span class="kw">if</span> action = hover <span class="kw">then</span></div>
+<div class="ln"><span class="no">25</span>      QUEUED → GROUNDED (cancel staggered launch); parked/FAULT → hold z; <span class="kw">else</span> HOVER at max(0.25, z)</div>
+<div class="ln"><span class="no">26</span>    <span class="kw">else</span>                                                          <span class="cm">// land</span></div>
+<div class="ln"><span class="no">27</span>      QUEUED → GROUNDED; parked → unchanged; <span class="kw">else</span> fault ← false, target ← (x, y, 0.12), mode ← LANDING</div>
+</div>
+<p>Voice: in <code>voice_auto</code>, if the alias-corrected transcript is an emergency phrase, it is executed immediately (no spoken confirmation of the correction), whereas any other corrected transcript requires a separate confirmation (Algorithm 19). Typed input is never held for review.</p>
+
+<h2>4. Flowchart and state diagram</h2>
+<div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 512" role="img"><defs><marker id="f02a-a" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker></defs><style>
+.sv-t{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:10px;fill:#111}
+.sv-lb{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:9px;fill:#333;font-style:italic}
+.sv-yn{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:9px;font-weight:700;fill:#1d3d6b}
+.sv-hd{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:10.5px;font-weight:700;fill:#1d3d6b}
+.sv-e{fill:none;stroke:#333;stroke-width:1}
+.sv-ed{fill:none;stroke:#555;stroke-width:1;stroke-dasharray:4 3}
+</style><rect x="40.0" y="7.0" width="250" height="30" rx="15.0" fill="#e8eef7" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="165.0" y="19.6" text-anchor="middle">Typed command, or voice transcript</text><text class="sv-t" x="165.0" y="31.1" text-anchor="middle">(voice: alias table first, Alg. 19)</text><rect x="35.0" y="56.0" width="260" height="32" rx="0.0" fill="#ffffff" stroke="#333333" stroke-width="1"/><text class="sv-t" x="165.0" y="69.7" text-anchor="middle">s ← lower case; punctuation → space;</text><text class="sv-t" x="165.0" y="81.2" text-anchor="middle">whitespace collapsed</text><rect x="25.0" y="105.0" width="280" height="34" rx="0.0" fill="#ffffff" stroke="#333333" stroke-width="1"/><text class="sv-t" x="165.0" y="119.7" text-anchor="middle">candidates: s, PRE(s), SUF(s), PRE(SUF(s)),</text><text class="sv-t" x="165.0" y="131.2" text-anchor="middle">SUF(PRE(s)), NOW(PRE(SUF(s))), NOW(SUF(s))</text><polygon points="165,162.0 265.0,190 165,218.0 65.0,190" fill="#fff7e0" stroke="#8a6d1d" stroke-width="1"/><text class="sv-t" x="165.0" y="181.9" text-anchor="middle">some candidate in</text><text class="sv-t" x="165.0" y="193.4" text-anchor="middle">EMERGENCY_LAND ∪</text><text class="sv-t" x="165.0" y="204.9" text-anchor="middle">EMERGENCY_HOVER?</text><rect x="284.0" y="174.0" width="104" height="32" rx="16.0" fill="#e8eef7" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="336.0" y="187.7" text-anchor="middle">not emergency:</text><text class="sv-t" x="336.0" y="199.2" text-anchor="middle">continue, Alg. 3</text><polyline class="sv-e" points="265.0,190.0 284.0,190.0" marker-end="url(#f02a-a)"/><text class="sv-yn" x="268.0" y="187.4" text-anchor="start">no</text><polygon points="165,236.0 255.0,262 165,288.0 75.0,262" fill="#fff7e0" stroke="#8a6d1d" stroke-width="1"/><text class="sv-t" x="165.0" y="259.6" text-anchor="middle">candidate in</text><text class="sv-t" x="165.0" y="271.1" text-anchor="middle">EMERGENCY_HOVER?</text><rect x="6.0" y="317.0" width="112" height="26" rx="0.0" fill="#ffffff" stroke="#333333" stroke-width="1"/><text class="sv-t" x="62.0" y="333.4" text-anchor="middle">act ← emergency_hover</text><rect x="208.0" y="317.0" width="124" height="26" rx="0.0" fill="#ffffff" stroke="#333333" stroke-width="1"/><text class="sv-t" x="270.0" y="333.4" text-anchor="middle">act ← emergency_land</text><polyline class="sv-e" points="75.0,262.0 62.0,262.0 62.0,317.0" marker-end="url(#f02a-a)"/><text class="sv-yn" x="60.0" y="257.4" text-anchor="end">yes</text><polyline class="sv-e" points="255.0,262.0 270.0,262.0 270.0,317.0" marker-end="url(#f02a-a)"/><text class="sv-yn" x="272.0" y="257.4" text-anchor="start">no</text><rect x="20.0" y="378.0" width="290" height="34" rx="0.0" fill="#ffffff" stroke="#333333" stroke-width="1"/><text class="sv-t" x="165.0" y="392.6" text-anchor="middle">POST /api/hu/dispatch: targets = all five,</text><text class="sv-t" x="165.0" y="404.1" text-anchor="middle">confidence = 1.0, symbolic_emergency = true</text><polyline class="sv-e" points="62.0,343.0 62.0,358.0 165.0,358.0 165.0,378.0" marker-end="url(#f02a-a)"/><polyline class="sv-e" points="270.0,343.0 270.0,358.0 165.0,358.0"/><polyline class="sv-e" points="165.0,37.0 165.0,56.0" marker-end="url(#f02a-a)"/><polyline class="sv-e" points="165.0,88.0 165.0,105.0" marker-end="url(#f02a-a)"/><polyline class="sv-e" points="165.0,139.0 165.0,162.0" marker-end="url(#f02a-a)"/><polyline class="sv-e" points="165.0,218.0 165.0,236.0" marker-end="url(#f02a-a)"/><text class="sv-yn" x="170.0" y="228.4" text-anchor="start">yes</text><rect x="15.0" y="435.0" width="300" height="62" rx="0.0" fill="#f6f6f4" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/><text class="sv-t" x="165.0" y="446.4" text-anchor="middle">Hands-free dashboard: a spoken emergency is sent even</text><text class="sv-t" x="165.0" y="457.9" text-anchor="middle">while another request is in flight, and cancels any</text><text class="sv-t" x="165.0" y="469.4" text-anchor="middle">pending clarification or confirmation first.</text><text class="sv-t" x="165.0" y="480.9" text-anchor="middle">Bare &quot;land&quot; and longer sentences containing &quot;stop&quot;</text><text class="sv-t" x="165.0" y="492.4" text-anchor="middle">are not emergencies.</text><rect x="422.0" y="4.0" width="252" height="456" rx="0.0" fill="none" stroke="#8a99b0" stroke-width="1" stroke-dasharray="4 3"/><text class="sv-hd" x="548.0" y="23.4" text-anchor="middle">Supervisor (control_server_hu.py)</text><polygon points="548,46.0 628.0,70 548,94.0 468.0,70" fill="#fff7e0" stroke="#8a6d1d" stroke-width="1"/><text class="sv-t" x="548.0" y="73.4" text-anchor="middle">X-HU-Token valid?</text><polyline class="sv-e" points="310.0,395.0 405.0,395.0 405.0,70.0 468.0,70.0" marker-end="url(#f02a-a)"/><rect x="632.0" y="98.0" width="40" height="20" rx="10.0" fill="#fbe9e9" stroke="#a33a3a" stroke-width="1"/><text class="sv-t" x="652.0" y="111.4" text-anchor="middle">403</text><polyline class="sv-e" points="628.0,70.0 652.0,70.0 652.0,98.0" marker-end="url(#f02a-a)"/><text class="sv-yn" x="630.0" y="66.4" text-anchor="start">no</text><rect x="430.0" y="127.0" width="236" height="36" rx="0.0" fill="#ffffff" stroke="#333333" stroke-width="1"/><text class="sv-t" x="548.0" y="142.7" text-anchor="middle">thresholds skipped (symbolic flag);</text><text class="sv-t" x="548.0" y="154.2" text-anchor="middle">targets ← five minus stale (age ≥ 2 s)</text><polyline class="sv-e" points="548.0,94.0 548.0,127.0" marker-end="url(#f02a-a)"/><text class="sv-yn" x="553.0" y="104.4" text-anchor="start">yes</text><polygon points="548,189.0 618.0,212 548,235.0 478.0,212" fill="#fff7e0" stroke="#8a6d1d" stroke-width="1"/><text class="sv-t" x="548.0" y="209.7" text-anchor="middle">any fresh</text><text class="sv-t" x="548.0" y="221.2" text-anchor="middle">target left?</text><polyline class="sv-e" points="548.0,163.0 548.0,189.0" marker-end="url(#f02a-a)"/><rect x="632.0" y="197.0" width="40" height="30" rx="15.0" fill="#fbe9e9" stroke="#a33a3a" stroke-width="1"/><text class="sv-t" x="652.0" y="209.7" text-anchor="middle">400</text><text class="sv-t" x="652.0" y="221.2" text-anchor="middle">stale</text><polyline class="sv-e" points="618.0,212.0 632.0,212.0" marker-end="url(#f02a-a)"/><text class="sv-yn" x="619.0" y="208.4" text-anchor="start">no</text><polygon points="548,255.0 613.0,280 548,305.0 483.0,280" fill="#fff7e0" stroke="#8a6d1d" stroke-width="1"/><text class="sv-t" x="548.0" y="277.6" text-anchor="middle">act =</text><text class="sv-t" x="548.0" y="289.1" text-anchor="middle">emergency_hover?</text><polyline class="sv-e" points="548.0,235.0 548.0,255.0" marker-end="url(#f02a-a)"/><text class="sv-yn" x="553.0" y="245.4" text-anchor="start">yes</text><rect x="426.0" y="330.0" width="112" height="56" rx="0.0" fill="#ffffff" stroke="#333333" stroke-width="1"/><text class="sv-t" x="482.0" y="344.1" text-anchor="middle">per aircraft: QUEUED →</text><text class="sv-t" x="482.0" y="355.6" text-anchor="middle">GROUNDED; parked or</text><text class="sv-t" x="482.0" y="367.1" text-anchor="middle">FAULT hold z; else</text><text class="sv-t" x="482.0" y="378.6" text-anchor="middle">HOVER at max(0.25, z)</text><rect x="554.0" y="330.0" width="116" height="56" rx="0.0" fill="#ffffff" stroke="#333333" stroke-width="1"/><text class="sv-t" x="612.0" y="344.1" text-anchor="middle">QUEUED → GROUNDED;</text><text class="sv-t" x="612.0" y="355.6" text-anchor="middle">parked unchanged; else</text><text class="sv-t" x="612.0" y="367.1" text-anchor="middle">fault cleared, LANDING</text><text class="sv-t" x="612.0" y="378.6" text-anchor="middle">to z = 0.12 m</text><polyline class="sv-e" points="483.0,280.0 470.0,280.0 470.0,330.0" marker-end="url(#f02a-a)"/><text class="sv-yn" x="466.0" y="275.4" text-anchor="end">yes</text><polyline class="sv-e" points="613.0,280.0 640.0,280.0 640.0,330.0" marker-end="url(#f02a-a)"/><text class="sv-yn" x="644.0" y="275.4" text-anchor="start">no</text><rect x="430.0" y="413.0" width="236" height="30" rx="15.0" fill="#e8eef7" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="548.0" y="425.6" text-anchor="middle">record band EMERGENCY;</text><text class="sv-t" x="548.0" y="437.1" text-anchor="middle">dispatched = HTTP acknowledgement</text><polyline class="sv-e" points="482.0,386.0 482.0,398.0 548.0,398.0 548.0,413.0" marker-end="url(#f02a-a)"/><polyline class="sv-e" points="612.0,386.0 612.0,398.0 548.0,398.0"/></svg><div class="fc"><b>Figure 2.1.</b> Flowchart of the symbolic emergency channel (<code>emergency_key</code>, <code>Service.command</code>, <code>/api/hu/dispatch</code>, <code>Fleet.command</code>). Stale aircraft are skipped and logged as <code>SAFETY_SKIPPED</code>; the request fails only if no target is fresh.</div></div><div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 270" role="img"><defs><marker id="f02b-a" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker></defs><style>
+.sv-t{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:10px;fill:#111}
+.sv-lb{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:9px;fill:#333;font-style:italic}
+.sv-yn{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:9px;font-weight:700;fill:#1d3d6b}
+.sv-hd{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:10.5px;font-weight:700;fill:#1d3d6b}
+.sv-e{fill:none;stroke:#333;stroke-width:1}
+.sv-ed{fill:none;stroke:#555;stroke-width:1;stroke-dasharray:4 3}
+</style><rect x="16.0" y="32.0" width="152" height="36" rx="9.0" fill="#eef3f9" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="92.0" y="47.6" text-anchor="middle">PARKED</text><text class="sv-t" x="92.0" y="59.1" text-anchor="middle">READY/GROUNDED/WAITING</text><rect x="245.0" y="28.0" width="150" height="44" rx="9.0" fill="#eef3f9" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="320.0" y="41.9" text-anchor="middle">AIRBORNE</text><text class="sv-t" x="320.0" y="53.4" text-anchor="middle">TAKEOFF, MOVE, TURN,</text><text class="sv-t" x="320.0" y="64.9" text-anchor="middle">SPIN, FORMATION</text><rect x="525.0" y="34.0" width="110" height="32" rx="9.0" fill="#eef3f9" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="580.0" y="47.6" text-anchor="middle">HOVER</text><text class="sv-t" x="580.0" y="59.1" text-anchor="middle">(hold xy, z ≥ 0.25 m)</text><rect x="260.0" y="125.0" width="120" height="30" rx="9.0" fill="#eef3f9" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="320.0" y="143.4" text-anchor="middle">FAULT (simulated)</text><rect x="20.0" y="206.0" width="120" height="32" rx="9.0" fill="#eef3f9" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="80.0" y="219.7" text-anchor="middle">QUEUED</text><text class="sv-t" x="80.0" y="231.2" text-anchor="middle">(staggered launch)</text><rect x="255.0" y="205.0" width="130" height="34" rx="9.0" fill="#f3f3f3" stroke="#444444" stroke-width="1"/><rect x="257.5" y="207.5" width="125" height="29" rx="7.0" fill="none" stroke="#444444" stroke-width=".7"/><text class="sv-t" x="320.0" y="219.7" text-anchor="middle">GROUNDED</text><text class="sv-t" x="320.0" y="231.2" text-anchor="middle">(motors disarmed)</text><rect x="525.0" y="206.0" width="110" height="32" rx="9.0" fill="#eef3f9" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="580.0" y="219.7" text-anchor="middle">LANDING</text><text class="sv-t" x="580.0" y="231.2" text-anchor="middle">(target z = 0.12 m)</text><path class="sv-e" d="M78,32.0 C70,6.0 114,6.0 106,32.0" marker-end="url(#f02b-a)"/><text class="sv-lb" x="92.0" y="10.4" text-anchor="middle">hover / land: unchanged</text><polyline class="sv-e" points="140.0,222.0 255.0,222.0" marker-end="url(#f02b-a)"/><text class="sv-lb" x="180.0" y="203.4" text-anchor="middle">hover or land:</text><text class="sv-lb" x="180.0" y="213.4" text-anchor="middle">launch cancelled</text><polyline class="sv-e" points="395.0,50.0 525.0,50.0" marker-end="url(#f02b-a)"/><text class="sv-lb" x="450.0" y="47.4" text-anchor="middle">emergency_hover</text><polyline class="sv-e" points="395.0,66.0 525.0,210.0" marker-end="url(#f02b-a)"/><text class="sv-lb" x="458.0" y="123.4" text-anchor="start">emergency_land</text><polyline class="sv-e" points="570.0,66.0 570.0,206.0" marker-end="url(#f02b-a)"/><text class="sv-lb" x="545.0" y="138.4" text-anchor="middle">emergency</text><text class="sv-lb" x="545.0" y="148.4" text-anchor="middle">land</text><path class="sv-e" d="M600.0,206.0 Q632.0,136.0 600.0,66.0" marker-end="url(#f02b-a)"/><text class="sv-lb" x="655.0" y="121.4" text-anchor="middle">stop / hover</text><text class="sv-lb" x="655.0" y="131.4" text-anchor="middle">(cancels</text><text class="sv-lb" x="655.0" y="141.4" text-anchor="middle">landing)</text><polyline class="sv-e" points="380.0,140.0 525.0,214.0" marker-end="url(#f02b-a)"/><text class="sv-lb" x="392.0" y="182.4" text-anchor="middle">emergency_land</text><text class="sv-lb" x="392.0" y="192.4" text-anchor="middle">(fault cleared)</text><path class="sv-e" d="M306,155.0 C298,181.0 342,181.0 334,155.0" marker-end="url(#f02b-a)"/><text class="sv-lb" x="232.0" y="163.7" text-anchor="middle">emergency_hover:</text><text class="sv-lb" x="232.0" y="175.2" text-anchor="middle">holds z</text><polyline class="sv-e" points="525.0,222.0 385.0,222.0" marker-end="url(#f02b-a)"/><text class="sv-lb" x="455.0" y="241.4" text-anchor="middle">z ≤ 0.20 m and |v_z| &lt; 0.30 m/s</text></svg><div class="fc"><b>Figure 2.2.</b> The channel itself is stateless (it keeps no memory between utterances); the state it acts on is the per-aircraft mode in the supervisor (<code>Fleet.command</code>, <code>Fleet.loop</code>). The diagram shows only transitions caused by the emergency commands and the touchdown rule. Note the LANDING &rarr; HOVER edge: a later "stop" turns an emergency landing into a hover, because hover is applied to every non-parked, non-faulted mode. Aircraft with stale odometry receive no command at all.</div></div>
+<h2>5. Parameters</h2>
+<table class="t">
+<tr><th>Parameter</th><th>Value</th></tr>
+<tr><td>Phrase sets</td><td>6 landing phrases, 7 hold phrases (above); bare <i>land</i> is deliberately excluded</td></tr>
+<tr><td>Confidence sent</td><td>1.0 (a constant marker, not a model output)</td></tr>
+<tr><td>Telemetry freshness</td><td>odometry age &lt; 2.0 s (<code>Fleet.fresh</code>)</td></tr>
+<tr><td>Landing target / touchdown</td><td>z = 0.12 m; disarm when z &le; 0.20 m and |v<sub>z</sub>| &lt; 0.30 m/s; descent rate limited to [&minus;0.32, +0.10] m/s</td></tr>
+<tr><td>Hover floor</td><td>0.25 m</td></tr>
+</table>
+
+<h2>6. Complexity</h2>
+<p>EMERGENCY-KEY performs at most 7 set look-ups on strings of length &le; 300: O(|u|). Dispatch is O(N) in the number of aircraft (N = 5). No model inference; the live fault scenario recorded an acknowledgement of 3.0 ms (see Section 8).</p>
+
+<h2>7. Properties</h2>
+<h3>Guaranteed</h3>
+<ul>
+<li>Independence from the neural model: recognition is exact set membership after deterministic rewriting; no score is involved.</li>
+<li>Precedence: the check runs before mission routing and model inference for every typed and voice command.</li>
+<li>Bare <i>land</i>, and any phrase not in the closed set after rewriting, is <i>not</i> an emergency.</li>
+<li>Safe-direction availability: one aircraft with stale odometry does not block landing or holding the others; the skipped aircraft are logged (<code>SAFETY_SKIPPED</code>).</li>
+<li>The runtime proximity watchdog never cancels a landing (LANDING is excluded from proximity holds, Algorithm 7), so close aircraft are not frozen in the air during an emergency landing.</li>
+<li>A land/hold never launches a parked aircraft and cancels queued staggered launches.</li>
+</ul>
+<h3>Not guaranteed</h3>
+<ul>
+<li>Stale aircraft receive no new command (the control loop sends zero velocity with motors not re-enabled; Algorithm 9); the channel cannot land an aircraft whose telemetry is lost.</li>
+<li>Recognition depends on the speech recogniser producing a phrase in the set (plus the alias table); paraphrases such as "please put them all down" are not recognised and fall through to Algorithms 3/1.</li>
+<li>The phrase <i>stop</i> embedded in a longer sentence is not an emergency (only whole-utterance matches after the listed rewrites).</li>
+<li>An emergency landing is not latched: a later <i>stop</i> / <i>hover</i> (emergency or not) sets every aircraft that is still LANDING back to HOVER (Figure 2.2), because hover applies to all non-parked, non-faulted modes.</li>
+<li>Landing is vertical at the current XY; no landing-site deconfliction is performed.</li>
+<li>Emergency dispatch does not wait for physical confirmation; <code>dispatched</code> reflects the HTTP acknowledgement only.</li>
+</ul>
+
+<h2>8. Testing and measured results</h2>
+<ul>
+<li><code>acceptance/tests/test_emergency_phrases.py</code>: hover variants, land variants, non-emergency phrases (incl. bare <i>land</i>). <code>acceptance/tests/test_http_v9.py::test_symbolic_hover_authorized_without_model_threshold</code>. <code>test_v9.py::test_stop_is_hover_not_landing</code>, <code>test_bare_land_does_not_land_whole_fleet</code>.</li>
+<li>Live: <code>acceptance/fault_test.py</code>, run <code>run_20261111T052914Z</code>: spoken ASR variant "yella land" with one aircraft faulted &rarr; band EMERGENCY, ack 3.0 ms, landing began at 0.0 s, all five grounded at 6.39 s, nobody re-launched (PASS).</li>
+</ul>
+
+<h2>9. Comparison with alternatives and related work</h2>
+
+<p>The channel is a small, trusted path that can override the complex (neural and planning) command path. That is the idea behind the
+Simplex architecture and run-time assurance (RTA); the industrial counterpart is a hardware emergency stop.</p>
+<ul>
+<li><b>Simplex architecture</b> [1, 2]: a verified, simple safety controller runs beside a complex controller; a decision module
+switches to the safety controller when the plant approaches the boundary of a recoverable region. The switch is automatic and based on
+the plant state.</li>
+<li><b>Run-time assurance standard ASTM F3269-21</b> [3]: specifies RTA components (monitor, recovery function, switch) and requirements
+for bounding the behaviour of unassured complex functions in aircraft systems, with assurance levels from a system safety
+assessment.</li>
+<li><b>SOTER</b> [4]: a programming framework in which each RTA module pairs an advanced and a safe controller with a safety
+specification; well-formed modules carry a formal guarantee. It was evaluated on drone software in simulation and on real vehicles.</li>
+<li><b>Hardware emergency stop</b> (ISO 13850:2015) [5]: a dedicated, operator-initiated stop function on machinery, with design
+principles independent of the energy type; for electrical equipment the realisation is in IEC 60204-1.</li>
+</ul>
+<table class="t">
+<tr><th>Approach</th><th>Trigger</th><th>Independent of the complex path?</th><th>Assurance</th><th>This channel, by comparison</th></tr>
+<tr><td>Simplex [1, 2]</td><td>automatic, from plant state</td><td>yes (separate controller and switch)</td><td>safety controller verified</td><td>operator-triggered only; automatic protection is separate (Alg. 7); no verification</td></tr>
+<tr><td>ASTM F3269 RTA [3]</td><td>monitor of a safety boundary</td><td>required by architecture</td><td>design assurance level from safety assessment</td><td>not designed to the standard; no assurance level</td></tr>
+<tr><td>SOTER [4]</td><td>monitor per module, time-bounded switching</td><td>yes</td><td>formal guarantee for well-formed modules</td><td>ad hoc code; tested, not proved</td></tr>
+<tr><td>Hardware e-stop [5]</td><td>physical operator action</td><td>yes, hard-wired</td><td>functional-safety standards</td><td>software command over HTTP in the same process chain as normal commands</td></tr>
+<tr><td>This document</td><td>closed phrase set after deterministic rewriting</td><td>independent of the model and thresholds; shares bridge, token, network and supervisor</td><td>unit and live tests</td><td>&mdash;</td></tr>
+</table>
+<p><b>Where this channel is weaker.</b> It is not independent in the sense of [1]&ndash;[5]: it depends on the speech recogniser (for voice),
+the browser, the HU bridge process, the token file, the local HTTP link and the supervisor process, and it cannot reach an aircraft whose
+odometry is stale. It does not monitor anything by itself. A real-vehicle deployment would need a separate stop path (e.g. a hard-wired
+or radio kill switch) that does not pass through any of this software. <b>Where it is useful.</b> Within the simulation it gives the
+operator a model-free override with a measured 3.0 ms acknowledgement, and it removes the confidence threshold from the safe-direction
+action, as RTA recovery functions do.</p>
+
+<h2>10. Relation to other algorithms</h2>
+<p>First stage of the command pipeline; on no match, control passes to Algorithm 3 (routing) and possibly Algorithm 1. Uses the supervisor primitives and stale-skipping rule of Algorithm 9 and the landing exemption of Algorithm 7. Algorithm 11 (coordinator) uses the same <code>emergency_hover</code> path as its escalation when a normal hold is refused.</p>
+<h2>11. References</h2>
+<ol class="refs"><li>D. Seto, B. Krogh, L. Sha and A. Chutinan, "The Simplex architecture for safe on-line control system upgrades," <i>Proc. American Control Conference</i>, Philadelphia, 1998, pp. 3504&ndash;3508. <span class="mono" style="font-size:7.9pt">https://doi.org/10.1109/ACC.1998.703255</span></li><li>L. Sha, "Using Simplicity to Control Complexity," <i>IEEE Software</i>, 18(4):20&ndash;28, 2001. <span class="mono" style="font-size:7.9pt">https://doi.org/10.1109/MS.2001.936213</span></li><li>ASTM F3269-21, <i>Standard Practice for Methods to Safely Bound Behavior of Aircraft Systems Containing Complex Functions Using Run-Time Assurance</i>, ASTM International, 2021. <span class="mono" style="font-size:7.9pt">https://store.astm.org/f3269-21.html</span></li><li>A. Desai, S. Ghosh, S. A. Seshia, N. Shankar and A. Tiwari, "SOTER: A Runtime Assurance Framework for Programming Safe Robotics Systems," <i>IEEE/IFIP DSN</i> 2019, pp. 138&ndash;150. <span class="mono" style="font-size:7.9pt">https://arxiv.org/abs/1808.07921</span></li><li>ISO 13850:2015, <i>Safety of machinery &mdash; Emergency stop function &mdash; Principles for design</i>, 3rd ed., International Organization for Standardization, 2015. Catalogue entry: <span class="mono" style="font-size:7.9pt">https://www.sis.se/en/produkter/environment-health-protection-safety/safety-of-machinery/iso138502015/</span></li></ol>
+<div class="foot">This specification describes the behaviour of the source revision identified above. Line-level references use <span class="mono">file:function</span>. Where the code and its own comments disagree, the code is described. Simulation-only system: no statement here is a claim about flight hardware.</div></body></html>

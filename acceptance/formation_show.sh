@@ -20,7 +20,7 @@
 cd "$(dirname "$0")/.." || exit 1
 SETTLE=${SETTLE:-0.12}; LOOPS=${LOOPS:-1}; SOUND=${SOUND:-0}
 SHAPES=("a circle" "a zigzag" "a square" "a diamond" "a cross" "an X" "a triangle" "a circle" "a V" "a wedge" "a circle")
-# SHAPES20=1: 20 distinct shapes, every transition >= 1.16 m planned clearance (computed offline)
+# SHAPES20=1: 20 distinct shapes, every transition >= 1.10 m planned clearance (computed offline; minimum 1.109 m, L -> circle)
 [ "${SHAPES20:-0}" = 1 ] && SHAPES=("a circle" "a zigzag" "a square" "a staggered line" "an X" "a diamond" "a cross"
   "an arrow" "a T shape" "a fan" "an arc" "an inverted V" "a triangle" "a grid" "two rows" "a right echelon"
   "a perimeter" "a V" "a wedge" "an L shape" "a circle")
@@ -42,7 +42,8 @@ settle(){ sleep 0.6; for i in $(seq 1 100); do e=$(err); python3 -c "import sys;
 # send a command; retry while MA'AT says a drone has not settled yet; stop the show on any other refusal
 cmd(){ local r
   for try in 1 2 3 4 5 6 7 8; do r=$($PROBE "$1" | head -1); case "$r" in *"not settled"*|*"are moving"*|*"stable HOVER"*|*"No fresh odometry"*) sleep 1;; *) break;; esac; done
-  case "$r" in *rejected*|*error*|REFUSE*) echo "STOP at '$1': ${r##*confirmed }"; exit 1;; esac; }
+  case "$r" in *rejected*|*error*|REFUSE*) echo "STOP at '$1': ${r##*confirmed }"
+    exit 1;; esac; }
 wait_modes(){ # $1 = regex the mode set must match
   for i in $(seq 1 80); do [[ "$(modes)" =~ $1 ]] && return 0; sleep 0.5; done; echo "timeout waiting for $1"; exit 1; }
 
@@ -52,9 +53,16 @@ for loop in $(seq 1 "$LOOPS"); do
   # STRATEGY=1: the drones choose each next shape themselves (acceptance/strategist.py), ROUND shapes per loop
   if [ "${STRATEGY:-0}" = 1 ]; then SHAPES=(); for r in $(seq 1 "${ROUND:-12}"); do SHAPES+=("@strategy"); done; fi
   for shape in "${SHAPES[@]}"; do
-    if [ "$shape" = "@strategy" ]; then shape=$(python3 acceptance/strategist.py); [ -z "$shape" ] && { sleep 2; continue; }; fi
+    key=""
+    if [ "$shape" = "@strategy" ]; then
+      out=$(python3 acceptance/strategist.py)
+      [ -z "$out" ] && { sleep 2; continue; }
+      shape=${out%%|*}; key=${out##*|}
+    fi
     t0=$(date +%s.%N)
-    cmd "All form $shape"; settle
+    CURRENT_KEY=$key; cmd "All form $shape"; settle
+    secs=$(python3 -c "import time;print(round(time.time()-$t0,2))")
+    CURRENT_KEY=""   # later refusals (levels, 3D, landing) are not the Lead's call and must not cost it merit
     printf '%-12s formed in %4.1f s\n' "${shape#a }" "$(python3 -c "import time;print(time.time()-$t0)")"
     play hu_goal.wav; n=${shape#a }; n=${n#an }; speak "$(shuf -n1 -e Goal Yes Nailed\ it Beautiful)! ${n}!"
     if [ "${LEVELS:-0}" = 1 ]; then
@@ -63,17 +71,28 @@ for loop in $(seq 1 "$LOOPS"); do
       # MA'AT allows a single-drone move only from HOVER and only while the rest of the fleet is
       # steady, so: whole swarm to hover, then each drone pops up to its height one after another.
       lv=""
+      # PROFILES=1: if this 2D shape has a 3D height profile (pyramid, helix, staircase, ...), fly it
+      prof=""; declare -A PH=()
+      if [ "${PROFILES:-1}" = 1 ]; then
+        base=$(python3 -c "import sys;sys.path.insert(0,'festival');import mission_intents as m;print((m.parse('All form '+sys.argv[1]) or {}).get('params',{}).get('shape',''))" "$shape" 2>/dev/null)
+        if [ -n "$base" ]; then
+          mapfile -t PL < <(python3 acceptance/height_profile.py "$base" 2>/dev/null)
+          if [ ${#PL[@]} -gt 0 ]; then prof=${PL[0]}; for l in "${PL[@]:1}"; do PH[${l% *}]=${l#* }; done; fi
+        fi
+      fi
       cmd "Everyone, hover in place"; wait_modes '^HOVER$'
+      [ -n "$prof" ] && python3 -c "import sys;sys.path.insert(0,'spaceops_v8');import team_radio;team_radio.Radio('3d').say('Horus','Going 3D, RSCL Flight: '+sys.argv[1].replace('_3d','').replace('_',' ')+'. Take your heights.',{'height_profile':sys.argv[1]})" "$prof" 2>/dev/null
       for j in 0 1 2 3 4; do
         # random level between -80 and +80 cm around the 1.9 m formation altitude (1.1-2.7 m;
         # limits 0.65-2.8 m); |h| < 10 cm is skipped (the minimum move is 10 cm)
-        if [ "${RANDOM_LEVELS:-1}" = 1 ]; then h=$(( (RANDOM % 17 - 8) * 10 )); else h=${STEPS[$(( (j + k) % 5 ))]}; fi
+        if [ -n "$prof" ]; then h=${PH[${NAMES[$j]}]:-0}
+        elif [ "${RANDOM_LEVELS:-1}" = 1 ]; then h=$(( (RANDOM % 17 - 8) * 10 )); else h=${STEPS[$(( (j + k) % 5 ))]}; fi
         lv="$lv ${NAMES[$j]}$( [ $h -ge 0 ] && echo + )${h}"
         [ "$h" = 0 ] && continue
         if [ $h -gt 0 ]; then cmd "${NAMES[$j]}, go up $h centimeters"; else cmd "${NAMES[$j]}, go down $(( -h )) centimeters"; fi
         wait_modes '^HOVER$'
       done
-      settle; echo "             levels (cm):$lv"; k=$((k + 1))
+      settle; echo "             ${prof:+3D $prof }levels (cm):$lv"; k=$((k + 1))
     elif [ "${UPDOWN:-0}" = 1 ]; then
       cmd "Everyone, go up 60 centimeters"; settle; echo "             climbed 60 cm"
     fi

@@ -1,0 +1,65 @@
+<!doctype html><html><head><meta charset="utf-8"><title>RSCL HU–MA'AT Poster Runbook</title>
+<style>
+@page{size:A4;margin:12mm}
+body{font-family:'Segoe UI',Arial,sans-serif;color:#13202a;font-size:11.2pt;line-height:1.38;margin:0}
+h1{font-size:19pt;margin:0 0 2px;color:#0b3d52}.sub{color:#5b6b75;margin-bottom:8px;font-size:10pt}
+h2{font-size:12.5pt;margin:11px 0 4px;color:#0b3d52;border-bottom:2px solid #d9a521;padding-bottom:2px}
+table{border-collapse:collapse;width:100%;font-size:10.5pt}td,th{border:1px solid #c9d3d9;padding:4px 6px;vertical-align:top}
+th{background:#eef3f6;text-align:left}.btn{font-weight:700;white-space:nowrap}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.box{background:#fff8e6;border:1px solid #e7c96a;border-radius:6px;padding:6px 9px}
+.red{background:#fdecee;border-color:#e59aa5}code{background:#eef3f6;padding:0 3px;border-radius:3px;font-size:10pt}
+ul{margin:3px 0 3px 18px;padding:0}li{margin:1px 0}
+</style></head><body>
+<h1>HU–MA'AT · Poster Session Runbook</h1>
+<div class="sub">RSCL — Reconfigurable Space Computing Lab · Cal Poly Pomona · Demonstration 7, IEEE Telepresence 2026</div>
+
+<h2>1. The control window — Desktop icon <i>“RSCL HU-MAAT Control”</i></h2>
+<div class="box" style="margin-bottom:6px">One window with the RSCL logo, the six buttons below (each with a note), red <b>HOLD</b> and <b>LAND NOW</b>
+emergency buttons, live status lights (Gazebo, MA'AT, HU, SpaceOps, drones, show, lights) and an output panel.
+Backup: the same actions as .bat files in the Desktop folder <i>RSCL backup buttons</i>.</div>
+<table><tr><th>Button</th><th>What it does</th><th>When</th></tr>
+<tr><td class="btn">1 · START EVERYTHING</td><td>Starts Gazebo (3-D window), HU, MA'AT, SpaceOps, LED lights and the automatic show; opens the HU console and SpaceOps in Edge. 1–3 min.</td><td>Arrival / after any restart</td></tr>
+<tr><td class="btn">2 · VISITOR MODE</td><td>Pauses the show and lands the drones. Visitors give their own commands.</td><td>A visitor wants to try</td></tr>
+<tr><td class="btn">3 · AUTOMATIC SHOW</td><td>Resumes the automatic show (the drones choose formations in team strategy rounds).</td><td>Booth is quiet</td></tr>
+<tr><td class="btn">4 · STATUS CHECK</td><td>One-screen health check (services, drones, show, lights).</td><td>Anything looks odd</td></tr>
+<tr><td class="btn">5 · STOP</td><td>Lands, stops show and lights (services stay up).</td><td>End of session</td></tr></table>
+<div class="box" style="margin-top:6px">In SpaceOps (Edge, <b>Ctrl+F5</b>): click <b>🔊 DRONE VOICES</b> to hear the drones; speech bubbles appear above each drone on the map.</div>
+
+<div class="cols"><div>
+<h2>2. 60-second pitch</h2>
+<p>"Speaking to robots is the most direct telepresence — but with drones, a misunderstanding has physics. <b>HU</b> decides <b>before anything moves</b>: execute, ask a human to confirm, or refuse. A 135M-parameter model on a laptop; it handles names it never saw. On our <b>physical three-drone fleet</b>: <b>zero unsafe actions</b>, all 13 invalid commands refused. Emergency words — stop, land now, <i>khalas</i> — <b>bypass the AI entirely</b>. <b>MA'AT</b>, the safety supervisor, checks every move. Here the same frozen model runs five drones in Gazebo — they now choose their own formations in team strategy rounds. Try it: give them a command."</p>
+</div><div>
+<h2>3. What visitors can try (Visitor Mode)</h2>
+<table><tr><td><code>Everyone, take off</code></td><td>EXECUTE</td></tr>
+<tr><td><code>All form a circle</code> / <code>All form Cassiopeia</code></td><td>CONFIRM → confirm</td></tr>
+<tr><td><code>Everyone except Anubis, hover</code></td><td>exclusion</td></tr>
+<tr><td><code>Horus, move forward 1 meter</code></td><td>CONFIRM</td></tr>
+<tr><td><code>This project is really taking off</code></td><td>REFUSE (not a command)</td></tr>
+<tr><td><code>Thoth, do a backflip</code></td><td>REFUSE</td></tr>
+<tr><td><code>khalas</code> / <code>stop</code></td><td>EMERGENCY HOLD</td></tr>
+<tr><td><code>land now</code></td><td>EMERGENCY LAND (latched)</td></tr></table>
+</div></div>
+
+<h2>4. Numbers to quote (all measured)</h2>
+<ul>
+<li><b>Physical fleet (paper):</b> 60-command live protocol, 100% auto-execution precision, 0 unsafe accepts, 13/13 invalid commands refused.</li>
+<li><b>103 formations</b> validated in live flight (letters, digits, constellations, Egyptian, sports, 3-D profiles).</li>
+<li><b>Coordination pays:</b> team-chosen moves formed ~10% faster than random (4.04 s vs 4.47 s, 12 flights each — early result).</li>
+</ul>
+
+<div class="cols"><div>
+<h2>5. Honest answers</h2>
+<ul><li><b>Real or simulated?</b> Paper results: physical CoDrones. Here: same frozen model + safety pipeline in Gazebo.</li>
+<li><b>Is that an LLM talking?</b> No — decisions are computed from real positions; sentences are templates; badges say so.</li>
+<li><b>What if it's wrong?</b> Uncertain → confirm, unsafe → refuse, emergencies skip the AI, MA'AT checks every move.</li>
+<li><b>Future?</b> More autonomy for the drones, always inside boundaries enforced by MA'AT.</li></ul>
+</div><div>
+<h2>6. If something goes wrong</h2>
+<div class="box red"><b>Drones misbehave:</b> type/say <b>stop</b> (hold) or <b>land now</b> in the HU console. Always works.</div>
+<ul><li>Page won't load → <b>4 · STATUS CHECK</b>; if anything DOWN → <b>1 · START EVERYTHING</b>.</li>
+<li>Laptop slept → <b>1 · START EVERYTHING</b> (2–3 min).</li>
+<li>Show stuck → <b>2 · VISITOR</b> then <b>3 · SHOW</b> (it re-pads drones automatically if they landed bunched).</li>
+<li>No sound → Windows volume; in SpaceOps click 🔊 again.</li>
+<li>Keep the charger in and the lid open.</li></ul>
+</div></div>
+</body></html>

@@ -1,0 +1,165 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RSCL Algorithm 19</title><style>
+@page { size: Letter; margin: 17mm 17mm 16mm 17mm; }
+:root { --ink:#111; --mute:#555; --rule:#222; --soft:#f4f4f2; --accent:#1d3d6b; }
+html { background:#fff; }
+body { font-family: Cambria, Georgia, 'Times New Roman', serif; font-size: 10.3pt; line-height: 1.38; color: var(--ink); background:#fff; margin:0; }
+h1 { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 16.5pt; margin: 0 0 3pt 0; color: var(--accent); }
+h2 { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 11.6pt; margin: 12pt 0 4pt 0; color: var(--accent); border-bottom: 0.6pt solid #b9c3d3; padding-bottom: 1pt; break-after: avoid; }
+h3 { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 10.4pt; margin: 8pt 0 2pt 0; break-after: avoid; }
+p { margin: 3pt 0 5pt 0; text-align: justify; }
+ul, ol { margin: 2pt 0 5pt 0; padding-left: 17pt; }
+li { margin: 1pt 0; }
+code, .mono { font-family: Consolas, 'Cascadia Mono', 'Courier New', monospace; font-size: 8.9pt; }
+.hdr { border-top: 2.2pt solid var(--rule); border-bottom: 0.8pt solid var(--rule); padding: 6pt 0 5pt 0; margin-bottom: 8pt; }
+.hdr .lab { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 9pt; color: #333; }
+.hdr .meta { font-size: 8.6pt; color: var(--mute); margin-top: 3pt; }
+.hdr table.src { border-collapse: collapse; margin-top: 4pt; font-size: 7.9pt; width: 100%; }
+.hdr table.src td { padding: 0.5pt 6pt 0.5pt 0; border: none; vertical-align: top; }
+table.t { border-collapse: collapse; width: 100%; margin: 4pt 0 7pt 0; font-size: 9.1pt; break-inside: auto; }
+table.t th, table.t td { border: 0.5pt solid #9a9a9a; padding: 2pt 4pt; vertical-align: top; text-align: left; }
+table.t th { background: #e8ecf2; font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-weight: 600; }
+table.t tr { break-inside: avoid; }
+.algo { border-top: 1.4pt solid var(--rule); border-bottom: 1.4pt solid var(--rule); margin: 7pt 0 9pt 0; padding: 0 0 3pt 0; break-inside: auto; }
+.algo .cap { border-bottom: 0.7pt solid var(--rule); padding: 2pt 0 2pt 0; font-size: 9.6pt; margin-bottom: 2pt; }
+.algo .cap b { font-family: 'Segoe UI', Calibri, Arial, sans-serif; }
+.algo .src { color: var(--mute); font-size: 8.3pt; }
+.algo .ln { font-family: Consolas, 'Cascadia Mono', 'Courier New', monospace; font-size: 8.55pt; white-space: pre-wrap; line-height: 1.30; padding-left: 26pt; text-indent: -26pt; break-inside: avoid; }
+.algo .ln .no { display: inline-block; width: 20pt; text-align: right; margin-right: 6pt; color: #777; text-indent: 0; }
+.algo .ln .kw { font-weight: 700; }
+.algo .ln .cm { color: #5a6b7d; font-style: italic; }
+.note { background: var(--soft); border-left: 2.2pt solid #8a99b0; padding: 3pt 6pt; margin: 5pt 0; font-size: 9.4pt; }
+.two { columns: 2; column-gap: 14pt; }
+.foot { margin-top: 12pt; border-top: 0.6pt solid #999; padding-top: 3pt; font-size: 7.8pt; color: var(--mute); }
+pre.code { font-family: Consolas, 'Courier New', monospace; font-size: 8.3pt; background: var(--soft); padding: 4pt 6pt; white-space: pre-wrap; margin: 4pt 0; }
+
+.fig { margin: 6pt 0 9pt 0; break-inside: avoid; page-break-inside: avoid; }
+.fig svg { width: 100%; height: auto; display: block; }
+.fig .fc { font-size: 8.7pt; color: #333; margin-top: 3pt; text-align: justify; }
+ol.refs { font-size: 8.5pt; padding-left: 18pt; margin: 3pt 0; }
+ol.refs li { margin: 2pt 0; word-break: break-word; }
+table.t.ex td { font-size: 8.5pt; }
+</style></head><body><div class="hdr"><h1>RSCL — Algorithm 19: Voice Transcript Normalisation and Spoken-Confirmation Protocol for Corrected Transcripts</h1><div class="lab">Reconfigurable Space Computing Lab (RSCL), California State Polytechnic University, Pomona (Cal Poly Pomona) &middot; Director: Prof. Mohamed El-Hadedy</div><div class="meta">Date: 2026-11-12 &middot; Document type: formal algorithm specification of the implemented code (HU-MA'AT drone-fleet simulation demo)<br>Source files described (content hash and state at document build time):</div><table class="src"><tr><td class="mono">hu-telepresence-gazebo/festival/hu_live_server.py</td><td class="mono">sha256 2416370e93dc</td><td>2026-11-11 06:38 UTC</td><td>clean @ 10ee643</td></tr><tr><td class="mono">hu-telepresence-gazebo/festival/hu_live_dashboard.html</td><td class="mono">sha256 d1e2cf6aabae</td><td>2026-11-12 01:23 UTC</td><td>clean @ 05172be</td></tr></table></div>
+<h2>1. Purpose and context</h2>
+<p>Browser speech recognition mishears the aircraft names (Ra as "rock" or "raw", Horus as "chorus" or "horror") and accented words ("yella" for <i>yalla</i>, "old" for <i>all</i>). Silently rewriting a transcript and then executing it would let a recogniser error choose the aircraft. This algorithm repairs a fixed set of known confusions but never executes a repaired command without a second, separate confirmation, with one deliberate exception: emergency phrases (Algorithm 2), where delay is the larger risk.</p>
+
+<h2>2. Inputs, outputs, state</h2>
+<ul>
+<li><b>Inputs:</b> raw transcript (1..300 chars) on <code>/api/hu/voice-auto</code>; a clarification id on <code>/api/hu/voice-accept</code>; <code>/api/hu/cancel</code>; dashboard review path <code>/api/hu/command</code> with <code>voice_reviewed</code>.</li>
+<li><b>State:</b> server: <code>voice_pending</code>, at most one entry {utterance (corrected), heard (raw), at}, id of 12 hex characters; the command table <code>pending</code> of Algorithm 1. Client (hands-free dashboard): one <code>pending</code> object of kind <i>alias</i> or <i>hu</i> with a 45 s timer.</li>
+<li><b>Outputs:</b> decision records with band VOICE_REVIEW, VOICE_CLARIFY, EMERGENCY, or the bands of Algorithms 1/3; <code>original_transcript</code> is kept in every record.</li>
+</ul>
+
+<h2>3. Algorithm</h2>
+<div class="algo"><div class="cap"><b>Algorithm 19.1 Normalisation and clarification</b><br><span class="src">Source: festival/hu_live_server.py: VOICE_ALIASES, normalize_utterance, Service.voice_auto, Service.voice_accept, Service.cancel, Service.command</span></div>
+<div class="ln"><span class="no">1</span><span class="kw">function</span> NORMALIZE(raw, source)</div>
+<div class="ln"><span class="no">2</span>  u ← raw</div>
+<div class="ln"><span class="no">3</span>  <span class="kw">if</span> source = voice <span class="kw">then</span></div>
+<div class="ln"><span class="no">4</span>    <span class="kw">for</span> (wrong → right) in VOICE_ALIASES <span class="kw">do</span> u ← replace whole-word, case-insensitive</div>
+<div class="ln"><span class="no">5</span>    u ← replace whole word "old" by "all" only when followed by [the] [drone(s)] + one of</div>
+<div class="ln"><span class="no">6</span>         take off|takeoff|land|stop|hover|form|perform|turn|rotate|spin</div>
+<div class="ln"><span class="no">7</span>  <span class="kw">return</span> u</div>
+<div class="ln"><span class="no">8</span><span class="kw">procedure</span> VOICE-AUTO(raw)                               <span class="cm">// hands-free route</span></div>
+<div class="ln"><span class="no">9</span>  s ← NORMALIZE(raw, voice)</div>
+<div class="ln"><span class="no">10</span>  <span class="kw">if</span> EMERGENCY-KEY(s) ≠ None <span class="kw">then</span> <span class="kw">return</span> COMMAND(s, voice, reviewed, original = raw)   <span class="cm">// Alg. 2, immediate</span></div>
+<div class="ln"><span class="no">11</span>  <span class="kw">if</span> s ≠ raw <span class="kw">then</span></div>
+<div class="ln"><span class="no">12</span>    voice_pending ← { new id: (s, raw, now) }           <span class="cm">// clears any earlier clarification</span></div>
+<div class="ln"><span class="no">13</span>    <span class="kw">return</span> VOICE_CLARIFY (no dispatch; operator must say "yes")</div>
+<div class="ln"><span class="no">14</span>  <span class="kw">return</span> COMMAND(raw, voice, reviewed, original = raw)  <span class="cm">// normal pipeline (Alg. 2 → 3 → 1)</span></div>
+<div class="ln"><span class="no">15</span><span class="kw">procedure</span> VOICE-ACCEPT(id)</div>
+<div class="ln"><span class="no">16</span>  c ← voice_pending.pop(id);  <span class="kw">if</span> c = None <span class="kw">then</span> <span class="kw">refuse</span> "missing or already used"</div>
+<div class="ln"><span class="no">17</span>  <span class="kw">if</span> now − c.at &gt; 75 s <span class="kw">then</span> <span class="kw">refuse</span> "expired; repeat the command"</div>
+<div class="ln"><span class="no">18</span>  <span class="kw">return</span> COMMAND(c.utterance, voice, reviewed, original = c.heard)</div>
+<div class="ln"><span class="no">19</span><span class="kw">procedure</span> COMMAND(u, source, reviewed)                  <span class="cm">// first lines of Service.command</span></div>
+<div class="ln"><span class="no">20</span>  <span class="kw">if</span> source = voice <span class="kw">and</span> <span class="kw">not</span> reviewed <span class="kw">then</span> <span class="kw">return</span> VOICE_REVIEW (no inference, no dispatch)</div>
+<div class="ln"><span class="no">21</span>  <span class="kw">continue</span> <span class="kw">with</span> Algorithm 2, <span class="kw">then</span> 3, <span class="kw">then</span> 1 on NORMALIZE(u, source)</div>
+</div>
+
+<h2>4. Flowchart and state diagram</h2>
+<div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 395" role="img"><defs><marker id="f19a-a" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker></defs><style>
+.sv-t{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:10px;fill:#111}
+.sv-lb{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:9px;fill:#333;font-style:italic}
+.sv-yn{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:9px;font-weight:700;fill:#1d3d6b}
+.sv-hd{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:10.5px;font-weight:700;fill:#1d3d6b}
+.sv-e{fill:none;stroke:#333;stroke-width:1}
+.sv-ed{fill:none;stroke:#555;stroke-width:1;stroke-dasharray:4 3}
+</style><rect x="40.0" y="7.0" width="220" height="26" rx="13.0" fill="#e8eef7" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="150.0" y="23.4" text-anchor="middle">transcript on /api/hu/voice-auto</text><polygon points="150,51.0 235.0,74 150,97.0 65.0,74" fill="#fff7e0" stroke="#8a6d1d" stroke-width="1"/><text class="sv-t" x="150.0" y="77.4" text-anchor="middle">1 ≤ length ≤ 300?</text><rect x="270.0" y="63.0" width="70" height="22" rx="11.0" fill="#fbe9e9" stroke="#a33a3a" stroke-width="1"/><text class="sv-t" x="305.0" y="77.4" text-anchor="middle">400</text><rect x="25.0" y="117.0" width="250" height="46" rx="0.0" fill="#ffffff" stroke="#333333" stroke-width="1"/><text class="sv-t" x="150.0" y="131.9" text-anchor="middle">s ← NORMALIZE(raw): 20 whole-word</text><text class="sv-t" x="150.0" y="143.4" text-anchor="middle">aliases; &quot;old&quot; → &quot;all&quot; only before</text><text class="sv-t" x="150.0" y="154.9" text-anchor="middle">[the] [drone(s)] + a flight verb</text><polygon points="150,188.0 235.0,214 150,240.0 65.0,214" fill="#fff7e0" stroke="#8a6d1d" stroke-width="1"/><text class="sv-t" x="150.0" y="211.7" text-anchor="middle">EMERGENCY-KEY(s)</text><text class="sv-t" x="150.0" y="223.2" text-anchor="middle">≠ None?</text><rect x="258.0" y="196.0" width="120" height="36" rx="18.0" fill="#e7f4e8" stroke="#2e7d32" stroke-width="1"/><text class="sv-t" x="318.0" y="211.7" text-anchor="middle">COMMAND(s) now:</text><text class="sv-t" x="318.0" y="223.2" text-anchor="middle">EMERGENCY (Alg. 2)</text><polygon points="150,265.0 225.0,290 150,315.0 75.0,290" fill="#fff7e0" stroke="#8a6d1d" stroke-width="1"/><text class="sv-t" x="150.0" y="293.4" text-anchor="middle">s ≠ raw?</text><rect x="253.0" y="267.0" width="130" height="46" rx="0.0" fill="#ffffff" stroke="#333333" stroke-width="1"/><text class="sv-t" x="318.0" y="281.9" text-anchor="middle">voice_pending ←</text><text class="sv-t" x="318.0" y="293.4" text-anchor="middle">{id: (s, raw, now)}</text><text class="sv-t" x="318.0" y="304.9" text-anchor="middle">(older entry dropped)</text><rect x="245.0" y="346.0" width="146" height="32" rx="16.0" fill="#e8eef7" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="318.0" y="359.6" text-anchor="middle">VOICE_CLARIFY, no dispatch;</text><text class="sv-t" x="318.0" y="371.1" text-anchor="middle">&quot;Did you mean …?&quot;</text><rect x="65.0" y="346.0" width="170" height="32" rx="16.0" fill="#e8eef7" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="150.0" y="359.6" text-anchor="middle">COMMAND(raw): Alg. 2 → 3 → 1</text><text class="sv-t" x="150.0" y="371.1" text-anchor="middle">(reviewed; original kept)</text><polyline class="sv-e" points="150.0,33.0 150.0,51.0" marker-end="url(#f19a-a)"/><polyline class="sv-e" points="150.0,97.0 150.0,117.0" marker-end="url(#f19a-a)"/><polyline class="sv-e" points="150.0,163.0 150.0,188.0" marker-end="url(#f19a-a)"/><polyline class="sv-e" points="150.0,240.0 150.0,265.0" marker-end="url(#f19a-a)"/><polyline class="sv-e" points="150.0,315.0 150.0,346.0" marker-end="url(#f19a-a)"/><polyline class="sv-e" points="318.0,313.0 318.0,346.0" marker-end="url(#f19a-a)"/><text class="sv-yn" x="155.0" y="107.4" text-anchor="start">yes</text><text class="sv-yn" x="155.0" y="250.4" text-anchor="start">no</text><text class="sv-yn" x="155.0" y="325.4" text-anchor="start">no</text><polyline class="sv-e" points="235.0,74.0 270.0,74.0" marker-end="url(#f19a-a)"/><text class="sv-yn" x="237.0" y="71.4" text-anchor="start">no</text><polyline class="sv-e" points="235.0,214.0 258.0,214.0" marker-end="url(#f19a-a)"/><text class="sv-yn" x="236.0" y="211.4" text-anchor="start">yes</text><polyline class="sv-e" points="225.0,290.0 253.0,290.0" marker-end="url(#f19a-a)"/><text class="sv-yn" x="227.0" y="287.4" text-anchor="start">yes</text><line x1="398" y1="8" x2="398" y2="388" stroke="#bbb" stroke-dasharray="3 3"/><rect x="425.0" y="7.0" width="210" height="26" rx="13.0" fill="#e8eef7" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="530.0" y="23.4" text-anchor="middle">/api/hu/voice-accept {cmd_id}</text><rect x="430.0" y="54.0" width="200" height="24" rx="0.0" fill="#ffffff" stroke="#333333" stroke-width="1"/><text class="sv-t" x="530.0" y="69.4" text-anchor="middle">c ← voice_pending.pop(cmd_id)</text><polygon points="530,99.0 600.0,122 530,145.0 460.0,122" fill="#fff7e0" stroke="#8a6d1d" stroke-width="1"/><text class="sv-t" x="530.0" y="125.4" text-anchor="middle">c found?</text><rect x="614.0" y="107.0" width="62" height="30" rx="15.0" fill="#fbe9e9" stroke="#a33a3a" stroke-width="1"/><text class="sv-t" x="645.0" y="119.7" text-anchor="middle">400: used</text><text class="sv-t" x="645.0" y="131.2" text-anchor="middle">or missing</text><polygon points="530,165.0 600.0,190 530,215.0 460.0,190" fill="#fff7e0" stroke="#8a6d1d" stroke-width="1"/><text class="sv-t" x="530.0" y="187.7" text-anchor="middle">now − c.at</text><text class="sv-t" x="530.0" y="199.2" text-anchor="middle">≤ 75 s?</text><rect x="614.0" y="175.0" width="62" height="30" rx="15.0" fill="#fbe9e9" stroke="#a33a3a" stroke-width="1"/><text class="sv-t" x="645.0" y="187.7" text-anchor="middle">400:</text><text class="sv-t" x="645.0" y="199.2" text-anchor="middle">expired</text><rect x="415.0" y="241.0" width="230" height="34" rx="17.0" fill="#e7f4e8" stroke="#2e7d32" stroke-width="1"/><text class="sv-t" x="530.0" y="255.7" text-anchor="middle">COMMAND(c.utterance): Alg. 2 → 3 → 1</text><text class="sv-t" x="530.0" y="267.1" text-anchor="middle">(original_transcript = heard)</text><rect x="415.0" y="313.0" width="230" height="46" rx="0.0" fill="#f6f6f4" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/><text class="sv-t" x="530.0" y="327.9" text-anchor="middle">/api/hu/cancel pops the id from</text><text class="sv-t" x="530.0" y="339.4" text-anchor="middle">voice_pending and from pending;</text><text class="sv-t" x="530.0" y="350.9" text-anchor="middle">it never dispatches.</text><polyline class="sv-e" points="530.0,33.0 530.0,54.0" marker-end="url(#f19a-a)"/><polyline class="sv-e" points="530.0,78.0 530.0,99.0" marker-end="url(#f19a-a)"/><polyline class="sv-e" points="530.0,145.0 530.0,165.0" marker-end="url(#f19a-a)"/><polyline class="sv-e" points="530.0,215.0 530.0,241.0" marker-end="url(#f19a-a)"/><text class="sv-yn" x="535.0" y="155.4" text-anchor="start">yes</text><text class="sv-yn" x="535.0" y="225.4" text-anchor="start">yes</text><polyline class="sv-e" points="600.0,122.0 614.0,122.0" marker-end="url(#f19a-a)"/><text class="sv-yn" x="601.0" y="119.4" text-anchor="start">no</text><polyline class="sv-e" points="600.0,190.0 614.0,190.0" marker-end="url(#f19a-a)"/><text class="sv-yn" x="601.0" y="187.4" text-anchor="start">no</text></svg><div class="fc"><b>Figure 19.1.</b> Flowcharts of <code>Service.voice_auto</code> (left) and <code>Service.voice_accept</code> (right). The entry is popped before the age test, so an expired id is also consumed. A command produced by an accepted correction still passes through all of Algorithms 2, 3 and 1; acceptance of the correction is not authorisation of the command.</div></div><div class="fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300" role="img"><defs><marker id="f19b-a" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker></defs><style>
+.sv-t{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:10px;fill:#111}
+.sv-lb{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:9px;fill:#333;font-style:italic}
+.sv-yn{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:9px;font-weight:700;fill:#1d3d6b}
+.sv-hd{font-family:'Segoe UI',Calibri,Arial,sans-serif;font-size:10.5px;font-weight:700;fill:#1d3d6b}
+.sv-e{fill:none;stroke:#333;stroke-width:1}
+.sv-ed{fill:none;stroke:#555;stroke-width:1;stroke-dasharray:4 3}
+</style><rect x="18.0" y="130.0" width="128" height="40" rx="9.0" fill="#eef3f9" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="82.0" y="147.7" text-anchor="middle">LISTENING</text><text class="sv-t" x="82.0" y="159.2" text-anchor="middle">(hands-free on)</text><rect x="245.0" y="29.0" width="190" height="46" rx="9.0" fill="#eef3f9" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="340.0" y="43.9" text-anchor="middle">CLARIFY PENDING (alias)</text><text class="sv-t" x="340.0" y="55.4" text-anchor="middle">server: voice_pending, 75 s</text><text class="sv-t" x="340.0" y="66.9" text-anchor="middle">client timer 45 s</text><rect x="245.0" y="225.0" width="190" height="46" rx="9.0" fill="#eef3f9" stroke="#1d3d6b" stroke-width="1"/><text class="sv-t" x="340.0" y="239.9" text-anchor="middle">CONFIRM PENDING (hu)</text><text class="sv-t" x="340.0" y="251.4" text-anchor="middle">server: pending, 90 s</text><text class="sv-t" x="340.0" y="262.9" text-anchor="middle">client timer 45 s</text><rect x="515.0" y="127.0" width="150" height="46" rx="9.0" fill="#f3f3f3" stroke="#444444" stroke-width="1"/><rect x="517.5" y="129.5" width="145" height="41" rx="7.0" fill="none" stroke="#444444" stroke-width=".7"/><text class="sv-t" x="590.0" y="141.9" text-anchor="middle">RESULT recorded</text><text class="sv-t" x="590.0" y="153.4" text-anchor="middle">DISPATCHED / REFUSED /</text><text class="sv-t" x="590.0" y="164.9" text-anchor="middle">EMERGENCY</text><path class="sv-e" d="M120.0,130.0 Q170.0,50.0 245.0,45.0" marker-end="url(#f19b-a)"/><text class="sv-lb" x="150.0" y="58.4" text-anchor="middle">transcript changed</text><text class="sv-lb" x="150.0" y="68.4" text-anchor="middle">by aliases</text><path class="sv-e" d="M245.0,66.0 Q200.0,100.0 140.0,132.0" marker-end="url(#f19b-a)"/><text class="sv-lb" x="215.0" y="118.4" text-anchor="middle">no / cancel; 45 s</text><text class="sv-lb" x="215.0" y="128.4" text-anchor="middle">(→ /api/hu/cancel)</text><path class="sv-e" d="M120.0,170.0 Q170.0,250.0 245.0,255.0" marker-end="url(#f19b-a)"/><text class="sv-lb" x="150.0" y="248.4" text-anchor="middle">band CONFIRM</text><path class="sv-e" d="M245.0,236.0 Q200.0,200.0 140.0,168.0" marker-end="url(#f19b-a)"/><text class="sv-lb" x="210.0" y="190.4" text-anchor="middle">no / cancel;</text><text class="sv-lb" x="210.0" y="200.4" text-anchor="middle">45 s</text><polyline class="sv-e" points="146.0,150.0 515.0,150.0" marker-end="url(#f19b-a)"/><text class="sv-lb" x="222.0" y="147.4" text-anchor="middle">emergency, EXECUTE, REFUSE</text><polyline class="sv-e" points="340.0,75.0 340.0,225.0" marker-end="url(#f19b-a)"/><text class="sv-lb" x="348.0" y="103.4" text-anchor="start">&quot;yes&quot; → voice-accept,</text><text class="sv-lb" x="348.0" y="113.4" text-anchor="start">result band CONFIRM</text><polyline class="sv-e" points="435.0,66.0 540.0,127.0" marker-end="url(#f19b-a)"/><text class="sv-lb" x="530.0" y="80.4" text-anchor="middle">&quot;yes&quot; → voice-accept,</text><text class="sv-lb" x="530.0" y="90.4" text-anchor="middle">other band</text><polyline class="sv-e" points="435.0,236.0 540.0,173.0" marker-end="url(#f19b-a)"/><text class="sv-lb" x="530.0" y="220.4" text-anchor="middle">explicit &quot;confirm&quot; →</text><text class="sv-lb" x="530.0" y="230.4" text-anchor="middle">/api/hu/confirm</text><polyline class="sv-e" points="590.0,173.0 590.0,291.0 82.0,291.0 82.0,170.0" marker-end="url(#f19b-a)"/><text class="sv-lb" x="500.0" y="287.4" text-anchor="middle">return to listening</text></svg><div class="fc"><b>Figure 19.2.</b> Dialogue state machine of the hands-free voice front end (server: <code>voice_pending</code>, <code>pending</code>; client: <code>setPending</code>, <code>recognizedYes</code>, <code>recognizedCancel</code> in <code>hu_live_dashboard.html</code>). In CLARIFY, "yes", "yeah", "correct", "that's right", "yes please" or an explicit confirm phrase accepts; in CONFIRM only an explicit phrase ("confirm", "I confirm", "affirmative", ...) authorises, and bare "yes" is not accepted. Any other utterance in either pending state re-prompts (it is not sent), except an emergency phrase, which cancels the pending entry and is dispatched at once. The client timeout (45 s) is shorter than the server lifetimes.</div></div>
+<h2>5. Parameters</h2>
+<table class="t">
+<tr><th>Item</th><th>Value</th></tr>
+<tr><td>Aliases &rarr; Ra</td><td>rock, prop, roland, raw, rah</td></tr>
+<tr><td>Aliases &rarr; Horus</td><td>taurus, horace, chorus, horis, horror, horrors</td></tr>
+<tr><td>Aliases &rarr; Anubis / Thoth</td><td>anubus, "a nubis" / toth, thought, thoss</td></tr>
+<tr><td>Aliases &rarr; yalla</td><td>yella, yallow, yellow, yala</td></tr>
+<tr><td>Clarification lifetime</td><td>75 s, single use, at most one outstanding</td></tr>
+<tr><td>Command confirmation lifetime (separate)</td><td>90 s (Algorithm 1/3)</td></tr>
+</table>
+
+<h2>6. Complexity</h2>
+<p>O(|A|&middot;|u|) for |A| = 20 alias substitutions plus one contextual regular expression.</p>
+
+<h2>7. Properties</h2>
+<h3>Guaranteed</h3>
+<ul>
+<li>A transcript changed by normalisation is never dispatched on the same request (except emergency phrases); it requires a separate accept carrying a server-held id within 75 s.</li>
+<li>Only one clarification can be pending; a newer one replaces it, a used one cannot be replayed.</li>
+<li>"old" is rewritten only in the listed verb contexts; other uses are untouched.</li>
+<li>Unreviewed voice input on the dashboard route never reaches model inference.</li>
+<li>Emergency phrases, including alias-corrected ones ("yella land"), act immediately.</li>
+</ul>
+<h3>Not guaranteed</h3>
+<ul>
+<li>Common words in the alias list (e.g. <i>rock</i>, <i>thought</i>, <i>yellow</i>, <i>prop</i>) are rewritten wherever they occur; this is safe only because the result must be confirmed (or is an emergency).</li>
+<li>An uncorrected but misrecognised transcript (e.g. a wrong but valid name) proceeds to normal gating without extra confirmation; protection then comes from Algorithms 1/3 (CONFIRM band for mission proposals; EXECUTE allowed for confident HU primitives).</li>
+<li>"Yes" and "confirm" are recognised in the browser by exact phrase lists (Figure 19.2); robustness to recogniser errors is not measured. A misrecognised "yes" can accept a correction, but cannot by itself authorise a CONFIRM-band command.</li>
+<li>Only the first recognition alternative is used and its confidence is ignored, although the dashboard requests three alternatives.</li>
+<li>The 45 s timeout is client-side. If the page is closed, server entries remain until their 75 s / 90 s lifetimes are exceeded, after which an accept or confirm is refused.</li>
+</ul>
+
+<h2>8. Testing and measured results</h2>
+<ul>
+<li><code>acceptance/tests/test_v9.py::test_voice_aliases_suggest_review</code>; <code>test_missions.py::test_voice_confirmation_mission</code>.</li>
+<li>Live command matrix (<code>run_20261111T052914Z</code>): "old take off", "horror take off", "raw take off" &rarr; VOICE_CLARIFY, no motion. Fault scenario: voice "yella land" &rarr; EMERGENCY, all grounded in 6.39 s.</li>
+<li>Recogniser error rates and alias coverage: <b>not measured here</b>.</li>
+</ul>
+
+<h2>9. Comparison with alternatives and related work</h2>
+
+<p>Spoken dialogue systems handle recognition errors with explicit or implicit confirmation, confidence-dependent strategies, or
+belief tracking; aviation radiotelephony uses read-back. These are compared with the protocol of this document.</p>
+<ul>
+<li><b>Explicit and implicit verification</b> (survey [1]): explicit confirmation asks a yes/no question about the recognised content;
+implicit confirmation repeats it inside the next prompt and lets the user object. Explicit confirmation costs a turn per item.</li>
+<li><b>Non-understanding recovery strategies</b> [2]: an empirical study of ten recovery strategies in a deployed spoken dialogue system,
+including how strategy choice affects recovery and whether a better selection policy can be learned.</li>
+<li><b>POMDP dialogue management</b> [3]: a belief over user goals is maintained from N-best recognition hypotheses, and when to confirm
+is chosen by an optimised policy; hand-crafted strategies are shown to be special cases.</li>
+<li><b>Read-back of safety-related instructions</b> (ICAO PANS-ATM, Doc 4444) [4]: the recipient reads back safety-related parts of a
+clearance and the sender checks the read-back.</li>
+</ul>
+<table class="t">
+<tr><th>Approach</th><th>When the system confirms</th><th>Uses recogniser uncertainty?</th><th>Policy</th><th>This protocol, by comparison</th></tr>
+<tr><td>Explicit / implicit verification [1]</td><td>per item, by design</td><td>often (confidence thresholds)</td><td>hand-designed</td><td>explicit only, and only for alias-corrected transcripts</td></tr>
+<tr><td>Recovery strategies [2]</td><td>on non-understanding</td><td>yes</td><td>chosen or learned</td><td>a single strategy: refuse and ask the operator to repeat</td></tr>
+<tr><td>POMDP dialogue [3]</td><td>when expected value favours it</td><td>yes, N-best + confidence</td><td>optimised</td><td>top hypothesis only; fixed rules</td></tr>
+<tr><td>ATC read-back [4]</td><td>every safety-related instruction</td><td>human hearing</td><td>procedural</td><td>read-back ("Did you mean ...?") only after a correction</td></tr>
+<tr><td>This document</td><td>transcript changed by the alias table; CONFIRM band</td><td>no (only the first alternative's text is used; no score)</td><td>fixed, deterministic</td><td>&mdash;</td></tr>
+</table>
+<p><b>Where this protocol is weaker.</b> A transcript that is misrecognised as a different <i>valid</i> command (e.g. the wrong aircraft name
+spelled correctly) is not confirmed by this layer; protection then rests on the bands of Algorithms 1 and 3. The recogniser's confidence
+and its other two alternatives (the dashboard requests <code>maxAlternatives = 3</code>) are ignored, and the policy is not learned or
+evaluated on recorded speech. <b>Where it differs.</b> The only automatic rewriting is a short, published alias table, every rewrite is
+read back and needs a spoken "yes", accepting a correction never authorises the command itself (a CONFIRM-band result needs a second,
+explicit "confirm"), and emergency phrases are exempt so that a read-back never delays a stop or landing.</p>
+
+<h2>10. Relation to other algorithms</h2>
+<p>Front end of Algorithm 2 (emergency short-cut) and of the pipeline Algorithm 3 &rarr; Algorithm 1. Browser-side timing of voice-to-motion is logged separately (<code>/api/hu/latency</code>, <code>logs/hu_voice_to_motion.jsonl</code>) without influencing decisions.</p>
+<h2>11. References</h2>
+<ol class="refs"><li>M. F. McTear, "Spoken dialogue technology: enabling the conversational user interface," <i>ACM Computing Surveys</i>, 34(1):90&ndash;169, 2002. <span class="mono" style="font-size:7.9pt">https://doi.org/10.1145/505282.505285</span></li><li>D. Bohus and A. I. Rudnicky, "Sorry, I Didn't Catch That! &ndash; An Investigation of Non-understanding Errors and Recovery Strategies," <i>Proc. 6th SIGdial Workshop on Discourse and Dialogue</i>, Lisbon, 2005, pp. 128&ndash;143. <span class="mono" style="font-size:7.9pt">https://aclanthology.org/2005.sigdial-1.14</span></li><li>J. D. Williams and S. Young, "Partially observable Markov decision processes for spoken dialog systems," <i>Computer Speech &amp; Language</i>, 21(2):393&ndash;422, 2007. <span class="mono" style="font-size:7.9pt">https://doi.org/10.1016/j.csl.2006.06.008</span></li><li>ICAO, <i>Procedures for Air Navigation Services &mdash; Air Traffic Management</i> (PANS-ATM), Doc 4444, 16th ed., 2016 (read-back of clearances and safety-related information). Copy published by the Swiss Federal Office of Civil Aviation: <span class="mono" style="font-size:7.9pt">https://www.bazl.admin.ch/dam/it/sd-web/jMIWMg9YgaoW/icao_doc_4444_airtrafficmanagement.pdf</span></li></ol>
+<div class="foot">This specification describes the behaviour of the source revision identified above. Line-level references use <span class="mono">file:function</span>. Where the code and its own comments disagree, the code is described. Simulation-only system: no statement here is a claim about flight hardware.</div></body></html>

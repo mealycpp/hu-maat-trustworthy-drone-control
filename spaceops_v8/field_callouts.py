@@ -47,7 +47,8 @@ class FieldCallouts:
         now = time.monotonic()
         if now - self.last_post < self.min_gap:
             time.sleep(self.min_gap - (now - self.last_post))
-        self.chat.append(speaker, 'DRONE_AGENT', text, {**evidence, 'kind': 'FIELD_CALLOUT',
+        rank = ''
+        self.chat.append(speaker, 'DRONE_AGENT', text, {**evidence, 'kind': 'FIELD_CALLOUT', 'rank': rank,
                          'note': 'templated from live telemetry; not autonomous reasoning; cannot actuate'},
                          to=to or 'TEAM', intent='field_callout', source=SOURCE)
         self.last_post = time.monotonic()
@@ -112,8 +113,9 @@ class FieldCallouts:
             legs = getattr(self, 'form_legs', {}) or {n: 0.0 for n in fleet}
             star = max(legs, key=legs.get)
             cheer = self.rng.choice(['Goal!', 'Nailed it!', 'Shape locked!', 'Beautiful!', 'Textbook!'])
-            self._say('Horus', f'{cheer} All five in slot in {secs:.1f} s.', {'form_time_s': round(secs, 1)})
-            self._say(self.rng.choice([n for n in NAMES if n not in ('Horus', star)]),
+            ld = 'Horus'
+            self._say(ld, f'{cheer} All five in slot in {secs:.1f} s.', {'form_time_s': round(secs, 1)})
+            self._say(self.rng.choice([n for n in NAMES if n not in (ld, star)]),
                       f'Great run, {star}! Longest leg of the shape, {legs[star]:.1f} m, and right on target.',
                       {'longest_leg_drone': star, 'leg_m': round(legs[star], 2)}, to=star)
             self._say(star, self.rng.choice(['Thanks, team!', 'Easy. Who is next?', 'Team effort!',
@@ -149,7 +151,7 @@ class FieldCallouts:
         # --- landing ------------------------------------------------------------------
         landing = [n for n in fleet if modes[n] == 'LANDING' and pmodes.get(n) != 'LANDING']
         if len(landing) >= 3 and not self.landing_called:
-            self._say('Horus', 'Bringing it home, team. Everyone land.', {'landing': landing})
+            self._say('Horus', 'RSCL Flight, bringing it home. Everyone land.', {'landing': landing})
             self.landing_called = True
         if self.landing_called and all(modes[n] in PARKED for n in fleet):
             self._say('Osiris', 'All five on the ground. Good flying, everyone.',
@@ -159,7 +161,7 @@ class FieldCallouts:
         # --- takeoff ------------------------------------------------------------------
         lifting = [n for n in fleet if modes[n] == 'TAKEOFF' and pmodes.get(n) in PARKED]
         if len(lifting) >= 2:
-            self._say('Horus', 'Team, lifting off. Watch your spacing.', {'taking_off': lifting})
+            self._say('Horus', 'RSCL Flight, lifting off. Watch your spacing.', {'taking_off': lifting})
         if all(modes[n] == 'HOVER' for n in fleet) and any(pmodes.get(n) in ('TAKEOFF', 'QUEUED') for n in fleet):
             zs = ', '.join(f'{n} {fleet[n]["z"]:.1f} m' for n in NAMES)
             self._say('Thoth', f'Everyone airborne: {zs}.', {'altitudes_m': {n: round(fleet[n]['z'], 2) for n in NAMES}})

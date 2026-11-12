@@ -181,7 +181,8 @@ def main():
     catalog = Path.home() / 'hu-telepresence-gazebo/festival/formation_catalog.json'
     prev = json.loads(catalog.read_text()) if catalog.exists() else {}
     for r in rows:
-        prev[r['shape']] = {'status': r['status'], 'alias_of': r.get('alias_of'), 'evidence': f'formation_catalog_{stamp}.json',
+        prev[r['shape']] = {**prev.get(r['shape'], {}),     # keep family/phrase/planned metadata
+                            'status': r['status'], 'alias_of': r.get('alias_of'), 'evidence': f'formation_catalog_{stamp}.json',
                             'rms_error_m': r.get('rms_error_m'), 'observed_min_sep_m': r.get('observed_min_sep_m')}
     catalog.write_text(json.dumps(prev, indent=2))
     v = sum(r['status'] == 'VALIDATED' for r in rows)

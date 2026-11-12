@@ -471,9 +471,11 @@ class Handler(BaseHTTPRequestHandler):
                 # Text only: this route can never actuate.
                 sp=str(data.get('speaker',''))
                 if sp not in NAMES and sp!='MAAT':raise ValueError('unknown speaker')
+                intent=data.get('intent') if data.get('intent') in ('team_strategy','field_callout','team_debrief') else 'team_strategy'
+                rank=''
                 m=self.rec.chat.append(sp,'DRONE_AGENT',str(data.get('text',''))[:400],
-                    {**(data.get('evidence') or {}),'kind':'TEAM_STRATEGY','note':'deterministic scoring policy on live positions; language templated'},
-                    data.get('conversation_id'),to=str(data.get('to') or 'TEAM'),intent='team_strategy',source='DETERMINISTIC_AGENT_POLICY')
+                    {**(data.get('evidence') or {}),'kind':'TEAM_STRATEGY','rank':rank,'note':'deterministic scoring policy on live positions; language templated'},
+                    data.get('conversation_id'),to=str(data.get('to') or 'TEAM'),intent=intent,source='DETERMINISTIC_AGENT_POLICY')
                 return self.send_data(200,{'ok':True,'id':m['id']})
             if path=='/api/ops/chat':
                 with self.rec.mutex:

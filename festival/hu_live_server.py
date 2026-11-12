@@ -110,15 +110,26 @@ def stated_targets(utterance):
     Returns None if the utterance does not explicitly state an address. For a
     collective, exact set membership includes exclusion phrases. Rejecting a
     mismatch is safer than silently steering another named drone.
+
+    Returns [] when the address is explicit but cannot be resolved exactly (e.g. an exclusion form it does
+    not understand, or a name next to ALL outside the exclusion list): an empty expectation never matches a
+    non-empty HU target set, so the command is REFUSED instead of passing unchecked.
     """
-    u=str(utterance).lower()
+    u=' '.join(re.sub(r'[^\w\s,&]',' ',str(utterance).lower()).split())
+    N=r'(?:horus|ra|thoth|anubis|osiris)'
     named={n for n in NAMES if re.search(r'\b'+re.escape(n.lower())+r'\b',u)}
-    collective=bool(re.search(r'\b(?:everyone|everybody|all\s+(?:the\s+)?drones?|all\s+(?=take\s*off|land|stop|hover|move|rise|ascend|descend))\b',u))
-    ex=re.search(r'\b(?:except|excluding|but\s+not)\s+(horus|ra|thoth|anubis|osiris)\b',u)
+    collective=bool(re.search(r'\b(?:everyone|everybody|all\s+(?:the\s+)?drones?|the\s+fleet|the\s+swarm)\b',u) or
+                    re.search(r'\ball\b(?=\s*,?\s*(?:except|excluding|but\s+not|and|take\s*off|land|stop|hover|hold|move|rise|ascend|descend|go|fly|turn)\b)',u))
+    if re.search(r'\b(?:except|excluding|but\s+not)\b',u):
+        m=re.search(r'\b(?:except|excluding|but\s+not)\s+('+N+r'(?:\s*(?:,|and|&)\s*'+N+r')*)\b',u)
+        if not collective or m is None:
+            return []                       # explicit but unresolvable exclusion: refuse
+        out=set(re.findall(N,m.group(1)))
+        if any(n.lower() not in out for n in named):
+            return []                       # a name outside the exclusion list next to ALL: refuse
+        return [n for n in NAMES if n.lower() not in out]   # [] if everyone is excluded: refuse
     if collective:
-        if re.search(r'\b(?:except|excluding|but\s+not)\b',u) and ex is None:
-            return None  # Unsupported exclusion forms remain subject to HU refusal.
-        return [n for n in NAMES if not ex or n.lower()!=ex.group(1)]
+        return [] if named else list(NAMES)  # 'all and Ra' is ambiguous: refuse
     if named:
         return [n for n in NAMES if n in named]
     return None

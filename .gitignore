@@ -25,3 +25,7 @@ festival/*_backup_*/
 
 # --- unused local copies of Gazebo Fuel meshes (model.sdf loads them from fuel.gazebosim.org) ---
 models/*/meshes/
+
+# --- local keys and secrets: NEVER commit ---
+config/*_key
+config/*.key
