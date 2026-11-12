@@ -389,8 +389,31 @@ repository runs the same frozen checkpoint in Gazebo and adds the MA'AT supervis
 
 ## Citation
 
-Mohamed El-Hadedy et al., *HU: Risk-Asymmetric Natural-Language Command of a Physical Multi-Drone Fleet*,
-IEEE Telepresence 2026, Demonstration 7.
+If you use HU or this repository, please cite the HU paper (presented as a poster at IEEE Telepresence 2026,
+Bristol, UK, 12 Nov 2026):
+
+> M. El-Hadedy, "HU: Risk-Asymmetric Natural-Language Command of a Physical Multi-Drone Fleet,"
+> in *Proc. IEEE Conference on Telepresence*, Bristol, United Kingdom, 2026.
+
+```bibtex
+@inproceedings{elhadedy2026hu,
+  author    = {El-Hadedy, Mohamed},
+  title     = {{HU}: Risk-Asymmetric Natural-Language Command of a Physical Multi-Drone Fleet},
+  booktitle = {Proceedings of the IEEE Conference on Telepresence},
+  address   = {Bristol, United Kingdom},
+  year      = {2026}
+}
+```
+
+Page numbers and DOI will be added when the proceedings appear in IEEE Xplore. This Gazebo package
+(HU + the MA'AT supervision layer, five simulated aircraft) is the conference's **Demonstration 7**.
+
+Earlier work in the same line:
+
+- M. El-Hadedy, J. Ung, D. Kim, W.-M. Hwu, Y. He, and B. Cheng, "SENTINEL: Scalable edge network for
+  telepresence and integrated AI," in *Proc. IEEE Conference on Telepresence*, 2024, pp. 139–142.
+- M. El-Hadedy and W.-M. Hwu, "QuickCommand: A low-latency NLP pipeline for reliable UAV telepresence,"
+  in *Proc. IEEE Int. Symp. Software Reliability Engineering Workshops (ISSREW)*, 2025, pp. 286–289.
 
 ---
 

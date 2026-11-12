@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use HU or this repository, please cite the HU paper below."
+title: "HU–MA'AT: Trustworthy Natural-Language Control of a Drone Fleet"
+type: software
+authors:
+  - family-names: El-Hadedy
+    given-names: Mohamed
+    affiliation: "Reconfigurable Space Computing Lab (RSCL), California State Polytechnic University, Pomona"
+repository-code: "https://github.com/mealycpp/hu-maat-trustworthy-drone-control"
+preferred-citation:
+  type: conference-paper
+  title: "HU: Risk-Asymmetric Natural-Language Command of a Physical Multi-Drone Fleet"
+  authors:
+    - family-names: El-Hadedy
+      given-names: Mohamed
+      affiliation: "California State Polytechnic University, Pomona; University of Illinois Urbana-Champaign"
+  collection-title: "Proceedings of the IEEE Conference on Telepresence"
+  conference:
+    name: "IEEE Conference on Telepresence 2026"
+    city: "Bristol"
+    country: "GB"
+  year: 2026
