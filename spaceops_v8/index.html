@@ -541,15 +541,22 @@ const droneVoice=(()=>{
     if(t.length>190){const first=t.split(/(?<=[.!?])\s/)[0];t=first.length>20?first:t.slice(0,190)}
     return t.replace(/(\d)\s?cm\b/g,'$1 centimetres').replace(/(\d)\s?m\b/g,'$1 metres').replace(/(\d)\s?s\b/g,'$1 seconds')
             .replace(/MA'AT/g,'Ma-at').replace(/\bHU\b/g,'Hugh').replace(/\bAoE\b/g,'')}
-  function say(item){busy=true;squelch();
+  // gen: every interrupt starts a new generation, so a line scheduled (90 ms pre-speech gap) or ending from
+  // an OLDER generation can neither start speaking nor clear `busy` while the urgent line is talking.
+  let gen=0;
+  function say(item){busy=true;squelch();const my=gen;
     const u=new SpeechSynthesisUtterance(item.text),p=PROFILE[item.who]||PROFILE.MAAT;
     u.voice=chosen[item.who]||chosen.MAAT;u.rate=p.rate;u.pitch=p.pitch;u.volume=1;
     $('chat-status').textContent='🔊 '+item.who+': '+item.text;
-    const done=()=>{squelch(45);busy=false;setTimeout(next,260)};u.onend=done;u.onerror=done;
-    setTimeout(()=>synth.speak(u),90)}
+    const done=()=>{if(my!==gen)return;squelch(45);busy=false;setTimeout(next,260)};u.onend=done;u.onerror=done;
+    setTimeout(()=>{if(my===gen)synth.speak(u)},90)}
   function next(){if(!on||busy||!queue.length)return;say(queue.shift())}
-  function push(who,text){if(!on||!text)return;const item={who,text};
-    if(URGENT.test(text)){queue=[];synth.cancel();busy=false;queue.push(item)}   // emergencies interrupt everyone
+  // Urgent = an emergency CALL, not any sentence that happens to contain "stop" or "unable": the emergency
+  // phrase must open the line, or the line must be a short call (e.g. "Stop!", "Unable.").
+  function urgent(text){const t=String(text||'').trim();
+    return new RegExp('^\W*(?:'+URGENT.source.slice(3,-3)+')\b','i').test(t)||(t.length<=24&&URGENT.test(t))}
+  function push(who,text,isUrgent){if(!on||!text)return;const item={who,text};
+    if(isUrgent===undefined?urgent(text):isUrgent){gen++;queue=[];synth.cancel();busy=false;queue.push(item)}   // emergencies interrupt everyone
     else{queue.push(item);while(queue.length>14)queue.shift()}                  // keep a whole discussion; drop only a long backlog
     next()}
   function feed(msgs){
@@ -561,7 +568,7 @@ const droneVoice=(()=>{
       // Speak the decrypted line when the RSCL key is loaded; otherwise the cover
       // chatter. Either way strip invisible zero-width characters before speaking.
       const body=m.text;
-      push(who,spoken((rk?who+' '+rk+'. ':'')+body))}}
+      push(who,spoken((rk?who+' '+rk+'. ':'')+body),urgent(body))}}
   function toggle(){on=!on;const b=$('voice-toggle');
     if(on){try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();ctx.resume()}catch(e){}
       pick();b.textContent='🔊 DRONE VOICES: ON';b.classList.add('on');push('Horus','RSCL Control, RSCL Flight, radio check. Loud and clear.')}

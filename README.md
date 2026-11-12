@@ -411,14 +411,17 @@ IEEE Telepresence 2026, Demonstration 7.
 - **Exclusions:** *"All except Ra and Thoth"* excludes both (any list); HU's named-address guard now parses the same
   lists and **refuses whatever it cannot resolve** — an excluded aircraft can never be approved.
 - **Compound commands** joined by *"and"* (*"take off and move forward"*) are refused instead of being half-executed.
-- One shared emergency vocabulary for the voice interrupt and the chat (*"everyone down", "unable", "stop"*…).
+- The SpaceOps voice now interrupts only for emergency **calls** (a line that opens with an emergency phrase,
+  or a short call such as *"Stop!"*), not for any sentence that merely contains such a word. HU's own symbolic
+  emergency channel keeps its separate, fixed phrase list (*stop, khalas, abort, land now, everyone down…*).
 
 **Team strategy and show**
 - Strategy rounds now include real debate (defend/concede, votes move), a safety veto at **1.1 m** planned clearance
   (or no tighter than the starting spacing), variant improvement, one-move look-ahead and flight-history memory.
 - **A/B flight test** (team-chosen vs random next shape, 12 transitions each, Gazebo): mean formation time
-  **4.04 s vs 4.47 s**, planned longest leg 1.32 vs 1.52 m, mean closest approach 1.16 vs 1.10 m, 0 holds both — an early,
-  small-sample result (`acceptance/ab_coordination.py`).
+  **4.04 s vs 4.47 s**, planned longest leg 1.32 vs 1.52 m, mean closest approach 1.16 vs 1.10 m, 0 holds both — an early
+  trend, **not yet statistically significant** (permutation test p ≈ 0.13; larger runs planned)
+  (`acceptance/ab_coordination.py`).
 - Drone voices with radio squelch and emergency interrupt, **speech bubbles above each drone** on the SpaceOps map,
   LED body language (green set · amber moving · cyan take-off/landing · red tight/fault · blue talking · rainbow goal),
   larger GUI text.
